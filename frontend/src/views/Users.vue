@@ -1,50 +1,128 @@
+<!--
+ * @Description: 用户管理组件
+ * @Author: System
+ * @Date: 2026-04-10
+ * @LastEditTime: 2026-04-10
+ * @FilePath: /frontend/src/views/Users.vue
+ -->
 <template>
     <div class="users">
         <h1>用户管理</h1>
 
         <div class="user-form">
-            <el-form :model="form" :rules="rules" ref="userForm" label-width="100px">
-                <el-form-item label="用户名" prop="username">
-                    <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
+            <el-form
+                ref="userForm"
+                :model="form"
+                :rules="rules"
+                label-width="100px"
+            >
+                <el-form-item
+                    label="用户名"
+                    prop="username"
+                >
+                    <el-input
+                        v-model="form.username"
+                        placeholder="请输入用户名"
+                    />
                 </el-form-item>
-                <el-form-item label="邮箱" prop="email">
-                    <el-input v-model="form.email" placeholder="请输入邮箱"></el-input>
+                <el-form-item
+                    label="邮箱"
+                    prop="email"
+                >
+                    <el-input
+                        v-model="form.email"
+                        placeholder="请输入邮箱"
+                    />
                 </el-form-item>
-                <el-form-item label="密码" prop="password">
-                    <el-input v-model="form.password" type="password" placeholder="请输入密码"></el-input>
+                <el-form-item
+                    label="密码"
+                    prop="password"
+                >
+                    <el-input
+                        v-model="form.password"
+                        type="password"
+                        placeholder="请输入密码"
+                    />
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="handleSubmit">提交</el-button>
-                    <el-button @click="resetForm">重置</el-button>
+                    <el-button
+                        type="primary"
+                        @click="handleSubmit"
+                    >
+                        提交
+                    </el-button>
+                    <el-button @click="resetForm">
+                        重置
+                    </el-button>
                 </el-form-item>
             </el-form>
         </div>
 
         <div class="user-table">
-            <el-table :data="users" style="width: 100%">
-                <el-table-column prop="id" label="ID" width="80"></el-table-column>
-                <el-table-column prop="username" label="用户名"></el-table-column>
-                <el-table-column prop="email" label="邮箱"></el-table-column>
-                <el-table-column label="操作" width="200">
+            <el-table
+                :data="users"
+                style="width: 100%"
+            >
+                <el-table-column
+                    prop="id"
+                    label="ID"
+                    width="80"
+                />
+                <el-table-column
+                    prop="username"
+                    label="用户名"
+                />
+                <el-table-column
+                    prop="email"
+                    label="邮箱"
+                />
+                <el-table-column
+                    label="操作"
+                    width="200"
+                >
                     <template slot-scope="scope">
-                        <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
-                        <el-button size="small" type="danger" @click="handleDelete(scope.row)">删除</el-button>
+                        <el-button
+                            size="small"
+                            @click="handleEdit(scope.row)"
+                        >
+                            编辑
+                        </el-button>
+                        <el-button
+                            size="small"
+                            type="danger"
+                            @click="handleDelete(scope.row)"
+                        >
+                            删除
+                        </el-button>
                     </template>
                 </el-table-column>
             </el-table>
         </div>
 
-        <el-dialog title="编辑用户" :visible.sync="dialogVisible">
-            <el-form :model="editForm" label-width="100px">
+        <el-dialog
+            title="编辑用户"
+            :visible.sync="dialogVisible"
+        >
+            <el-form
+                :model="editForm"
+                label-width="100px"
+            >
                 <el-form-item label="用户名">
-                    <el-input v-model="editForm.username"></el-input>
+                    <el-input v-model="editForm.username" />
                 </el-form-item>
                 <el-form-item label="邮箱">
-                    <el-input v-model="editForm.email"></el-input>
+                    <el-input v-model="editForm.email" />
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="updateUser">更新</el-button>
-                    <el-button @click="dialogVisible = false">取消</el-button>
+                    <el-button
+                        type="primary"
+                        @click="updateUser"
+                    >
+                        更新
+                    </el-button>
+                    <el-button @click="dialogVisible = false">
+                        取消
+                    </el-button>
                 </el-form-item>
             </el-form>
         </el-dialog>
@@ -160,22 +238,22 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .users {
     padding: 20px;
     max-width: 1000px;
     margin: 0 auto;
-}
 
-.user-form {
-    margin: 30px 0;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+    .user-form {
+        margin: 30px 0;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-.user-table {
-    margin-top: 30px;
+    .user-table {
+        margin-top: 30px;
+    }
 }
 </style>

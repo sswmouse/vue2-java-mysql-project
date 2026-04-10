@@ -2,7 +2,7 @@
  * @Description: 首页组件
  * @Author: System
  * @Date: 2026-04-10
- * @LastEditTime: 2026-04-10 15:05:37
+ * @LastEditTime: 2026-04-10 15:22:12
  * @FilePath: /vue2-java-mysql-project/frontend/src/views/Home.vue
  -->
 <template>
@@ -18,7 +18,11 @@
             <p>点击上方导航栏的"用户管理"来管理用户数据。</p>
         </div>
         <div class="status">
-            <el-alert title="项目状态" type="info" :closable="false">
+            <el-alert
+                title="项目状态"
+                type="info"
+                :closable="false"
+            >
                 <p>前端运行在: <strong>http://localhost:8080</strong></p>
                 <p>后端API运行在: <strong>http://localhost:8081</strong></p>
             </el-alert>

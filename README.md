@@ -81,7 +81,7 @@ mvn spring-boot:run
 # java -jar target/vue2-java-mysql-backend-1.0.0.jar
 ```
 
-后端服务将在 http://localhost:8081 启动
+后端服务将在 http://localhost:3000 启动
 
 ### 3. 启动前端服务
 
@@ -95,11 +95,11 @@ npm install
 npm run serve
 ```
 
-前端服务将在 http://localhost:8080 启动
+前端服务将在 http://localhost:8099 启动
 
 ### 4. 访问应用
 
-打开浏览器访问 http://localhost:8080
+打开浏览器访问 http://localhost:8099
 
 ## API接口
 
@@ -134,12 +134,12 @@ npm run serve
 ## 项目配置
 
 ### 前端配置
-- 端口: 8080
-- API代理: `/api` -> `http://localhost:8081`
+- 端口: 8099
+- API代理: `/api` -> `http://localhost:3000`
 - 使用Element UI组件库
 
 ### 后端配置
-- 端口: 8081
+- 端口: 3000
 - 数据库连接: `jdbc:mysql://localhost:3306/vue2_java_mysql`
 - 默认用户名/密码: root/root
 
@@ -179,12 +179,73 @@ npm run serve
 - 检查数据库用户名和密码
 
 ### 3. 跨域问题
-- 后端已配置CORS，允许 `http://localhost:8080`
+- 后端已配置CORS，允许 `http://localhost:8099`
 - 如果需要其他域名访问，修改 `WebConfig.java`
 
 ### 4. 构建问题
 - 前端: 确保Node.js版本兼容
 - 后端: 确保Java 17+ 和 Maven正确安装
+
+## 端到端测试
+
+项目已配置基于Puppeteer和Jest的端到端测试框架，用于自动化UI测试。
+
+### 测试框架
+- **Puppeteer**: 浏览器自动化工具
+- **Jest**: 测试运行器和断言库
+- **jest-puppeteer**: Jest与Puppeteer集成
+
+### 运行测试
+
+```bash
+cd frontend
+
+# 运行所有E2E测试（无头模式）
+npm run test:e2e
+
+# 显示浏览器窗口（调试模式）
+HEADLESS=false npm run test:e2e
+
+# 只运行特定测试文件
+npm run test:e2e -- --testPathPattern=users
+```
+
+### 测试用例
+
+1. **首页测试** (`tests/e2e/home.test.js`)
+   - 页面正确加载
+   - 显示主要内容
+   - 导航菜单正常工作
+   - 无JavaScript错误
+
+2. **用户管理页面测试** (`tests/e2e/users.test.js`)
+   - 页面正确加载
+   - 表单输入正常工作
+   - 表单验证工作
+   - 用户表格显示数据
+   - 操作按钮存在
+   - 重置表单功能正常
+   - 完整的用户增删改查流程
+
+### 测试配置
+- 配置文件: `jest.config.js`, `jest-puppeteer.config.js`
+- 测试目录: `frontend/tests/e2e/`
+- 全局设置: `frontend/tests/e2e/setup.js`
+
+### 编写新测试
+在 `frontend/tests/e2e/` 目录下创建新的 `.test.js` 文件：
+```javascript
+describe('页面描述', () => {
+  beforeAll(async () => {
+    await page.goto('http://localhost:8099/your-route')
+  })
+  
+  test('测试用例', async () => {
+    await page.click('selector')
+    expect(...).toBe(...)
+  })
+})
+```
 
 ## 扩展建议
 

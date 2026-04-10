@@ -2,7 +2,7 @@
  * @Description: 角色添加/编辑弹窗组件
  * @Author: Claude Code
  * @Date: 2026-04-10
- * @LastEditTime: 2026-04-10 23:49:04
+ * @LastEditTime: 2026-04-11 01:33:20
  * @FilePath: /vue2-java-mysql-project/frontend/src/components/CharacterDialog.vue
  -->
 <template>
@@ -225,7 +225,10 @@
             </el-row>
 
             <!-- 属强 -->
-            <el-row :gutter="16">
+            <el-row
+                v-if="showElementSection"
+                :gutter="16"
+            >
                 <el-col :span="12">
                     <el-form-item
                         label="属强值"
@@ -279,26 +282,30 @@
                 label="角色外观"
                 prop="avatarUrl"
             >
-                <el-upload
-                    class="avatar-uploader"
-                    action="/api/upload"
-                    :show-file-list="false"
-                    :on-success="handleAvatarSuccess"
-                    :before-upload="beforeAvatarUpload"
-                    :on-error="handleAvatarError"
-                >
-                    <img
-                        v-if="form.avatarUrl"
-                        :src="form.avatarUrl"
-                        class="avatar"
+                <div class="avatar-url-container">
+                    <el-input
+                        v-model="form.avatarUrl"
+                        placeholder="请输入图片URL地址"
+                        clearable
                     >
-                    <i
-                        v-else
-                        class="el-icon-plus avatar-uploader-icon"
-                    />
-                </el-upload>
-                <div class="upload-tip">
-                    支持 JPG/PNG 格式，大小不超过 2MB。不传图片将使用默认头像。
+                        <template slot="prepend">
+                            <i class="el-icon-link" />
+                        </template>
+                    </el-input>
+                    <div class="url-tip">
+                        请输入完整的图片URL地址，例如：https://example.com/avatar.jpg
+                    </div>
+                    <div
+                        v-if="form.avatarUrl"
+                        class="avatar-preview"
+                    >
+                        <div class="preview-label">预览：</div>
+                        <img
+                            :src="form.avatarUrl"
+                            class="avatar-preview-image"
+                            @error="handleImageError"
+                        >
+                    </div>
                 </div>
             </el-form-item>
         </el-form>
@@ -353,7 +360,7 @@ export default {
                 physicalAttack: 0,
                 magicalAttack: 0,
                 independentAttack: 0,
-                elementValue: 0,
+                elementValue: 300,
                 elementType: 'light',
                 lightElement: 0,
                 fireElement: 0,
@@ -392,6 +399,9 @@ export default {
         dialogTitle() {
             return this.character ? '编辑角色' : '创建角色'
         },
+        isHealer() {
+            return this.form.jobNature === '奶系'
+        },
         jobAttributeOptions() {
             if (this.form.jobNature === '输出') {
                 return ['物理百分比', '魔法百分比', '物理固伤', '魔法固伤']
@@ -415,16 +425,20 @@ export default {
         },
         // 字段显示控制
         showStrength() {
-            return this.isPhysical
+            // 奶系职业显示力量，输出职业根据物理/魔法判断
+            return this.isHealer || this.isPhysical
         },
         showIntelligence() {
-            return this.isMagical
+            // 奶系职业显示智力，输出职业根据物理/魔法判断
+            return this.isHealer || this.isMagical
         },
         showSpirit() {
-            return false // 精神字段不需要显示
+            // 奶系职业显示精神
+            return this.isHealer
         },
         showVitality() {
-            return false // 体力字段不需要显示
+            // 奶系职业显示体力
+            return this.isHealer
         },
         showPhysicalAttack() {
             return this.isPhysical && this.isPercent
@@ -444,6 +458,11 @@ export default {
         },
         canEditAttributes() {
             return this.form.jobAttribute && this.form.jobAttribute.length > 0
+        },
+        // 属强部分显示控制
+        showElementSection() {
+            // 奶系职业不显示属强
+            return this.selectedCharacterType.length > 0 && !this.isHealer
         }
     },
     watch: {
@@ -552,7 +571,7 @@ export default {
                 physicalAttack: 0,
                 magicalAttack: 0,
                 independentAttack: 0,
-                elementValue: 0,
+                elementValue: 300,
                 elementType: 'light',
                 lightElement: 0,
                 fireElement: 0,
@@ -567,28 +586,8 @@ export default {
             }
         },
 
-        handleAvatarSuccess(res) {
-            if (res.code === 200 && res.data) {
-                this.form.avatarUrl = res.data.url
-                this.$message.success('上传成功')
-            } else {
-                this.$message.error(res.message || '上传失败')
-            }
-        },
-        beforeAvatarUpload(file) {
-            const isImage = file.type === 'image/jpeg' || file.type === 'image/png'
-            const isLt2M = file.size / 1024 / 1024 < 2
-
-            if (!isImage) {
-                this.$message.error('只能上传 JPG/PNG 格式的图片!')
-            }
-            if (!isLt2M) {
-                this.$message.error('图片大小不能超过 2MB!')
-            }
-            return isImage && isLt2M
-        },
-        handleAvatarError() {
-            this.$message.error('上传失败，请重试')
+        handleImageError() {
+            this.$message.warning('图片加载失败，请检查URL地址')
         },
         prepareSubmitData() {
             const submitData = { ...this.form }
@@ -689,6 +688,33 @@ export default {
 
     /deep/ .el-form-item {
         margin-bottom: 18px;
+        position: relative;
+
+        &__error {
+            position: absolute;
+            z-index: 2000;
+            background: #ef4444;
+            color: #ffffff !important;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            line-height: 1.5;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+            top: 100%;
+            left: 0;
+            margin-top: 2px;
+
+            &:before {
+                content: '';
+                position: absolute;
+                bottom: 100%;
+                left: 16px;
+                border-width: 4px;
+                border-style: solid;
+                border-color: transparent transparent #ef4444 transparent;
+            }
+        }
     }
 
     /deep/ .el-form-item:last-child {
@@ -713,59 +739,278 @@ export default {
         color: #909399;
     }
 
+
     /deep/ .el-row {
         margin-bottom: 10px;
     }
 
+    /deep/.el-input__inner {
+        border-color: #475569 !important;
+    }
+}
+
+.dialog-footer {
+    text-align: right;
+
+    .el-button {
+        min-width: 100px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+
+        &:first-child {
+            // 取消按钮
+            background: #2d3748;
+            border-color: #475569;
+            color: #e2e8f0;
+
+            &:hover {
+                background: #4a5568;
+                border-color: #6a11cb;
+                color: #ffffff;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            }
+
+            &:active {
+                transform: translateY(0);
+            }
+        }
+
+        &:last-child {
+
+            // 确定按钮
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(106, 17, 203, 0.3);
+            }
+
+            &:active {
+                transform: translateY(0);
+            }
+        }
+    }
+}
+
+/deep/ .el-dialog {
+    background: #1e293b;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+
+    &__header {
+        background: rgba(26, 58, 95, 0.3);
+        border-bottom: 1px solid #1e293b;
+        padding: 24px;
+        border-radius: 12px 12px 0 0;
+
+        .el-dialog__title {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .el-dialog__headerbtn {
+            position: absolute !important;
+            top: 7px;
+
+            .el-dialog__close {
+                color: #b0b7c3;
+
+                &:hover {
+                    color: #ffffff;
+                }
+            }
+        }
+    }
+
+    &__body {
+        padding: 32px;
+        color: #b0b7c3;
+    }
+
+    &__footer {
+        background: rgba(15, 23, 42, 0.3);
+        border-top: 1px solid #1e293b;
+        padding: 24px;
+        border-radius: 0 0 12px 12px;
+    }
+}
+
+// 角色外观样式
+.avatar-input-mode {
+    margin-bottom: 16px;
+
+    .el-radio-group {
+        width: 100%;
+    }
+
+    .el-radio-button {
+        flex: 1;
+        text-align: center;
+
+        &__inner {
+            width: 100%;
+        }
+    }
+}
+
+.avatar-upload-container {
     .avatar-uploader {
         /deep/ .el-upload {
-            border: 1px dashed #d9d9d9;
-            border-radius: 6px;
+            border: 1px dashed #475569;
+            border-radius: 8px;
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
+            transition: all 0.3s ease;
 
             &:hover {
-                border-color: #409eff;
+                border-color: #6a11cb;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(106, 17, 203, 0.2);
             }
         }
 
         .avatar-uploader-icon {
-            font-size: 28px;
-            color: #8c939d;
-            width: 100px;
-            height: 100px;
-            line-height: 100px;
+            font-size: 32px;
+            color: #8a94a6;
+            width: 120px;
+            height: 120px;
+            line-height: 120px;
             text-align: center;
         }
 
         .avatar {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             display: block;
             object-fit: cover;
+            border-radius: 6px;
         }
     }
 
     .upload-tip {
         margin-top: 8px;
         font-size: 12px;
-        color: #909399;
+        color: #8a94a6;
         line-height: 1.5;
     }
 }
 
-.dialog-footer {
-    text-align: right;
+.avatar-url-container {
+    .el-input {
+        margin-bottom: 12px;
+
+        /deep/ .el-input-group__prepend {
+            background: #2d3748;
+            border-color: #475569;
+            color: #b0b7c3;
+        }
+    }
+
+    .url-tip {
+        font-size: 12px;
+        color: #8a94a6;
+        margin-bottom: 16px;
+        line-height: 1.5;
+    }
+
+    .avatar-preview {
+        .preview-label {
+            font-size: 14px;
+            color: #b0b7c3;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .avatar-preview-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid #475569;
+            background: #1e293b;
+        }
+    }
 }
 
-/deep/ .el-dialog__header {
+// 级联选择器面板样式
+/deep/ .el-cascader-panel,
+/deep/ .el-cascader__dropdown {
+    background: #1e293b !important;
+    border: 1px solid #1e293b !important;
 
-    .el-dialog__headerbtn {
-        position: absolute !important;
-        top: 7px;
+    .el-cascader-menu {
+        background: #1e293b !important;
+        border-right: 1px solid #475569 !important;
+
+        &:last-child {
+            border-right: none !important;
+        }
     }
+}
+
+// 下拉选择器输入框样式
+/deep/ .el-select,
+/deep/ .el-cascader {
+    .el-input__inner {
+        background: #1e293b !important;
+        border-color: #475569 !important;
+        color: #b0b7c3 !important;
+
+        &:focus {
+            border-color: #6a11cb !important;
+            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.2) !important;
+        }
+    }
+
+    .el-input__suffix {
+        .el-select__caret {
+            color: #b0b7c3 !important;
+        }
+    }
+}
+</style>
+<style lang="less">
+// 下拉选择器和级联选择器弹窗样式
+.el-cascader__dropdown,
+.el-select-dropdown {
+    background: #1e293b !important;
+    border: 1px solid #6a11cb !important;
+    box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.2) !important;
+    // box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5) !important;
+
+    .el-select-dropdown__item,
+    .el-cascader-node,
+    .el-cascader-menu__item {
+        color: #b0b7c3 !important;
+
+        &:hover,
+        &:focus {
+            background: #2d3748 !important;
+            color: #ffffff !important;
+        }
+
+        &.selected,
+        &.is-active,
+        &.el-cascader-node--selectable.in-active-path {
+            color: #d4af37 !important;
+            background: rgba(212, 175, 55, 0.1) !important;
+        }
+    }
+
+    .el-select-dropdown__item.hover,
+    .el-select-dropdown__item:hover {
+        background: #2d3748 !important;
+    }
+    .el-cascader-menu {
+        border-right: solid 1px #6a11cb;
+    }
+}
+.el-popper .popper__arrow::after {
+    top: 0 !important;
+    border-bottom-color: #2d3748 !important;
 }
 </style>

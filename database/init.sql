@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS characters (
     fire_element INT DEFAULT 0 COMMENT '火属强',
     ice_element INT DEFAULT 0 COMMENT '冰属强',
     dark_element INT DEFAULT 0 COMMENT '暗属强',
-    avatar_url VARCHAR(500) COMMENT '角色外观图片URL',
+    avatar_url TEXT COMMENT '角色外观图片URL',
     created_at DATETIME,
     updated_at DATETIME,
     INDEX idx_user_id (user_id),

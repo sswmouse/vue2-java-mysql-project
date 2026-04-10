@@ -8,12 +8,12 @@
 <template>
     <transition
         :css="false"
+        mode="out-in"
         @before-enter="beforeEnter"
         @enter="enter"
         @after-enter="afterEnter"
         @leave="leave"
         @after-leave="afterLeave"
-        mode="out-in"
     >
         <router-view />
     </transition>
@@ -37,6 +37,14 @@ export default {
             animationDirection: 'left',
             animationEnabled: true,
             lastScrollPosition: 0
+        }
+    },
+    computed: {
+        // 当前路由的动画类
+        animationClass() {
+            if (!this.animationEnabled) return ''
+
+            return `page-transition-${this.animationType}`
         }
     },
     created() {
@@ -184,14 +192,6 @@ export default {
             if (this.animationEnabled) {
                 safeAnimation(pageSlideIn, contentElement, this.animationDirection, 0.4)
             }
-        }
-    },
-    computed: {
-        // 当前路由的动画类
-        animationClass() {
-            if (!this.animationEnabled) return ''
-
-            return `page-transition-${this.animationType}`
         }
     }
 }

@@ -2,8 +2,8 @@
  * @Description: 角色卡片组件
  * @Author: Claude Code
  * @Date: 2026-04-10
- * @LastEditTime: 2026-04-10
- * @FilePath: /frontend/src/components/CharacterCard.vue
+ * @LastEditTime: 2026-04-10 23:57:20
+ * @FilePath: /vue2-java-mysql-project/frontend/src/components/CharacterCard.vue
  -->
 <template>
     <div
@@ -19,15 +19,19 @@
                         v-if="character.avatarUrl"
                         :src="character.avatarUrl"
                         :alt="character.characterName"
-                    />
-                    <div v-else class="placeholder-image">
+                    >
+                    <div
+                        v-else
+                        class="placeholder-image"
+                    >
                         <i class="el-icon-user" />
                     </div>
                 </div>
                 <div class="card-title">
                     <h3>{{ character.characterName }}</h3>
                     <p class="character-type">
-                        {{ character.characterType ? character.characterType.gender + character.characterType.className : '' }} - {{ character.characterType ? character.characterType.jobName : '' }}
+                        {{ character.characterType ? character.characterType.gender + character.characterType.className
+                            : '' }} - {{ character.characterType ? character.characterType.jobName : '' }}
                     </p>
                 </div>
                 <div class="card-hint">
@@ -40,7 +44,10 @@
             <div class="card-face card-back">
                 <div class="card-header">
                     <h3>{{ character.characterName }}</h3>
-                    <span class="job-nature" :class="character.jobNature === '奶系' ? 'healer' : 'dps'">
+                    <span
+                        class="job-nature"
+                        :class="character.jobNature === '奶系' ? 'healer' : 'dps'"
+                    >
                         {{ character.jobNature }}
                     </span>
                 </div>
@@ -60,7 +67,10 @@
                     </div>
 
                     <!-- 四维 -->
-                    <div class="info-section" v-if="character.jobNature === '奶系'">
+                    <div
+                        v-if="character.jobNature === '奶系'"
+                        class="info-section"
+                    >
                         <h4>四维</h4>
                         <div class="stats-grid">
                             <div class="stat-item">
@@ -79,7 +89,10 @@
                     </div>
 
                     <!-- 三攻 -->
-                    <div class="info-section" v-if="character.jobNature === '输出'">
+                    <div
+                        v-if="character.jobNature === '输出'"
+                        class="info-section"
+                    >
                         <h4>三攻</h4>
                         <div class="stats-grid">
                             <div class="stat-item">
@@ -121,7 +134,10 @@
                     </div>
 
                     <!-- 最高属强 -->
-                    <div class="info-section" v-if="character.maxElement > 0">
+                    <div
+                        v-if="character.maxElement > 0"
+                        class="info-section"
+                    >
                         <div class="max-element">
                             <span>最高属强：</span>
                             <span class="max-value">{{ character.maxElement }}</span>
@@ -183,7 +199,7 @@ export default {
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3),
-                        0 4px 8px rgba(0, 0, 0, 0.2);
+                0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .card-front {
@@ -460,9 +476,12 @@ export default {
 }
 
 @keyframes pulse {
-    0%, 100% {
+
+    0%,
+    100% {
         opacity: 1;
     }
+
     50% {
         opacity: 0.5;
     }

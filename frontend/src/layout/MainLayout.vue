@@ -153,13 +153,6 @@ export default {
             dropdownVisible: false
         }
     },
-    mounted() {
-        this.initAnimations()
-        this.setupMenuAnimations()
-    },
-    beforeDestroy() {
-        this.cleanupAnimations()
-    },
     watch: {
         $route: {
             immediate: true,
@@ -167,6 +160,13 @@ export default {
                 this.activeMenu = route.path
             }
         }
+    },
+    mounted() {
+        this.initAnimations()
+        this.setupMenuAnimations()
+    },
+    beforeDestroy() {
+        this.cleanupAnimations()
     },
     methods: {
         initAnimations() {

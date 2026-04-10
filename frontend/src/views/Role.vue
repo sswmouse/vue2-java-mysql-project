@@ -18,17 +18,26 @@
             </el-button>
         </div>
 
-        <div v-loading="loading" class="role-content">
+        <div
+            v-loading="loading"
+            class="role-content"
+        >
             <!-- 空状态 -->
-            <div v-if="!loading && characters.length === 0" class="empty-state">
+            <div
+                v-if="!loading && characters.length === 0"
+                class="empty-state"
+            >
                 <i class="el-icon-user" />
                 <p>还没有角色</p>
                 <p>点击右上角"创建角色"按钮开始吧</p>
             </div>
 
             <!-- 角色卡片网格 -->
-            <div v-else-if="!loading" class="character-grid">
-                <CharacterCard
+            <div
+                v-else-if="!loading"
+                class="character-grid"
+            >
+                <character-card
                     v-for="character in characters"
                     :key="character.id"
                     :character="character"
@@ -37,7 +46,7 @@
         </div>
 
         <!-- 创建/编辑角色弹窗 -->
-        <CharacterDialog
+        <character-dialog
             :visible.sync="dialogVisible"
             :character="editingCharacter"
             @success="loadCharacters"

@@ -1,0 +1,449 @@
+/*
+ * @Description: 全局样式入口文件
+ * @Author: Claude Code
+ * @Date: 2026-04-10
+ * @LastEditTime: 2026-04-10
+ * @FilePath: /frontend/src/assets/styles/index.less
+ */
+
+// ============================================
+// 导入所有样式文件
+// ============================================
+
+// 1. 变量定义
+@import './variables.less';
+
+// 2. 混合函数
+@import './mixins.less';
+
+// 3. 基础样式重置
+@import './base.less';
+
+// 4. CSS动画定义
+@import './animations.less';
+
+// 5. Element UI主题定制
+@import './element-theme.less';
+
+// ============================================
+// 全局自定义样式
+// ============================================
+
+// DNF主题全局样式
+.dnf-theme {
+    // 页面背景
+    background: @dnf-bg-dark;
+    color: @dnf-text-primary;
+    min-height: 100vh;
+
+    // 全局滚动条样式
+    .custom-scrollbar();
+
+    // 全局链接样式
+    a {
+        .dnf-link();
+    }
+
+    // 全局按钮样式增强
+    button:not(.el-button) {
+        .dnf-primary-button();
+        padding: @spacing-sm @spacing-lg;
+        font-weight: @font-weight-semibold;
+        border-radius: @border-radius-md;
+    }
+
+    // 全局卡片样式
+    .dnf-card {
+        .dnf-card();
+        padding: @spacing-lg;
+        margin-bottom: @spacing-lg;
+    }
+
+    // 全局标题样式
+    .dnf-section-title {
+        .gold-gradient-text();
+        font-size: @font-size-2xl;
+        font-weight: @font-weight-bold;
+        margin-bottom: @spacing-xl;
+        position: relative;
+        padding-bottom: @spacing-md;
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100px;
+            height: 3px;
+            background: @gradient-purple-gold;
+            border-radius: @border-radius-full;
+        }
+    }
+
+    // 全局分隔线
+    .dnf-divider {
+        height: 1px;
+        background: @gradient-purple-gold;
+        margin: @spacing-xl 0;
+        border: none;
+    }
+
+    // 全局徽章
+    .dnf-badge {
+        .dnf-badge();
+    }
+
+    // 全局加载指示器
+    .dnf-loading {
+        .loading-indicator();
+        margin: 0 auto;
+    }
+
+    // 全局成功状态
+    .dnf-success {
+        color: @dnf-success;
+        font-weight: @font-weight-semibold;
+
+        &::before {
+            content: '✓ ';
+        }
+    }
+
+    // 全局警告状态
+    .dnf-warning {
+        color: @dnf-warning;
+        font-weight: @font-weight-semibold;
+
+        &::before {
+            content: '⚠ ';
+        }
+    }
+
+    // 全局错误状态
+    .dnf-error {
+        color: @dnf-danger;
+        font-weight: @font-weight-semibold;
+
+        &::before {
+            content: '✗ ';
+        }
+    }
+}
+
+// ============================================
+// 布局组件样式
+// ============================================
+
+// 主容器
+.main-container {
+    max-width: @breakpoint-xl;
+    margin: 0 auto;
+    padding: 0 @spacing-md;
+
+    .respond-to(md, {
+        padding: 0 @spacing-lg;
+    });
+
+    .respond-to(lg, {
+        padding: 0 @spacing-xl;
+    });
+}
+
+// 页面标题区域
+.page-header {
+    background: @gradient-dark-blue;
+    padding: @spacing-2xl 0;
+    margin-bottom: @spacing-xl;
+    border-bottom: 1px solid @dnf-border-dark;
+    text-align: center;
+
+    .page-title {
+        font-size: @font-size-3xl;
+        .gold-gradient-text();
+        margin-bottom: @spacing-md;
+        animation: logo-glow 3s ease-in-out infinite;
+    }
+
+    .page-description {
+        color: @dnf-text-secondary;
+        max-width: 600px;
+        margin: 0 auto;
+        font-size: @font-size-lg;
+    }
+}
+
+// 内容区域
+.page-content {
+    padding: @spacing-xl 0;
+}
+
+// 页脚
+.page-footer {
+    background: @dnf-primary-blue;
+    border-top: 1px solid @dnf-border-dark;
+    padding: @spacing-xl 0;
+    margin-top: @spacing-xl;
+    text-align: center;
+
+    .footer-text {
+        color: @dnf-text-secondary;
+        font-size: @font-size-sm;
+
+        a {
+            color: @dnf-primary-gold;
+            font-weight: @font-weight-medium;
+        }
+    }
+}
+
+// ============================================
+// 响应式工具类
+// ============================================
+
+// 移动端隐藏
+.mobile-hidden {
+    .respond-to(md, {
+        display: none;
+    });
+}
+
+// 桌面端隐藏
+.desktop-hidden {
+    display: none;
+
+    .respond-to(md, {
+        display: block;
+    });
+}
+
+// 响应式间距
+.responsive-spacing {
+    padding: @spacing-md;
+
+    .respond-to(md, {
+        padding: @spacing-lg;
+    });
+
+    .respond-to(lg, {
+        padding: @spacing-xl;
+    });
+}
+
+// ============================================
+// 动画工具类
+// ============================================
+
+// 动画容器
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+
+    &.animated {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// 延迟显示
+.stagger-animation {
+    > * {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    // 使用LESS递归生成延迟
+    .generate-delay(@i: 1) when (@i <= 10) {
+        > *:nth-child(@{i}) {
+            transition-delay: (@i * 0.1s);
+        }
+        .generate-delay(@i + 1);
+    }
+    .generate-delay();
+
+    &.animated {
+        > * {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}
+
+// ============================================
+// 特殊效果类
+// ============================================
+
+// 玻璃拟态效果
+.glass-effect {
+    .glass-morphism();
+}
+
+// 发光边框
+.glow-border-effect {
+    .glow-border();
+}
+
+// 3D抬起效果
+.lift-3d-effect {
+    .lift-3d();
+}
+
+// 渐变文字
+.gradient-text-effect {
+    .gold-gradient-text();
+}
+
+// ============================================
+// 游戏风格特效
+// ============================================
+
+// 伤害数字效果
+.damage-number {
+    position: absolute;
+    color: @dnf-danger;
+    font-weight: @font-weight-bold;
+    font-size: @font-size-xl;
+    animation: damage-popup 1s ease-out forwards;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+// 暴击特效
+.critical-hit {
+    animation: critical-hit 0.5s ease-out;
+}
+
+// 获得物品闪光
+.item-obtained {
+    animation: item-obtained 1s ease-in-out;
+}
+
+// 升级光芒
+.level-up {
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: @gradient-purple-gold;
+        animation: level-up 1s ease-out forwards;
+        z-index: -1;
+    }
+}
+
+// ============================================
+// 工具提示样式
+// ============================================
+
+.dnf-tooltip {
+    position: relative;
+    display: inline-block;
+
+    &::before {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: @dnf-bg-card;
+        color: @dnf-text-primary;
+        padding: @spacing-sm @spacing-md;
+        border-radius: @border-radius-md;
+        border: 1px solid @dnf-border-dark;
+        box-shadow: @dnf-shadow-lg;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: all @transition-normal;
+        z-index: 1000;
+        font-size: @font-size-sm;
+        font-weight: @font-weight-normal;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 5px solid transparent;
+        border-top-color: @dnf-bg-card;
+        opacity: 0;
+        visibility: hidden;
+        transition: all @transition-normal;
+        z-index: 1000;
+    }
+
+    &:hover {
+        &::before,
+        &::after {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+}
+
+// ============================================
+// 打印样式优化
+// ============================================
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+        color: black !important;
+    }
+
+    a {
+        color: black !important;
+        text-decoration: underline !important;
+    }
+
+    .dnf-card {
+        border: 1px solid #ccc !important;
+        box-shadow: none !important;
+    }
+}
+
+// ============================================
+// 辅助功能优化
+// ============================================
+
+// 高对比度模式
+@media (prefers-contrast: high) {
+    .dnf-theme {
+        --dnf-primary-dark: #000000;
+        --dnf-text-primary: #ffffff;
+        --dnf-border-dark: #ffffff;
+
+        background: var(--dnf-primary-dark);
+        color: var(--dnf-text-primary);
+        border-color: var(--dnf-border-dark);
+    }
+}
+
+// 减少动画模式
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .animate-on-scroll,
+    .stagger-animation {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}

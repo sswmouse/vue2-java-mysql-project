@@ -169,7 +169,7 @@ npm run serve
 ## 常见问题
 
 ### 1. 前端无法连接后端
-- 检查后端是否运行在 http://localhost:8081
+- 检查后端是否运行在 http://localhost:3000
 - 检查 `vue.config.js` 中的代理配置
 - 检查浏览器控制台错误信息
 
@@ -207,7 +207,7 @@ npm run test:e2e
 HEADLESS=false npm run test:e2e
 
 # 只运行特定测试文件
-npm run test:e2e -- --testPathPattern=users
+npm run test:e2e -- --testPathPatterns=users.test.js
 ```
 
 ### 测试用例

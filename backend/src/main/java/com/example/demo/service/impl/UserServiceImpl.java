@@ -39,6 +39,11 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("邮箱已存在: " + user.getEmail());
         }
 
+        // 检查密码是否为空
+        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+            throw new RuntimeException("密码不能为空");
+        }
+
         return userRepository.save(user);
     }
 

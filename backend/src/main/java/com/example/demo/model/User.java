@@ -31,7 +31,6 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @NotBlank(message = "密码不能为空")
     @Size(min = 6, message = "密码长度不能小于6位")
     @Column(nullable = false)
     private String password;

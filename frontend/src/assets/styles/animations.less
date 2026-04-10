@@ -1,0 +1,669 @@
+/*
+ * @Description: CSS动画定义库
+ * @Author: Claude Code
+ * @Date: 2026-04-10
+ * @LastEditTime: 2026-04-10
+ * @FilePath: /frontend/src/assets/styles/animations.less
+ */
+
+// 导入变量和混合函数
+@import './variables.less';
+@import './mixins.less';
+
+// ============================================
+// Logo和品牌动画
+// ============================================
+
+// Logo发光动画
+@keyframes logo-glow {
+    0%, 100% {
+        text-shadow: 0 0 10px fade(@dnf-primary-gold, 50%);
+        filter: drop-shadow(0 0 5px fade(@dnf-primary-gold, 30%));
+    }
+    50% {
+        text-shadow: 0 0 20px fade(@dnf-primary-gold, 80%);
+        filter: drop-shadow(0 0 10px fade(@dnf-primary-gold, 50%));
+    }
+}
+
+// Logo浮动动画
+@keyframes logo-float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-5px) rotate(1deg);
+    }
+    75% {
+        transform: translateY(5px) rotate(-1deg);
+    }
+}
+
+// Logo脉动动画
+@keyframes logo-pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.9;
+    }
+}
+
+// Logo渐变循环
+@keyframes logo-gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+// ============================================
+// 页面过渡动画
+// ============================================
+
+// 页面淡入
+@keyframes page-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// 页面淡出
+@keyframes page-fade-out {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+// 页面从左滑入
+@keyframes page-slide-in-left {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+// 页面从右滑入
+@keyframes page-slide-in-right {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+// 页面缩放进入
+@keyframes page-zoom-in {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+// ============================================
+// 菜单和导航动画
+// ============================================
+
+// 菜单项悬停动画
+@keyframes menu-item-hover {
+    from {
+        background-color: transparent;
+        transform: translateX(0);
+    }
+    to {
+        background-color: fade(@dnf-primary-purple, 20%);
+        transform: translateX(5px);
+    }
+}
+
+// 菜单项选中动画
+@keyframes menu-item-active {
+    0% {
+        background-color: transparent;
+        box-shadow: none;
+    }
+    50% {
+        background-color: fade(@dnf-primary-purple, 30%);
+        box-shadow: inset 4px 0 0 @dnf-primary-purple;
+    }
+    100% {
+        background-color: fade(@dnf-primary-purple, 20%);
+        box-shadow: inset 4px 0 0 @dnf-primary-purple;
+    }
+}
+
+// 下拉菜单展开
+@keyframes dropdown-expand {
+    from {
+        opacity: 0;
+        transform: scaleY(0);
+        transform-origin: top;
+    }
+    to {
+        opacity: 1;
+        transform: scaleY(1);
+        transform-origin: top;
+    }
+}
+
+// 侧边栏展开
+@keyframes sidebar-expand {
+    from {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+// ============================================
+// 卡片和组件动画
+// ============================================
+
+// 卡片悬停抬起
+@keyframes card-lift {
+    from {
+        transform: translateY(0);
+        box-shadow: @dnf-shadow-md;
+    }
+    to {
+        transform: translateY(-5px);
+        box-shadow: @dnf-shadow-lg;
+    }
+}
+
+// 卡片闪烁（重要提示）
+@keyframes card-blink {
+    0%, 100% {
+        border-color: @dnf-border-dark;
+        box-shadow: @dnf-shadow-md;
+    }
+    50% {
+        border-color: @dnf-primary-gold;
+        box-shadow: @dnf-shadow-gold;
+    }
+}
+
+// 卡片内容显示
+@keyframes card-content-reveal {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// 按钮点击效果
+@keyframes button-click {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.95);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+// 按钮悬停光泽效果
+@keyframes button-gloss {
+    0% {
+        background-position: -100% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+// ============================================
+// 加载和进度动画
+// ============================================
+
+// 旋转加载
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+// 脉动加载点
+@keyframes pulse-dots {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.7;
+    }
+}
+
+// 进度条填充
+@keyframes progress-fill {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+// 骨架屏闪烁
+@keyframes skeleton-shimmer {
+    0% {
+        background-position: -200px 0;
+    }
+    100% {
+        background-position: calc(200px + 100%) 0;
+    }
+}
+
+// 波浪效果
+@keyframes wave {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+// ============================================
+// 通知和提示动画
+// ============================================
+
+// 通知进入
+@keyframes notification-slide-in {
+    from {
+        opacity: 0;
+        transform: translateX(100%) translateY(0);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) translateY(0);
+    }
+}
+
+// 通知退出
+@keyframes notification-slide-out {
+    from {
+        opacity: 1;
+        transform: translateX(0) translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(100%) translateY(0);
+    }
+}
+
+// 成功图标勾选动画
+@keyframes success-check {
+    0% {
+        stroke-dashoffset: 100;
+    }
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+// 错误图标叉号动画
+@keyframes error-cross {
+    0% {
+        stroke-dashoffset: 100;
+        transform: rotate(0deg);
+    }
+    100% {
+        stroke-dashoffset: 0;
+        transform: rotate(45deg);
+    }
+}
+
+// ============================================
+// 背景和装饰动画
+// ============================================
+
+// 星空闪烁
+@keyframes star-twinkle {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+// 粒子漂浮
+@keyframes particle-float {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) translateX(20px);
+        opacity: 0;
+    }
+}
+
+// 迷雾流动
+@keyframes mist-flow {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+// 光环旋转
+@keyframes halo-rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+// ============================================
+// 交互反馈动画
+// ============================================
+
+// 输入框焦点边框
+@keyframes input-focus-border {
+    0%, 100% {
+        border-color: @dnf-border-light;
+        box-shadow: none;
+    }
+    50% {
+        border-color: @dnf-primary-purple;
+        box-shadow: 0 0 0 3px fade(@dnf-primary-purple, 20%);
+    }
+}
+
+// 复选框选中动画
+@keyframes checkbox-check {
+    0% {
+        stroke-dashoffset: 50;
+        transform: scale(0.8);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        stroke-dashoffset: 0;
+        transform: scale(1);
+    }
+}
+
+// 开关切换动画
+@keyframes switch-toggle {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+// 选项卡切换
+@keyframes tab-slide {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+// ============================================
+// 游戏风格特效动画
+// ============================================
+
+// 伤害数字弹出
+@keyframes damage-popup {
+    0% {
+        opacity: 0;
+        transform: translateY(0) scale(0.5);
+    }
+    20% {
+        opacity: 1;
+        transform: translateY(-20px) scale(1);
+    }
+    80% {
+        opacity: 1;
+        transform: translateY(-40px) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-60px) scale(0.8);
+    }
+}
+
+// 暴击特效
+@keyframes critical-hit {
+    0% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+    50% {
+        transform: scale(1.5);
+        filter: brightness(2);
+    }
+    100% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+}
+
+// 获得物品闪光
+@keyframes item-obtained {
+    0%, 100% {
+        box-shadow: 0 0 0 0 fade(@dnf-primary-gold, 0%);
+    }
+    50% {
+        box-shadow: 0 0 30px 10px fade(@dnf-primary-gold, 70%);
+    }
+}
+
+// 升级光芒
+@keyframes level-up {
+    0% {
+        background-position: 0% 50%;
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        background-position: 100% 50%;
+        opacity: 0;
+    }
+}
+
+// ============================================
+// 工具类动画
+// ============================================
+
+// 淡入动画类
+.animate-fade-in {
+    animation: page-fade-in 0.5s ease-out both;
+}
+
+// 淡出动画类
+.animate-fade-out {
+    animation: page-fade-out 0.5s ease-out both;
+}
+
+// 滑入动画类
+.animate-slide-in-left {
+    animation: page-slide-in-left 0.5s ease-out both;
+}
+
+// 滑入动画类（右侧）
+.animate-slide-in-right {
+    animation: page-slide-in-right 0.5s ease-out both;
+}
+
+// 缩放进入动画类
+.animate-zoom-in {
+    animation: page-zoom-in 0.5s ease-out both;
+}
+
+// 卡片抬起动画类
+.animate-card-lift {
+    animation: card-lift 0.3s ease-out both;
+}
+
+// 旋转动画类
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+// 脉动动画类
+.animate-pulse {
+    animation: pulse-dots 1.5s ease-in-out infinite;
+}
+
+// Logo发光动画类
+.animate-logo-glow {
+    animation: logo-glow 3s ease-in-out infinite;
+}
+
+// Logo浮动动画类
+.animate-logo-float {
+    animation: logo-float 6s ease-in-out infinite;
+}
+
+// ============================================
+// 动画延迟工具类
+// ============================================
+
+.generate-delay-classes(@n, @i: 1) when (@i <= @n) {
+    .delay-@{i} {
+        animation-delay: (@i * 0.1s);
+    }
+    .generate-delay-classes(@n, (@i + 1));
+}
+
+.generate-delay-classes(10);
+
+// ============================================
+// 动画时长工具类
+// ============================================
+
+.duration-fast {
+    animation-duration: 0.2s;
+}
+
+.duration-normal {
+    animation-duration: 0.5s;
+}
+
+.duration-slow {
+    animation-duration: 1s;
+}
+
+.duration-very-slow {
+    animation-duration: 2s;
+}
+
+// ============================================
+// 动画填充模式工具类
+// ============================================
+
+.fill-mode-none {
+    animation-fill-mode: none;
+}
+
+.fill-mode-forwards {
+    animation-fill-mode: forwards;
+}
+
+.fill-mode-backwards {
+    animation-fill-mode: backwards;
+}
+
+.fill-mode-both {
+    animation-fill-mode: both;
+}
+
+// ============================================
+// 动画播放状态工具类
+// ============================================
+
+.play-state-running {
+    animation-play-state: running;
+}
+
+.play-state-paused {
+    animation-play-state: paused;
+}
+
+// ============================================
+// 动画性能优化类
+// ============================================
+
+.will-change-transform {
+    will-change: transform;
+}
+
+.will-change-opacity {
+    will-change: opacity;
+}
+
+.will-change-transform-opacity {
+    will-change: transform, opacity;
+}
+
+.hardware-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}

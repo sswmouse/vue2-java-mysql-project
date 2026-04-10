@@ -1,0 +1,154 @@
+/*
+ * @Description: DNF主题样式变量定义
+ * @Author: Claude Code
+ * @Date: 2026-04-10
+ * @LastEditTime: 2026-04-10
+ * @FilePath: /frontend/src/assets/styles/variables.less
+ */
+
+// ============================================
+// DNF主题色 - 深蓝/紫色系（经典DNF风格）
+// ============================================
+
+// 主色调
+@dnf-primary-dark: #0a1a2a;      // 深蓝背景 - 主背景色
+@dnf-primary-blue: #1a3a5f;      // 主蓝色 - 导航栏、卡片背景
+@dnf-primary-purple: #6a11cb;    // 紫色点缀 - 主色调、选中状态
+@dnf-primary-gold: #d4af37;      // 金色点缀 - 强调色、Logo
+
+// 辅助色
+@dnf-secondary-dark: #152238;    // 次深蓝 - 次要背景
+@dnf-secondary-blue: #2a4a7f;    // 次蓝色 - 悬停状态
+@dnf-secondary-purple: #8a2be2;  // 亮紫色 - 高亮状态
+@dnf-secondary-gold: #ffd700;    // 亮金色 - 高亮强调
+
+// 文字颜色
+@dnf-text-primary: #ffffff;      // 主文字 - 标题、重要内容
+@dnf-text-secondary: #b0b7c3;    // 次文字 - 正文、描述
+@dnf-text-muted: #8a94a6;        // 弱文字 - 占位符、辅助信息
+@dnf-text-light: #e2e8f0;        // 亮文字 - 卡片内文字
+
+// 状态色
+@dnf-success: #10b981;           // 成功 - 成功状态、完成
+@dnf-warning: #f59e0b;           // 警告 - 警告状态、注意
+@dnf-danger: #ef4444;            // 危险 - 错误状态、删除
+@dnf-info: #3b82f6;              // 信息 - 提示信息、链接
+
+// 边框和分隔线
+@dnf-border-dark: #1e293b;       // 深色边框 - 主要边框
+@dnf-border-light: #334155;      // 浅色边框 - 次要边框
+@dnf-divider: #475569;           // 分隔线 - 内容分隔
+
+// 背景色
+@dnf-bg-dark: #0f172a;           // 深色背景 - 页面背景
+@dnf-bg-card: #1e293b;           // 卡片背景 - 卡片、面板
+@dnf-bg-hover: #2d3748;          // 悬停背景 - 悬停状态
+@dnf-bg-active: #374151;         // 激活背景 - 选中状态
+
+// 阴影
+@dnf-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+@dnf-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+@dnf-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+@dnf-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+@dnf-shadow-purple: 0 0 20px rgba(106, 17, 203, 0.3);
+@dnf-shadow-gold: 0 0 15px rgba(212, 175, 55, 0.4);
+
+// 渐变
+@gradient-dark-blue: linear-gradient(135deg, @dnf-primary-dark, @dnf-primary-blue);
+@gradient-blue-purple: linear-gradient(135deg, @dnf-primary-blue, @dnf-primary-purple);
+@gradient-purple-gold: linear-gradient(135deg, @dnf-primary-purple, @dnf-primary-gold);
+@gradient-gold-text: linear-gradient(135deg, @dnf-primary-gold, @dnf-secondary-gold);
+
+// 透明度
+@dnf-opacity-10: rgba(0, 0, 0, 0.1);
+@dnf-opacity-20: rgba(0, 0, 0, 0.2);
+@dnf-opacity-30: rgba(0, 0, 0, 0.3);
+@dnf-opacity-50: rgba(0, 0, 0, 0.5);
+@dnf-opacity-70: rgba(0, 0, 0, 0.7);
+
+// ============================================
+// Element UI主题色覆盖
+// ============================================
+
+// 覆盖Element UI默认主题色，使其与DNF主题协调
+@--color-primary: @dnf-primary-purple;
+@--color-success: @dnf-success;
+@--color-warning: @dnf-warning;
+@--color-danger: @dnf-danger;
+@--color-info: @dnf-info;
+
+// 文字颜色
+@--color-text-primary: @dnf-text-primary;
+@--color-text-regular: @dnf-text-secondary;
+@--color-text-secondary: @dnf-text-muted;
+@--color-text-placeholder: fade(@dnf-text-muted, 60%);
+
+// 边框颜色
+@--border-color-base: @dnf-border-light;
+@--border-color-light: @dnf-border-light;
+@--border-color-lighter: @dnf-border-light;
+@--border-color-extra-light: @dnf-border-light;
+
+// 背景颜色
+@--background-color-base: @dnf-bg-card;
+
+// ============================================
+// 尺寸和间距
+// ============================================
+
+// 间距
+@spacing-xs: 4px;
+@spacing-sm: 8px;
+@spacing-md: 16px;
+@spacing-lg: 24px;
+@spacing-xl: 32px;
+@spacing-2xl: 48px;
+@spacing-3xl: 64px;
+
+// 圆角
+@border-radius-sm: 4px;
+@border-radius-md: 8px;
+@border-radius-lg: 12px;
+@border-radius-xl: 16px;
+@border-radius-full: 9999px;
+
+// 字体大小
+@font-size-xs: 12px;
+@font-size-sm: 14px;
+@font-size-md: 16px;
+@font-size-lg: 18px;
+@font-size-xl: 20px;
+@font-size-2xl: 24px;
+@font-size-3xl: 30px;
+@font-size-4xl: 36px;
+
+// 字体粗细
+@font-weight-light: 300;
+@font-weight-normal: 400;
+@font-weight-medium: 500;
+@font-weight-semibold: 600;
+@font-weight-bold: 700;
+
+// 行高
+@line-height-tight: 1.25;
+@line-height-normal: 1.5;
+@line-height-relaxed: 1.75;
+
+// ============================================
+// 过渡动画
+// ============================================
+
+@transition-fast: 0.15s ease;
+@transition-normal: 0.3s ease;
+@transition-slow: 0.5s ease;
+@transition-bounce: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+// ============================================
+// 响应式断点
+// ============================================
+
+@breakpoint-sm: 640px;
+@breakpoint-md: 768px;
+@breakpoint-lg: 1024px;
+@breakpoint-xl: 1280px;
+@breakpoint-2xl: 1536px;

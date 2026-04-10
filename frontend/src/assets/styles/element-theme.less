@@ -1,0 +1,717 @@
+/*
+ * @Description: Element UI主题定制 - DNF风格
+ * @Author: Claude Code
+ * @Date: 2026-04-10
+ * @LastEditTime: 2026-04-10
+ * @FilePath: /frontend/src/assets/styles/element-theme.less
+ */
+
+// 导入变量和混合函数
+@import './variables.less';
+@import './mixins.less';
+
+// ============================================
+// Element UI主题变量覆盖
+// ============================================
+
+// 主色调
+@--color-primary: @dnf-primary-purple;
+@--color-success: @dnf-success;
+@--color-warning: @dnf-warning;
+@--color-danger: @dnf-danger;
+@--color-info: @dnf-info;
+
+// 文字颜色
+@--color-text-primary: @dnf-text-primary;
+@--color-text-regular: @dnf-text-secondary;
+@--color-text-secondary: @dnf-text-muted;
+@--color-text-placeholder: fade(@dnf-text-muted, 60%);
+
+// 边框颜色
+@--border-color-base: @dnf-border-light;
+@--border-color-light: @dnf-border-light;
+@--border-color-lighter: @dnf-border-light;
+@--border-color-extra-light: @dnf-border-light;
+
+// 背景颜色
+@--background-color-base: @dnf-bg-card;
+
+// 字体
+@--font-path: 'element-ui/lib/theme-chalk/fonts';
+
+// ============================================
+// 按钮样式定制
+// ============================================
+
+.el-button {
+    font-weight: @font-weight-semibold;
+    border-radius: @border-radius-md;
+    transition: all @transition-normal;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: @dnf-shadow-md;
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    // 主按钮
+    &.el-button--primary {
+        .dnf-primary-button();
+    }
+
+    // 成功按钮
+    &.el-button--success {
+        background: @dnf-success;
+        border-color: @dnf-success;
+        color: @dnf-text-primary;
+
+        &:hover {
+            background: lighten(@dnf-success, 10%);
+            border-color: lighten(@dnf-success, 10%);
+            box-shadow: 0 4px 12px fade(@dnf-success, 30%);
+        }
+    }
+
+    // 警告按钮
+    &.el-button--warning {
+        background: @dnf-warning;
+        border-color: @dnf-warning;
+        color: @dnf-primary-dark;
+
+        &:hover {
+            background: lighten(@dnf-warning, 10%);
+            border-color: lighten(@dnf-warning, 10%);
+            box-shadow: 0 4px 12px fade(@dnf-warning, 30%);
+        }
+    }
+
+    // 危险按钮
+    &.el-button--danger {
+        background: @dnf-danger;
+        border-color: @dnf-danger;
+        color: @dnf-text-primary;
+
+        &:hover {
+            background: lighten(@dnf-danger, 10%);
+            border-color: lighten(@dnf-danger, 10%);
+            box-shadow: 0 4px 12px fade(@dnf-danger, 30%);
+        }
+    }
+
+    // 信息按钮
+    &.el-button--info {
+        background: @dnf-info;
+        border-color: @dnf-info;
+        color: @dnf-text-primary;
+
+        &:hover {
+            background: lighten(@dnf-info, 10%);
+            border-color: lighten(@dnf-info, 10%);
+            box-shadow: 0 4px 12px fade(@dnf-info, 30%);
+        }
+    }
+
+    // 朴素按钮
+    &.el-button--default {
+        background: @dnf-bg-card;
+        border-color: @dnf-border-dark;
+        color: @dnf-text-secondary;
+
+        &:hover {
+            background: @dnf-bg-hover;
+            border-color: @dnf-primary-purple;
+            color: @dnf-primary-purple;
+        }
+    }
+
+    // 金色按钮（自定义）
+    &.el-button--gold {
+        .dnf-gold-button();
+    }
+
+    // 幽灵按钮（自定义）
+    &.el-button--ghost {
+        .dnf-ghost-button();
+    }
+}
+
+// ============================================
+// 输入框样式定制
+// ============================================
+
+.el-input {
+    .el-input__inner {
+        background: @dnf-bg-card;
+        border-color: @dnf-border-dark;
+        color: @dnf-text-primary;
+        border-radius: @border-radius-md;
+        transition: all @transition-normal;
+
+        &:focus {
+            border-color: @dnf-primary-purple;
+            box-shadow: 0 0 0 3px fade(@dnf-primary-purple, 20%);
+        }
+
+        &::placeholder {
+            color: @dnf-text-muted;
+        }
+    }
+
+    &.is-disabled {
+        .el-input__inner {
+            background: @dnf-opacity-20;
+            border-color: @dnf-border-light;
+            color: @dnf-text-muted;
+        }
+    }
+}
+
+// ============================================
+// 表单样式定制
+// ============================================
+
+.el-form {
+    .el-form-item {
+        margin-bottom: @spacing-lg;
+
+        &__label {
+            color: @dnf-text-secondary;
+            font-weight: @font-weight-medium;
+        }
+
+        &__content {
+            .el-form-item__error {
+                color: @dnf-danger;
+                font-size: @font-size-sm;
+                margin-top: @spacing-xs;
+            }
+        }
+    }
+}
+
+// ============================================
+// 表格样式定制
+// ============================================
+
+.el-table {
+    background: @dnf-bg-card;
+    border: 1px solid @dnf-border-dark;
+    border-radius: @border-radius-lg;
+
+    &::before {
+        background-color: @dnf-border-dark;
+    }
+
+    th {
+        background: @dnf-primary-blue;
+        color: @dnf-text-primary;
+        font-weight: @font-weight-semibold;
+        border-bottom: 1px solid @dnf-border-dark;
+    }
+
+    td {
+        border-bottom: 1px solid @dnf-border-light;
+        color: @dnf-text-secondary;
+    }
+
+    tr {
+        background: @dnf-bg-card;
+        transition: background-color @transition-fast;
+
+        &:hover {
+            background: @dnf-bg-hover;
+        }
+    }
+
+    .el-table__row--striped {
+        background: fade(@dnf-primary-dark, 30%);
+
+        &:hover {
+            background: @dnf-bg-hover;
+        }
+    }
+}
+
+// ============================================
+// 菜单样式定制
+// ============================================
+
+.el-menu {
+    border-right: none;
+
+    &.el-menu--dark {
+        background-color: @dnf-primary-blue;
+
+        .el-menu-item {
+            color: @dnf-text-secondary;
+            transition: all @transition-normal;
+
+            &:hover {
+                background-color: fade(@dnf-primary-purple, 20%);
+                color: @dnf-text-primary;
+                transform: translateX(5px);
+            }
+
+            &.is-active {
+                background-color: fade(@dnf-primary-purple, 30%);
+                color: @dnf-primary-gold;
+                border-left: 4px solid @dnf-primary-gold;
+            }
+        }
+
+        .el-submenu {
+            &__title {
+                color: @dnf-text-secondary;
+
+                &:hover {
+                    background-color: fade(@dnf-primary-purple, 20%);
+                    color: @dnf-text-primary;
+                }
+            }
+
+            &.is-active {
+                .el-submenu__title {
+                    color: @dnf-primary-gold;
+                }
+            }
+        }
+    }
+}
+
+// ============================================
+// 卡片样式定制
+// ============================================
+
+.el-card {
+    .dnf-card();
+    border: none;
+
+    &__header {
+        border-bottom: 1px solid @dnf-border-dark;
+        padding: @spacing-lg;
+        background: fade(@dnf-primary-blue, 30%);
+        border-radius: @border-radius-lg @border-radius-lg 0 0;
+
+        .el-card__title {
+            color: @dnf-text-primary;
+            font-weight: @font-weight-bold;
+            font-size: @font-size-lg;
+            .gold-gradient-text();
+        }
+    }
+
+    &__body {
+        padding: @spacing-lg;
+        color: @dnf-text-secondary;
+    }
+}
+
+// ============================================
+// 对话框样式定制
+// ============================================
+
+.el-dialog {
+    background: @dnf-bg-card;
+    border: 1px solid @dnf-border-dark;
+    border-radius: @border-radius-lg;
+    box-shadow: @dnf-shadow-xl;
+
+    &__header {
+        background: fade(@dnf-primary-blue, 30%);
+        border-bottom: 1px solid @dnf-border-dark;
+        padding: @spacing-lg;
+        border-radius: @border-radius-lg @border-radius-lg 0 0;
+
+        .el-dialog__title {
+            color: @dnf-text-primary;
+            font-weight: @font-weight-bold;
+            font-size: @font-size-xl;
+        }
+    }
+
+    &__body {
+        padding: @spacing-xl;
+        color: @dnf-text-secondary;
+    }
+
+    &__footer {
+        background: fade(@dnf-primary-dark, 30%);
+        border-top: 1px solid @dnf-border-dark;
+        padding: @spacing-lg;
+        border-radius: 0 0 @border-radius-lg @border-radius-lg;
+    }
+}
+
+// ============================================
+// 消息提示样式定制
+// ============================================
+
+.el-message {
+    border-radius: @border-radius-lg;
+    border: none;
+    box-shadow: @dnf-shadow-lg;
+
+    &.el-message--success {
+        background: fade(@dnf-success, 90%);
+        border: 1px solid @dnf-success;
+
+        .el-message__content {
+            color: @dnf-text-primary;
+        }
+    }
+
+    &.el-message--warning {
+        background: fade(@dnf-warning, 90%);
+        border: 1px solid @dnf-warning;
+
+        .el-message__content {
+            color: @dnf-primary-dark;
+        }
+    }
+
+    &.el-message--error {
+        background: fade(@dnf-danger, 90%);
+        border: 1px solid @dnf-danger;
+
+        .el-message__content {
+            color: @dnf-text-primary;
+        }
+    }
+
+    &.el-message--info {
+        background: fade(@dnf-info, 90%);
+        border: 1px solid @dnf-info;
+
+        .el-message__content {
+            color: @dnf-text-primary;
+        }
+    }
+}
+
+// ============================================
+// 通知样式定制
+// ============================================
+
+.el-notification {
+    background: @dnf-bg-card;
+    border: 1px solid @dnf-border-dark;
+    border-radius: @border-radius-lg;
+    box-shadow: @dnf-shadow-xl;
+
+    &__title {
+        color: @dnf-text-primary;
+        font-weight: @font-weight-bold;
+    }
+
+    &__content {
+        color: @dnf-text-secondary;
+    }
+}
+
+// ============================================
+// 标签页样式定制
+// ============================================
+
+.el-tabs {
+    .el-tabs__header {
+        border-bottom: 2px solid @dnf-border-dark;
+
+        .el-tabs__nav-wrap {
+            &::after {
+                background-color: @dnf-border-dark;
+            }
+        }
+
+        .el-tabs__item {
+            color: @dnf-text-secondary;
+            font-weight: @font-weight-medium;
+
+            &:hover {
+                color: @dnf-primary-purple;
+            }
+
+            &.is-active {
+                color: @dnf-primary-gold;
+                border-bottom: 3px solid @dnf-primary-gold;
+            }
+        }
+    }
+
+    .el-tabs__content {
+        padding: @spacing-lg 0;
+    }
+}
+
+// ============================================
+// 选择器样式定制
+// ============================================
+
+.el-select {
+    .el-input__inner {
+        background: @dnf-bg-card;
+        border-color: @dnf-border-dark;
+        color: @dnf-text-primary;
+    }
+
+    .el-select-dropdown {
+        background: @dnf-bg-card;
+        border: 1px solid @dnf-border-dark;
+        box-shadow: @dnf-shadow-lg;
+
+        .el-select-dropdown__item {
+            color: @dnf-text-secondary;
+
+            &:hover {
+                background: @dnf-bg-hover;
+                color: @dnf-text-primary;
+            }
+
+            &.selected {
+                color: @dnf-primary-gold;
+                background: fade(@dnf-primary-gold, 10%);
+            }
+        }
+    }
+}
+
+// ============================================
+// 日期选择器样式定制
+// ============================================
+
+.el-date-picker {
+    background: @dnf-bg-card;
+    border: 1px solid @dnf-border-dark;
+    box-shadow: @dnf-shadow-lg;
+
+    .el-picker-panel__body {
+        .el-date-table {
+            td {
+                &.available {
+                    color: @dnf-text-secondary;
+
+                    &:hover {
+                        color: @dnf-primary-purple;
+                    }
+                }
+
+                &.current {
+                    .el-date-table-cell__text {
+                        background-color: @dnf-primary-purple;
+                        color: @dnf-text-primary;
+                    }
+                }
+
+                &.today {
+                    .el-date-table-cell__text {
+                        color: @dnf-primary-gold;
+                        font-weight: @font-weight-bold;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// ============================================
+// 进度条样式定制
+// ============================================
+
+.el-progress {
+    .el-progress-bar {
+        .el-progress-bar__outer {
+            background: @dnf-bg-card;
+            border-radius: @border-radius-full;
+        }
+
+        .el-progress-bar__inner {
+            border-radius: @border-radius-full;
+            transition: width @transition-slow;
+        }
+    }
+
+    .el-progress__text {
+        color: @dnf-text-secondary;
+        font-weight: @font-weight-medium;
+    }
+
+    // 主色调进度条
+    &.el-progress--primary {
+        .el-progress-bar__inner {
+            background: @gradient-blue-purple;
+        }
+    }
+
+    // 成功进度条
+    &.el-progress--success {
+        .el-progress-bar__inner {
+            background: @dnf-success;
+        }
+    }
+
+    // 警告进度条
+    &.el-progress--warning {
+        .el-progress-bar__inner {
+            background: @dnf-warning;
+        }
+    }
+
+    // 危险进度条
+    &.el-progress--danger {
+        .el-progress-bar__inner {
+            background: @dnf-danger;
+        }
+    }
+}
+
+// ============================================
+// 加载样式定制
+// ============================================
+
+.el-loading-mask {
+    background: fade(@dnf-bg-dark, 80%);
+    backdrop-filter: blur(4px);
+
+    .el-loading-spinner {
+        .circular {
+            .path {
+                stroke: @dnf-primary-purple;
+            }
+        }
+
+        .el-loading-text {
+            color: @dnf-text-primary;
+            margin-top: @spacing-md;
+        }
+    }
+}
+
+// ============================================
+// 分页样式定制
+// ============================================
+
+.el-pagination {
+    .btn-prev,
+    .btn-next,
+    .el-pager li {
+        background: @dnf-bg-card;
+        border: 1px solid @dnf-border-dark;
+        color: @dnf-text-secondary;
+        border-radius: @border-radius-md;
+        transition: all @transition-fast;
+
+        &:hover {
+            background: @dnf-bg-hover;
+            color: @dnf-primary-purple;
+            border-color: @dnf-primary-purple;
+        }
+
+        &.active {
+            background: @dnf-primary-purple;
+            border-color: @dnf-primary-purple;
+            color: @dnf-text-primary;
+            font-weight: @font-weight-bold;
+        }
+    }
+
+    .el-pagination__total {
+        color: @dnf-text-secondary;
+    }
+
+    .el-pagination__jump {
+        color: @dnf-text-secondary;
+
+        .el-input__inner {
+            background: @dnf-bg-card;
+            border-color: @dnf-border-dark;
+            color: @dnf-text-primary;
+        }
+    }
+}
+
+// ============================================
+// 步骤条样式定制
+// ============================================
+
+.el-steps {
+    .el-step {
+        &__head {
+            &.is-process {
+                .el-step__icon {
+                    background: @dnf-primary-purple;
+                    border-color: @dnf-primary-purple;
+                    color: @dnf-text-primary;
+                }
+            }
+
+            &.is-finish {
+                .el-step__icon {
+                    background: transparent;
+                    border-color: @dnf-success;
+                    color: @dnf-success;
+                }
+            }
+        }
+
+        &__title {
+            color: @dnf-text-secondary;
+            font-weight: @font-weight-medium;
+
+            &.is-process {
+                color: @dnf-text-primary;
+                font-weight: @font-weight-bold;
+            }
+
+            &.is-finish {
+                color: @dnf-success;
+            }
+        }
+
+        &__description {
+            color: @dnf-text-muted;
+        }
+    }
+}
+
+// ============================================
+// 自定义Element UI组件类
+// ============================================
+
+// DNF风格卡片
+.el-card.dnf-style {
+    .gradient-border();
+    background: @gradient-dark-blue;
+
+    .el-card__header {
+        background: fade(@dnf-primary-blue, 50%);
+        border-bottom: 1px solid fade(@dnf-primary-gold, 30%);
+    }
+}
+
+// 金色按钮
+.el-button.el-button--gold {
+    .dnf-gold-button();
+}
+
+// 幽灵按钮
+.el-button.el-button--ghost {
+    .dnf-ghost-button();
+}
+
+// 玻璃拟态对话框
+.el-dialog.glass-dialog {
+    .glass-morphism(20px, 0.3);
+    border: 1px solid fade(@dnf-text-primary, 0.1);
+}
+
+// 发光表格
+.el-table.glow-table {
+    border: 1px solid fade(@dnf-primary-purple, 30%);
+    box-shadow: @dnf-shadow-purple;
+
+    th {
+        background: fade(@dnf-primary-purple, 20%);
+    }
+}

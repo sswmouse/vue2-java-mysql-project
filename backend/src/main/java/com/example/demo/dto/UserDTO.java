@@ -19,7 +19,6 @@ public class UserDTO {
     @Email(message = "邮箱格式不正确")
     private String email;
 
-    @NotBlank(message = "密码不能为空")
     @Size(min = 6, message = "密码长度不能小于6位")
     private String password;
 }

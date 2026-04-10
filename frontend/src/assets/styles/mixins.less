@@ -1,0 +1,464 @@
+/*
+ * @Description: LESS混合函数库
+ * @Author: Claude Code
+ * @Date: 2026-04-10
+ * @LastEditTime: 2026-04-10
+ * @FilePath: /frontend/src/assets/styles/mixins.less
+ */
+
+// 导入变量
+@import './variables.less';
+
+// ============================================
+// 文本相关混合函数
+// ============================================
+
+// 文本截断（单行）
+.text-truncate() {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// 文本截断（多行）
+.text-truncate-multiline(@lines: 2) {
+    display: -webkit-box;
+    -webkit-line-clamp: @lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+// 金色渐变文字
+.gold-gradient-text() {
+    background: @gradient-gold-text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+// 紫色渐变文字
+.purple-gradient-text() {
+    background: @gradient-blue-purple;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+// 文字发光效果
+.text-glow(@color: @dnf-primary-gold, @blur: 10px) {
+    text-shadow: 0 0 @blur @color;
+}
+
+// ============================================
+// 布局相关混合函数
+// ============================================
+
+// 绝对居中
+.absolute-center() {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+// 弹性盒子居中
+.flex-center() {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+// 弹性盒子垂直居中
+.flex-vertical-center() {
+    display: flex;
+    align-items: center;
+}
+
+// 弹性盒子水平居中
+.flex-horizontal-center() {
+    display: flex;
+    justify-content: center;
+}
+
+// 弹性盒子两端对齐
+.flex-space-between() {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+// 清除浮动
+.clearfix() {
+    &::after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+}
+
+// ============================================
+// 背景和边框混合函数
+// ============================================
+
+// DNF卡片样式
+.dnf-card() {
+    background-color: @dnf-bg-card;
+    border: 1px solid @dnf-border-dark;
+    border-radius: @border-radius-lg;
+    box-shadow: @dnf-shadow-md;
+    transition: all @transition-normal;
+
+    &:hover {
+        border-color: @dnf-primary-purple;
+        box-shadow: @dnf-shadow-purple;
+        transform: translateY(-2px);
+    }
+}
+
+// 深色背景卡片
+.dnf-dark-card() {
+    background-color: @dnf-primary-dark;
+    border: 1px solid @dnf-border-dark;
+    border-radius: @border-radius-lg;
+    box-shadow: @dnf-shadow-lg;
+}
+
+// 渐变边框
+.gradient-border(@gradient: @gradient-purple-gold, @width: 2px) {
+    position: relative;
+    border-radius: @border-radius-lg;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: -@width;
+        left: -@width;
+        right: -@width;
+        bottom: -@width;
+        background: @gradient;
+        border-radius: @border-radius-lg + @width;
+        z-index: -1;
+    }
+}
+
+// 背景模糊
+.backdrop-blur(@blur: 10px) {
+    backdrop-filter: blur(@blur);
+    -webkit-backdrop-filter: blur(@blur);
+}
+
+// ============================================
+// 按钮样式混合函数
+// ============================================
+
+// DNF主按钮样式
+.dnf-primary-button() {
+    background: @gradient-blue-purple;
+    border: none;
+    border-radius: @border-radius-md;
+    color: @dnf-text-primary;
+    font-weight: @font-weight-semibold;
+    transition: all @transition-normal;
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: @dnf-shadow-purple;
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    // 添加金色边框效果
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: 1px solid transparent;
+        border-radius: @border-radius-md;
+        background: @gradient-gold-text;
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        padding: 1px;
+    }
+}
+
+// DNF金色按钮
+.dnf-gold-button() {
+    background: @gradient-gold-text;
+    border: none;
+    border-radius: @border-radius-md;
+    color: @dnf-primary-dark;
+    font-weight: @font-weight-bold;
+    transition: all @transition-normal;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: @dnf-shadow-gold;
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+// 幽灵按钮（透明背景）
+.dnf-ghost-button() {
+    background: transparent;
+    border: 2px solid @dnf-primary-purple;
+    border-radius: @border-radius-md;
+    color: @dnf-text-primary;
+    transition: all @transition-normal;
+
+    &:hover {
+        background: fade(@dnf-primary-purple, 20%);
+        transform: translateY(-2px);
+    }
+}
+
+// ============================================
+// 动画混合函数
+// ============================================
+
+// 呼吸动画
+.breathing-animation(@duration: 3s) {
+    animation: breathing @duration ease-in-out infinite;
+
+    @keyframes breathing {
+        0%, 100% {
+            opacity: 0.9;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+    }
+}
+
+// 脉动动画（心跳效果）
+.pulse-animation(@duration: 2s, @color: @dnf-primary-purple) {
+    animation: pulse @duration cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+    @keyframes pulse {
+        0%, 100% {
+            opacity: 1;
+            box-shadow: 0 0 0 0 fade(@color, 70%);
+        }
+        50% {
+            opacity: 0.8;
+            box-shadow: 0 0 0 10px fade(@color, 0%);
+        }
+    }
+}
+
+// 浮动动画
+.float-animation(@distance: 10px, @duration: 3s) {
+    animation: float @duration ease-in-out infinite;
+
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-@distance);
+        }
+    }
+}
+
+// 旋转动画
+.spin-animation(@duration: 20s) {
+    animation: spin @duration linear infinite;
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+}
+
+// 淡入动画
+.fade-in-animation(@duration: 0.5s, @delay: 0s) {
+    animation: fadeIn @duration ease @delay both;
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}
+
+// 滑动进入动画
+.slide-in-animation(@direction: left, @duration: 0.5s) {
+    @fromX: if(@direction = left, -100%, 100%);
+
+    animation: slideIn @duration ease-out;
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateX(@fromX);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+}
+
+// ============================================
+// 工具类混合函数
+// ============================================
+
+// 隐藏滚动条
+.hide-scrollbar() {
+    scrollbar-width: none; // Firefox
+    -ms-overflow-style: none; // IE and Edge
+
+    &::-webkit-scrollbar {
+        display: none; // Chrome, Safari, Opera
+    }
+}
+
+// 自定义滚动条
+.custom-scrollbar(@width: 8px, @track-color: @dnf-bg-card, @thumb-color: @dnf-primary-purple) {
+    &::-webkit-scrollbar {
+        width: @width;
+        height: @width;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: @track-color;
+        border-radius: @border-radius-full;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: @thumb-color;
+        border-radius: @border-radius-full;
+
+        &:hover {
+            background: lighten(@thumb-color, 10%);
+        }
+    }
+}
+
+// 响应式媒体查询
+.respond-to(@breakpoint, @rules) {
+    & when (@breakpoint = sm) {
+        @media (min-width: @breakpoint-sm) {
+            @rules();
+        }
+    }
+
+    & when (@breakpoint = md) {
+        @media (min-width: @breakpoint-md) {
+            @rules();
+        }
+    }
+
+    & when (@breakpoint = lg) {
+        @media (min-width: @breakpoint-lg) {
+            @rules();
+        }
+    }
+
+    & when (@breakpoint = xl) {
+        @media (min-width: @breakpoint-xl) {
+            @rules();
+        }
+    }
+
+    & when (@breakpoint = 2xl) {
+        @media (min-width: @breakpoint-2xl) {
+            @rules();
+        }
+    }
+}
+
+// 暗色模式支持
+.dark-mode(@rules) {
+    @media (prefers-color-scheme: dark) {
+        @rules();
+    }
+}
+
+// ============================================
+// 特效混合函数
+// ============================================
+
+// 发光边框
+.glow-border(@color: @dnf-primary-purple, @blur: 10px) {
+    box-shadow: 0 0 @blur @color;
+    border: 1px solid fade(@color, 50%);
+}
+
+// 内阴影效果
+.inner-shadow(@color: rgba(0, 0, 0, 0.3)) {
+    box-shadow: inset 0 2px 4px 0 @color;
+}
+
+// 玻璃拟态效果
+.glass-morphism(@blur: 10px, @opacity: 0.2) {
+    background: fade(@dnf-bg-card, @opacity * 100%);
+    backdrop-filter: blur(@blur);
+    -webkit-backdrop-filter: blur(@blur);
+    border: 1px solid fade(@dnf-text-primary, 0.1);
+}
+
+// 3D抬起效果
+.lift-3d(@distance: 10px) {
+    transform: perspective(1000px) rotateX(5deg) translateZ(@distance);
+    transition: transform @transition-normal;
+}
+
+// ============================================
+// 状态指示器混合函数
+// ============================================
+
+// 加载指示器
+.loading-indicator(@size: 20px, @color: @dnf-primary-purple) {
+    display: inline-block;
+    width: @size;
+    height: @size;
+    border: 2px solid fade(@color, 25%);
+    border-top-color: @color;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+// 徽章样式
+.dnf-badge(@background: @dnf-primary-purple, @color: @dnf-text-primary) {
+    display: inline-block;
+    padding: @spacing-xs @spacing-sm;
+    background: @background;
+    color: @color;
+    border-radius: @border-radius-full;
+    font-size: @font-size-xs;
+    font-weight: @font-weight-bold;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+// 状态点
+.status-dot(@size: 8px, @color: @dnf-success) {
+    display: inline-block;
+    width: @size;
+    height: @size;
+    background: @color;
+    border-radius: 50%;
+    vertical-align: middle;
+}

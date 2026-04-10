@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import ElementUI from 'element-ui'
+import { HttpPlugin } from '@/utils/http'
 
 // 导入全局样式（必须在Element UI样式之前导入，以便覆盖变量）
 import '@/assets/styles/index.less'
@@ -12,6 +13,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
+Vue.use(HttpPlugin)
 
 // 添加全局动画配置
 Vue.prototype.$animate = (element, animation, options = {}) => {

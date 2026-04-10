@@ -265,35 +265,68 @@ export default {
             justify-content: center;
             padding: @spacing-md;
             border-bottom: 1px solid @dnf-border-dark;
-            background: fade(@dnf-primary-blue, 70%);
+            background: linear-gradient(180deg, #1a2d4a, #0f172a);
             position: relative;
             overflow: hidden;
 
+            // 简化的背景光效
             &::before {
                 content: '';
                 position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: @gradient-purple-gold;
-                opacity: 0.1;
-                z-index: -1;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 150%;
+                height: 150%;
+                background: radial-gradient(circle, rgba(255, 215, 0, 0.08) 0%, transparent 50%);
+                pointer-events: none;
             }
 
             h2 {
                 margin: 0;
-                font-size: @font-size-xl;
-                font-weight: @font-weight-bold;
-                .gold-gradient-text();
-                text-shadow: @dnf-shadow-gold;
-                letter-spacing: 1px;
+                font-size: @font-size-2xl;
+                font-weight: 900;
+                letter-spacing: 3px;
                 position: relative;
                 padding: @spacing-sm @spacing-lg;
                 border-radius: @border-radius-md;
-                background: fade(@dnf-primary-dark, 50%);
-                border: 2px solid fade(@dnf-primary-gold, 30%);
+                background: linear-gradient(180deg, rgba(15, 23, 42, 0.95), rgba(26, 45, 74, 0.95));
+                border: 2px solid #ffd700;
+                color: #ffd700;
+                // 多层发光效果 + 黑色描边增强对比度
+                text-shadow:
+                    0 0 8px rgba(255, 215, 0, 0.9),
+                    0 0 16px rgba(255, 215, 0, 0.7),
+                    0 0 24px rgba(255, 215, 0, 0.5),
+                    2px 2px 0 #000000,
+                    -1px -1px 0 #000000,
+                    1px -1px 0 #000000,
+                    -1px 1px 0 #000000;
+                cursor: default;
+                user-select: none;
+                z-index: 10;
+                animation: logo-glow 3s ease-in-out infinite alternate;
 
+                // 顶部高光层 - 增强金属质感
+                &::before {
+                    content: 'DNF助手';
+                    position: absolute;
+                    top: -1px;
+                    left: 0;
+                    padding: @spacing-sm @spacing-lg;
+                    background: linear-gradient(180deg,
+                        rgba(255, 255, 255, 0.8) 0%,
+                        rgba(255, 223, 0, 0.9) 20%,
+                        rgba(255, 215, 0, 0.6) 40%,
+                        transparent 100%);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    pointer-events: none;
+                    z-index: 1;
+                }
+
+                // 外发光层
                 &::after {
                     content: '';
                     position: absolute;
@@ -301,11 +334,12 @@ export default {
                     left: -2px;
                     right: -2px;
                     bottom: -2px;
-                    background: @gradient-gold-text;
+                    background: linear-gradient(135deg, #ffd700, #ffec8b, #ffd700);
                     border-radius: @border-radius-md;
                     z-index: -1;
                     opacity: 0.5;
-                    filter: blur(5px);
+                    filter: blur(6px);
+                    animation: logo-border-glow 3s ease-in-out infinite alternate;
                 }
             }
         }
@@ -562,8 +596,16 @@ export default {
 
             .logo {
                 h2 {
-                    font-size: @font-size-sm;
-                    padding: @spacing-xs @spacing-sm;
+                    font-size: 12px;
+                    padding: 6px 6px;
+                    letter-spacing: 1px;
+                    text-shadow:
+                        0 0 6px rgba(255, 215, 0, 0.9),
+                        0 0 12px rgba(255, 215, 0, 0.7),
+                        2px 2px 0 #000000,
+                        -1px -1px 0 #000000,
+                        1px -1px 0 #000000,
+                        -1px 1px 0 #000000;
                 }
             }
 
@@ -601,6 +643,50 @@ export default {
 // 动画类
 .logo-animation {
     animation: logo-glow 3s ease-in-out infinite;
+}
+
+// Logo发光动画
+@keyframes logo-glow {
+    0% {
+        text-shadow:
+            0 0 5px fade(@dnf-primary-gold, 80%),
+            0 0 10px fade(@dnf-primary-gold, 60%),
+            0 0 20px fade(@dnf-primary-gold, 40%),
+            0 0 30px fade(@dnf-primary-gold, 20%),
+            0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+    100% {
+        text-shadow:
+            0 0 10px fade(@dnf-secondary-gold, 100%),
+            0 0 20px fade(@dnf-secondary-gold, 80%),
+            0 0 30px fade(@dnf-primary-gold, 60%),
+            0 0 40px fade(@dnf-primary-gold, 40%),
+            0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+}
+
+// Logo边框发光动画
+@keyframes logo-border-glow {
+    0% {
+        opacity: 0.4;
+        filter: blur(6px);
+    }
+    100% {
+        opacity: 0.7;
+        filter: blur(10px);
+    }
+}
+
+// Logo背景脉动动画
+@keyframes logo-bg-pulse {
+    0%, 100% {
+        opacity: 0.1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.2;
+        transform: scale(1.1);
+    }
 }
 
 .menu-item-animation {

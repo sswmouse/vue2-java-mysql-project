@@ -130,7 +130,7 @@
 </template>
 
 <script>
-import { userApi } from '../api'
+import api from '@/api'
 
 export default {
     name: 'Users',
@@ -170,7 +170,10 @@ export default {
     methods: {
         async loadUsers() {
             try {
-                const data = await userApi.getUsers()
+                const data = await this.$request({
+                    url: api.user.list,
+                    method: 'get'
+                })
                 this.users = data || []
             } catch (error) {
                 console.error('加载用户列表失败:', error)
@@ -185,7 +188,11 @@ export default {
             this.$refs.userForm.validate(async (valid) => {
                 if (valid) {
                     try {
-                        await userApi.createUser(this.form)
+                        await this.$request({
+                            url: api.user.create,
+                            method: 'post',
+                            data: this.form
+                        })
                         this.$message.success('创建用户成功')
                         this.resetForm()
                         this.loadUsers()
@@ -207,7 +214,11 @@ export default {
         },
         async updateUser() {
             try {
-                await userApi.updateUser(this.editForm.id, this.editForm)
+                await this.$request({
+                    url: api.user.update.replace(':id', this.editForm.id),
+                    method: 'put',
+                    data: this.editForm
+                })
                 this.$message.success('更新用户成功')
                 this.dialogVisible = false
                 this.loadUsers()
@@ -223,7 +234,10 @@ export default {
                 type: 'warning'
             }).then(async () => {
                 try {
-                    await userApi.deleteUser(user.id)
+                    await this.$request({
+                        url: api.user.delete.replace(':id', user.id),
+                        method: 'delete'
+                    })
                     this.$message.success('删除用户成功')
                     this.loadUsers()
                 } catch (error) {

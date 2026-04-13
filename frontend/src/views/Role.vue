@@ -2,8 +2,8 @@
  * @Description: 角色管理页面
  * @Author: Claude Code
  * @Date: 2026-04-10
- * @LastEditTime: 2026-04-10
- * @FilePath: /frontend/src/views/Role.vue
+ * @LastEditTime: 2026-04-11 02:19:08
+ * @FilePath: /vue2-java-mysql-project/frontend/src/views/Role.vue
  -->
 <template>
     <div class="role-page">
@@ -32,17 +32,26 @@
                 <p>点击右上角"创建角色"按钮开始吧</p>
             </div>
 
-            <!-- 角色卡片网格 -->
-            <div
+            <!-- 角色卡片网格（可拖拽排序） -->
+            <draggable
                 v-else-if="!loading"
-                class="character-grid"
+                v-model="characters"
+                :class="['character-grid', 'draggable-grid']"
+                tag="div"
+                :group="{ name: 'characters', pull: true, put: true }"
+                :animation="200"
+                :ghost-class="'draggable-ghost'"
+                :chosen-class="'draggable-chosen'"
+                :drag-class="'draggable-drag'"
+                @start="onDragStart"
+                @end="onDragEnd"
             >
                 <character-card
                     v-for="character in characters"
                     :key="character.id"
                     :character="character"
                 />
-            </div>
+            </draggable>
         </div>
 
         <!-- 创建/编辑角色弹窗 -->
@@ -58,12 +67,14 @@
 import api from '@/api'
 import CharacterCard from '@/components/CharacterCard.vue'
 import CharacterDialog from '@/components/CharacterDialog.vue'
+import draggable from 'vuedraggable'
 
 export default {
     name: 'Role',
     components: {
         CharacterCard,
-        CharacterDialog
+        CharacterDialog,
+        draggable
     },
     data() {
         return {
@@ -72,7 +83,11 @@ export default {
             dialogVisible: false,
             editingCharacter: null,
             // 默认绑定admin账户（userId = 1）
-            currentUserId: 1
+            currentUserId: 1,
+            // 拖拽相关状态
+            isDragging: false,
+            dragStartIndex: -1,
+            dragEndIndex: -1
         }
     },
     mounted() {
@@ -99,6 +114,45 @@ export default {
         handleCreate() {
             this.editingCharacter = null
             this.dialogVisible = true
+        },
+
+        onDragStart(event) {
+            console.log('拖拽开始:', event)
+            this.isDragging = true
+            this.dragStartIndex = event.oldIndex
+            // 可以在这里添加拖拽开始时的效果
+            this.$emit('drag-start', event)
+        },
+
+        onDragEnd(event) {
+            console.log('拖拽结束:', event)
+            this.isDragging = false
+            this.dragEndIndex = event.newIndex
+            // 拖拽结束后，characters数组已自动更新
+            this.$emit('drag-end', event)
+            // 可以在这里调用保存排序的API
+            this.saveCharacterOrder()
+        },
+
+        async saveCharacterOrder() {
+            try {
+                // 如果后端支持保存排序，可以调用API
+                // const orderData = this.characters.map((character, index) => ({
+                //     id: character.id,
+                //     order: index + 1
+                // }))
+                // await this.$request({
+                //     url: api.character.updateOrder,
+                //     method: 'post',
+                //     data: { characters: orderData }
+                // })
+
+                console.log('角色顺序已更新:', this.characters.map(c => c.characterName))
+                // 移除成功提示，避免干扰
+            } catch (error) {
+                console.error('保存角色顺序失败:', error)
+                // 移除错误提示，避免干扰
+            }
         }
     }
 }
@@ -186,7 +240,7 @@ export default {
 
         .character-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             gap: 24px;
             padding: 8px;
 
@@ -206,6 +260,28 @@ export default {
                 grid-template-columns: 1fr;
             }
         }
+    }
+
+    /* 拖拽排序样式 */
+    .draggable-grid {
+        position: relative;
+    }
+
+    .draggable-ghost {
+        opacity: 0.5;
+        background: rgba(255, 215, 0, 0.1);
+        border: 2px dashed #ffd700;
+    }
+
+    .draggable-chosen {
+        transform: scale(1.05);
+        box-shadow: 0 20px 60px rgba(255, 215, 0, 0.4);
+        z-index: 1000;
+    }
+
+    .draggable-drag {
+        cursor: grabbing;
+        opacity: 0.8;
     }
 }
 </style>

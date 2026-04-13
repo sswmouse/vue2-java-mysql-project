@@ -2,7 +2,7 @@
  * @Description: 角色添加/编辑弹窗组件
  * @Author: Claude Code
  * @Date: 2026-04-10
- * @LastEditTime: 2026-04-11 01:33:20
+ * @LastEditTime: 2026-04-11 02:19:17
  * @FilePath: /vue2-java-mysql-project/frontend/src/components/CharacterDialog.vue
  -->
 <template>
@@ -299,7 +299,9 @@
                         v-if="form.avatarUrl"
                         class="avatar-preview"
                     >
-                        <div class="preview-label">预览：</div>
+                        <div class="preview-label">
+                            预览：
+                        </div>
                         <img
                             :src="form.avatarUrl"
                             class="avatar-preview-image"
@@ -1005,10 +1007,12 @@ export default {
     .el-select-dropdown__item:hover {
         background: #2d3748 !important;
     }
+
     .el-cascader-menu {
         border-right: solid 1px #6a11cb;
     }
 }
+
 .el-popper .popper__arrow::after {
     top: 0 !important;
     border-bottom-color: #2d3748 !important;

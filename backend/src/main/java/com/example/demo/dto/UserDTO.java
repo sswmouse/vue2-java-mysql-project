@@ -21,4 +21,10 @@ public class UserDTO {
     private String password;
 
     private String role = "user";
+
+    // 头像URL
+    private String avatar;
+
+    // 主题偏好
+    private String theme = "dnf";
 }

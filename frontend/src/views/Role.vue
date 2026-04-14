@@ -163,7 +163,7 @@ export default {
     padding: 24px;
     min-height: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    background: var(--theme-bg-dark);
     overflow-x: hidden;
     overflow-y: auto;
 
@@ -178,7 +178,7 @@ export default {
             margin: 0;
             font-size: 28px;
             font-weight: 600;
-            color: #ffffff;
+            color: var(--theme-text-primary);
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
@@ -187,14 +187,14 @@ export default {
             font-size: 14px;
             font-weight: 500;
             border-radius: 8px;
-            background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);
+            background: var(--theme-accent);
             border: none;
-            color: #1a1a2e;
-            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+            color: var(--theme-bg-dark);
+            box-shadow: 0 4px 12px var(--theme-accent);
 
             &:hover {
-                background: linear-gradient(135deg, #ffe033 0%, #ffbb33 100%);
-                box-shadow: 0 6px 16px rgba(255, 215, 0, 0.4);
+                filter: brightness(1.1);
+                box-shadow: 0 6px 16px var(--theme-accent);
             }
 
             &:active {
@@ -214,29 +214,29 @@ export default {
             align-items: center;
             justify-content: center;
             padding: 80px 20px;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--theme-bg-card);
             border-radius: 16px;
-            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border: 2px dashed var(--theme-border);
 
             i {
                 font-size: 80px;
-                color: rgba(255, 255, 255, 0.3);
+                color: var(--theme-text-secondary);
                 margin-bottom: 20px;
             }
 
             p {
                 margin: 8px 0;
-                color: rgba(255, 255, 255, 0.6);
+                color: var(--theme-text-secondary);
 
                 &:first-of-type {
                     font-size: 18px;
                     font-weight: 500;
-                    color: rgba(255, 255, 255, 0.8);
+                    color: var(--theme-text-primary);
                 }
 
                 &:last-of-type {
                     font-size: 14px;
-                    color: rgba(255, 255, 255, 0.4);
+                    color: var(--theme-text-secondary);
                 }
             }
         }
@@ -272,13 +272,13 @@ export default {
 
     .draggable-ghost {
         opacity: 0.5;
-        background: rgba(255, 215, 0, 0.1);
-        border: 2px dashed #ffd700;
+        background: var(--theme-accent);
+        border: 2px dashed var(--theme-accent);
     }
 
     .draggable-chosen {
         transform: scale(1.05);
-        box-shadow: 0 20px 60px rgba(255, 215, 0, 0.4);
+        box-shadow: 0 20px 60px var(--theme-accent);
         z-index: 1000;
     }
 

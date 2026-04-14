@@ -1,3 +1,4 @@
+/* global jest, beforeAll */
 // E2E测试全局配置
 jest.setTimeout(30000)
 

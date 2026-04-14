@@ -19,6 +19,7 @@
     "vuex": "^3.6.2"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.21.0",
     "@types/jest": "^30.0.0",
     "@types/puppeteer": "^5.4.7",
     "@vue/cli-plugin-babel": "~4.5.19",

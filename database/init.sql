@@ -31,7 +31,7 @@ INSERT INTO users (username, phone, password, role, created_at, updated_at) VALU
 ('user2', '13800138002', 'password123', 'user', NOW(), NOW())
 ON DUPLICATE KEY UPDATE updated_at = NOW();
 
--- 创建角色类型表（DNF所有角色类型）
+-- 创建角色类型表（游戏所有角色类型）
 CREATE TABLE IF NOT EXISTS character_types (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     gender VARCHAR(10) NOT NULL COMMENT '性别：男/女',
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS characters (
     FOREIGN KEY (character_type_id) REFERENCES character_types(id) ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='角色表';
 
--- 插入DNF角色类型数据（根据实际游戏数据）
+-- 插入游戏角色类型数据（根据实际游戏数据）
 INSERT INTO character_types (gender, class_name, job_name, job_nature, job_attribute, special_case, created_at, updated_at) VALUES
 -- 男鬼剑士
 ('男', '鬼剑士', '剑魂', '输出', '物理百分比', FALSE, NOW(), NOW()),

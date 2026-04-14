@@ -1,6 +1,6 @@
 # Vue2 + Java Spring Boot + MySQL 全栈项目
 
-这是一个基于DNF（地下城与勇士）游戏风格的沉浸式管理系统，包含Vue2前端、Java Spring Boot后端和MySQL数据库。
+这是一个基于暗黑风格的的沉浸式游戏管理系统，包含Vue2前端、Java Spring Boot后端和MySQL数据库。
 
 ## 项目结构
 
@@ -166,7 +166,7 @@ vue2-java-mysql-project/
 - ✅ GSAP + ScrollTrigger 动画引擎
 - ✅ vuedraggable 拖拽排序
 - ✅ LESS CSS预处理器
-- ✅ DNF霓虹暗色主题
+- ✅ 霓虹暗色主题
 - ✅ Java Spring Boot REST API
 - ✅ Spring Data JPA数据访问
 - ✅ Spring Security安全框架
@@ -366,7 +366,7 @@ npm run serve
 - 字符集: `utf8mb4`
 - 排序规则: `utf8mb4_unicode_ci`
 
-### DNF主题样式系统
+### 暗黑霓虹灯主题样式系统
 - 主题变量: `frontend/src/assets/styles/variables.less`
 - 混合函数: `frontend/src/assets/styles/mixins.less`
 - CSS动画: `frontend/src/assets/styles/animations.less`

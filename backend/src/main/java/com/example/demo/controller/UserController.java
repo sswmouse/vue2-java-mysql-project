@@ -60,6 +60,7 @@ public class UserController {
         userDTO.setUsername(user.getUsername());
         userDTO.setPhone(user.getPhone());
         userDTO.setRole(user.getRole());
+        userDTO.setAvatar(user.getAvatar());
         // 密码不返回给前端
         userDTO.setPassword(null);
         return userDTO;
@@ -72,6 +73,7 @@ public class UserController {
         user.setPhone(userDTO.getPhone());
         user.setPassword(userDTO.getPassword());
         user.setRole(userDTO.getRole());
+        user.setAvatar(userDTO.getAvatar());
         return user;
     }
 }

@@ -5,7 +5,7 @@ SET COLLATION_CONNECTION=utf8mb4_unicode_ci;
 
 USE vue2_java_mysql;
 
--- 插入DNF角色类型数据（根据实际游戏数据）
+-- 插入游戏角色类型数据（根据实际游戏数据）
 INSERT INTO character_types (gender, class_name, job_name, job_nature, job_attribute, special_case, created_at, updated_at) VALUES
 ('男', '鬼剑士', '剑魂', '输出', '物理百分比', 0, NOW(), NOW()),
 ('男', '鬼剑士', '红眼', '输出', '物理固伤', 0, NOW(), NOW()),

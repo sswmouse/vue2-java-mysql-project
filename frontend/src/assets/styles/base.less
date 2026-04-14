@@ -34,8 +34,8 @@ html {
 
 body {
     font-family: @font-body, 'Quicksand', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    color: @dnf-text-primary;
-    background-color: @dnf-bg-dark;
+    color: var(--theme-text-primary, @dnf-text-primary);
+    background-color: var(--theme-bg-dark, @dnf-bg-dark);
     height: 100%;
     overflow: hidden;
     -webkit-font-smoothing: antialiased;

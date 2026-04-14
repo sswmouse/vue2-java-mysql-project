@@ -37,6 +37,13 @@ public class User {
     @Column(nullable = false)
     private String role = "user";
 
+    // 头像URL
+    private String avatar;
+
+    // 主题偏好
+    @Column(name = "theme")
+    private String theme = "dnf";
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 

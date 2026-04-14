@@ -1,3 +1,4 @@
+/* global describe, beforeAll, test, expect, page */
 describe('用户管理页面测试', () => {
     beforeAll(async () => {
     // 访问用户页面

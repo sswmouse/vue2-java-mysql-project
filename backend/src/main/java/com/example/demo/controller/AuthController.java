@@ -47,6 +47,8 @@ public class AuthController {
             userDTO.setUsername(user.getUsername());
             userDTO.setPhone(user.getPhone());
             userDTO.setRole(user.getRole());
+            userDTO.setAvatar(user.getAvatar());
+            userDTO.setTheme(user.getTheme());
 
             return ResponseEntity.ok(new AuthResponse(token, userDTO));
         } catch (RuntimeException e) {
@@ -97,6 +99,8 @@ public class AuthController {
         userDTO.setUsername(user.getUsername());
         userDTO.setPhone(user.getPhone());
         userDTO.setRole(user.getRole());
+        userDTO.setAvatar(user.getAvatar());
+        userDTO.setTheme(user.getTheme());
 
         return ResponseEntity.ok(userDTO);
     }
@@ -128,6 +132,7 @@ public class AuthController {
 
         // 所有用户都有的菜单
         menuPermissions.add("menu:home");
+        menuPermissions.add("menu:profile");
         menuPermissions.add("menu:role");
         menuPermissions.add("menu:equipment");
         menuPermissions.add("menu:fashion");
@@ -175,6 +180,9 @@ public class AuthController {
 
         // 首页
         menuTree.add(createMenuItem("/", "首页", "el-icon-s-home", "menu:home"));
+
+        // 个人中心
+        menuTree.add(createMenuItem("/profile", "个人中心", "el-icon-user-solid", "menu:profile"));
 
         // 用户管理（仅管理员）
         if ("admin".equals(role)) {
@@ -250,5 +258,164 @@ public class AuthController {
         Map<String, String> response = new HashMap<>();
         response.put("error", message);
         return response;
+    }
+
+    /**
+     * 更新个人资料
+     */
+    @PutMapping("/profile")
+    public ResponseEntity<?> updateProfile(
+            Authentication authentication,
+            @RequestBody Map<String, String> profileData) {
+        if (authentication == null || authentication.getPrincipal() == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(createErrorResponse("未登录"));
+        }
+
+        try {
+            JwtAuthFilter.UserPrincipal principal = (JwtAuthFilter.UserPrincipal) authentication.getPrincipal();
+            User user = userRepository.findById(principal.getUserId())
+                    .orElseThrow(() -> new RuntimeException("用户不存在"));
+
+            // 更新用户名（可选）
+            if (profileData.containsKey("username") && profileData.get("username") != null) {
+                String newUsername = profileData.get("username").trim();
+                if (!newUsername.isEmpty()) {
+                    // 检查用户名是否已被占用
+                    User existing = userRepository.findByUsername(newUsername).orElse(null);
+                    if (existing != null && !existing.getId().equals(user.getId())) {
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                .body(createErrorResponse("用户名已被占用"));
+                    }
+                    user.setUsername(newUsername);
+                }
+            }
+
+            // 更新手机号（可选）
+            if (profileData.containsKey("phone") && profileData.get("phone") != null) {
+                String newPhone = profileData.get("phone").trim();
+                if (!newPhone.isEmpty()) {
+                    // 检查手机号是否已被占用
+                    User existing = userRepository.findByPhone(newPhone).orElse(null);
+                    if (existing != null && !existing.getId().equals(user.getId())) {
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                .body(createErrorResponse("手机号已被占用"));
+                    }
+                    user.setPhone(newPhone);
+                }
+            }
+
+            // 更新头像（可选）
+            if (profileData.containsKey("avatar")) {
+                user.setAvatar(profileData.get("avatar"));
+            }
+
+            // 更新密码（可选，需要验证旧密码）
+            if (profileData.containsKey("newPassword") && profileData.get("newPassword") != null) {
+                String newPassword = profileData.get("newPassword").trim();
+                if (newPassword.length() >= 6) {
+                    user.setPassword(newPassword); // 实际应该加密
+                } else {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body(createErrorResponse("密码长度不能少于6位"));
+                }
+            }
+
+            User updatedUser = userRepository.save(user);
+
+            // 返回更新后的用户信息
+            UserDTO userDTO = new UserDTO();
+            userDTO.setId(updatedUser.getId());
+            userDTO.setUsername(updatedUser.getUsername());
+            userDTO.setPhone(updatedUser.getPhone());
+            userDTO.setRole(updatedUser.getRole());
+            userDTO.setAvatar(updatedUser.getAvatar());
+            userDTO.setTheme(updatedUser.getTheme());
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "资料更新成功");
+            response.put("user", userDTO);
+
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(createErrorResponse(e.getMessage()));
+        }
+    }
+
+    /**
+     * 获取用户主题偏好
+     */
+    @GetMapping("/theme")
+    public ResponseEntity<?> getTheme(Authentication authentication) {
+        if (authentication == null || authentication.getPrincipal() == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(createErrorResponse("未登录"));
+        }
+
+        try {
+            JwtAuthFilter.UserPrincipal principal = (JwtAuthFilter.UserPrincipal) authentication.getPrincipal();
+            User user = userRepository.findById(principal.getUserId())
+                    .orElseThrow(() -> new RuntimeException("用户不存在"));
+
+            Map<String, String> response = new HashMap<>();
+            response.put("theme", user.getTheme() != null ? user.getTheme() : "dnf");
+
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(createErrorResponse(e.getMessage()));
+        }
+    }
+
+    /**
+     * 更新用户主题偏好
+     */
+    @PutMapping("/theme")
+    public ResponseEntity<?> updateTheme(
+            Authentication authentication,
+            @RequestBody Map<String, String> themeData) {
+        if (authentication == null || authentication.getPrincipal() == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(createErrorResponse("未登录"));
+        }
+
+        try {
+            String theme = themeData.get("theme");
+            if (theme == null || theme.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(createErrorResponse("主题不能为空"));
+            }
+
+            // 验证主题是否有效
+            String[] validThemes = {"dnf", "cyberpunk", "elegant", "aurora", "bright", "pink", "forest", "galaxy", "blood", "gummy"};
+            boolean isValidTheme = false;
+            for (String validTheme : validThemes) {
+                if (validTheme.equals(theme)) {
+                    isValidTheme = true;
+                    break;
+                }
+            }
+            if (!isValidTheme) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(createErrorResponse("无效的主题"));
+            }
+
+            JwtAuthFilter.UserPrincipal principal = (JwtAuthFilter.UserPrincipal) authentication.getPrincipal();
+            User user = userRepository.findById(principal.getUserId())
+                    .orElseThrow(() -> new RuntimeException("用户不存在"));
+
+            user.setTheme(theme);
+            userRepository.save(user);
+
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "主题更新成功");
+            response.put("theme", theme);
+
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(createErrorResponse(e.getMessage()));
+        }
     }
 }

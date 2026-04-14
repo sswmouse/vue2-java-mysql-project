@@ -15,6 +15,8 @@ import Mist from '../views/Mist.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import NoPermission from '../views/NoPermission.vue'
+import Profile from '../views/Profile.vue'
+import Setting from '../views/Setting.vue'
 
 Vue.use(VueRouter)
 
@@ -49,6 +51,18 @@ const routes = [
                 name: 'Home',
                 component: Home,
                 meta: { requiresAuth: true, permission: 'menu:home' }
+            },
+            {
+                path: 'profile',
+                name: 'Profile',
+                component: Profile,
+                meta: { requiresAuth: true, permission: 'menu:profile' }
+            },
+            {
+                path: 'setting',
+                name: 'Setting',
+                component: Setting,
+                meta: { requiresAuth: true, permission: 'menu:setting' }
             },
             {
                 path: 'users',
@@ -181,10 +195,10 @@ router.beforeEach(async (to, from, next) => {
     }
 
     // 检查菜单权限
-    // 首页总是可访问的（所有登录用户都能访问首页）
+    // 首页、个人中心和设置总是可访问的（所有登录用户都能访问）
     if (to.meta.permission) {
-        // 首页不需要权限检查
-        if (to.path === '/') {
+        // 首页和个人中心、设置不需要权限检查
+        if (to.path === '/' || to.path === '/profile' || to.path === '/setting') {
             next()
             return
         }

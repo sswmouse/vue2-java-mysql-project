@@ -1,3 +1,11 @@
+/*
+ * @Author: yerun sswmouse@163.com
+ * @Date: 2026-04-10 22:22:03
+ * @LastEditors: yerun sswmouse@163.com
+ * @LastEditTime: 2026-04-14 22:46:35
+ * @FilePath: /vue2-java-mysql-project/backend/src/main/java/com/example/demo/model/CharacterType.java
+ * @Description: 
+ */
 package com.example.demo.model;
 
 import lombok.Data;
@@ -9,7 +17,7 @@ import java.time.LocalDateTime;
 
 /**
  * 角色类型实体类
- * 对应DNF游戏中的所有角色类型
+ * 对应游戏中的所有角色类型
  */
 @Entity
 @Table(name = "character_types")

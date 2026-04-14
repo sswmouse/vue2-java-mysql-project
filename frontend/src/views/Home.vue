@@ -49,7 +49,7 @@
                     ref="mainTitle"
                     class="hero-title"
                 >
-                    地下城与勇士风格管理系统
+                    游戏管理系统
                 </h1>
 
                 <!-- 副标题 -->
@@ -379,7 +379,7 @@ export default {
     min-height: 100%;
     height: 100%;
     overflow-x: hidden;
-    background: @dnf-bg-dark;
+    background: var(--theme-bg-dark);
     padding: 0;
 }
 
@@ -407,24 +407,24 @@ export default {
 .particle-1 {
     width: 4px;
     height: 4px;
-    background: @dnf-secondary-purple;
-    box-shadow: 0 0 10px @dnf-secondary-purple;
+    background: var(--theme-secondary);
+    box-shadow: 0 0 10px var(--theme-secondary);
     animation: particle-drift-1 12s ease-in-out infinite;
 }
 
 .particle-2 {
     width: 3px;
     height: 3px;
-    background: @dnf-primary-gold;
-    box-shadow: 0 0 8px @dnf-primary-gold;
+    background: var(--theme-accent);
+    box-shadow: 0 0 8px var(--theme-accent);
     animation: particle-drift-2 15s ease-in-out infinite;
 }
 
 .particle-3 {
     width: 5px;
     height: 5px;
-    background: @dnf-info;
-    box-shadow: 0 0 12px @dnf-info;
+    background: var(--theme-info);
+    box-shadow: 0 0 12px var(--theme-info);
     animation: particle-drift-3 10s ease-in-out infinite;
 }
 
@@ -438,7 +438,8 @@ export default {
 .glow-orb-1 {
     width: 600px;
     height: 600px;
-    background: radial-gradient(circle, fade(@dnf-secondary-purple, 0.15) 0%, transparent 70%);
+    background: radial-gradient(circle, var(--theme-secondary) 0%, transparent 70%);
+    opacity: 0.15;
     top: -200px;
     left: -100px;
     animation: glow-pulse 8s ease-in-out infinite;
@@ -447,7 +448,8 @@ export default {
 .glow-orb-2 {
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, fade(@dnf-primary-gold, 0.1) 0%, transparent 70%);
+    background: radial-gradient(circle, var(--theme-accent) 0%, transparent 70%);
+    opacity: 0.1;
     top: 30%;
     right: -150px;
     animation: glow-pulse 10s ease-in-out infinite;
@@ -457,7 +459,8 @@ export default {
 .glow-orb-3 {
     width: 400px;
     height: 400px;
-    background: radial-gradient(circle, fade(@dnf-info, 0.08) 0%, transparent 70%);
+    background: radial-gradient(circle, var(--theme-info) 0%, transparent 70%);
+    opacity: 0.08;
     bottom: 20%;
     left: 20%;
     animation: glow-pulse 12s ease-in-out infinite;
@@ -485,7 +488,8 @@ export default {
         left: 0;
         right: 0;
         bottom: 0;
-        background: radial-gradient(ellipse at center top, fade(@dnf-secondary-purple, 0.1) 0%, transparent 60%);
+        background: radial-gradient(ellipse at center top, var(--theme-secondary) 0%, transparent 60%);
+        opacity: 0.1;
         pointer-events: none;
     }
 }
@@ -568,15 +572,16 @@ export default {
     .subtitle-line {
         width: 80px;
         height: 1px;
-        background: linear-gradient(90deg, transparent, @dnf-primary-gold, transparent);
+        background: linear-gradient(90deg, transparent, var(--theme-accent), transparent);
     }
 
     .subtitle-text {
         font-family: @font-display, 'Orbitron', sans-serif;
         font-size: @font-size-sm;
         letter-spacing: 0.4em;
-        color: @dnf-primary-gold;
-        text-shadow: 0 0 20px fade(@dnf-primary-gold, 0.5);
+        color: var(--theme-accent);
+        text-shadow: 0 0 20px var(--theme-accent);
+        opacity: 0.5;
     }
 }
 
@@ -585,7 +590,9 @@ export default {
     font-size: @font-size-3xl;
     font-weight: 700;
     letter-spacing: 0.08em;
-    .neon-gold-text();
+    color: var(--theme-accent);
+    text-shadow: 0 0 15px var(--theme-accent);
+    opacity: 0.6;
     margin-bottom: @spacing-xl;
     position: relative;
     padding: 0 @spacing-lg;
@@ -594,7 +601,7 @@ export default {
 .hero-subtitle {
     font-family: @font-body, 'Quicksand', sans-serif;
     font-size: @font-size-xl;
-    color: @dnf-text-secondary;
+    color: var(--theme-text-secondary);
     max-width: 600px;
     margin: 0 auto;
     line-height: @line-height-relaxed;
@@ -612,7 +619,7 @@ export default {
     .deco-line {
         width: 150px;
         height: 1px;
-        background: linear-gradient(90deg, transparent, @dnf-primary-gold);
+        background: linear-gradient(90deg, transparent, var(--theme-accent));
     }
 
     .deco-left {
@@ -620,15 +627,15 @@ export default {
     }
 
     .deco-right {
-        background: linear-gradient(90deg, @dnf-primary-gold, transparent);
+        background: linear-gradient(90deg, var(--theme-accent), transparent);
     }
 
     .deco-diamond {
         width: 12px;
         height: 12px;
-        background: @dnf-primary-gold;
+        background: var(--theme-accent);
         transform: rotate(45deg);
-        box-shadow: 0 0 15px fade(@dnf-primary-gold, 0.8);
+        box-shadow: 0 0 15px var(--theme-accent);
     }
 }
 
@@ -654,8 +661,9 @@ export default {
         font-weight: 700;
         letter-spacing: 0.15em;
         text-transform: uppercase;
-        color: @dnf-primary-gold;
-        text-shadow: 0 0 20px fade(@dnf-primary-gold, 0.6);
+        color: var(--theme-accent);
+        text-shadow: 0 0 20px var(--theme-accent);
+        opacity: 0.6;
         margin-bottom: @spacing-md;
     }
 
@@ -663,7 +671,7 @@ export default {
         width: 200px;
         height: 2px;
         margin: 0 auto;
-        background: linear-gradient(90deg, transparent, @dnf-primary-gold, @dnf-secondary-purple, transparent);
+        background: linear-gradient(90deg, transparent, var(--theme-accent), var(--theme-secondary), transparent);
         border-radius: 1px;
     }
 }
@@ -674,8 +682,8 @@ export default {
     gap: @spacing-xl;
 
     .tech-item {
-        background: @gradient-card;
-        border: 1px solid @dnf-border-dark;
+        background: var(--theme-bg-card);
+        border: 1px solid var(--theme-border);
         border-radius: @border-radius-xl;
         padding: @spacing-xl;
         text-align: center;
@@ -692,15 +700,15 @@ export default {
             left: 0;
             right: 0;
             height: 2px;
-            background: @gradient-blue-purple;
+            background: linear-gradient(90deg, var(--theme-info), var(--theme-secondary));
             opacity: 0;
             transition: opacity @transition-normal;
         }
 
         &:hover {
-            border-color: fade(@dnf-secondary-purple, 50%);
+            border-color: var(--theme-secondary);
             transform: translateY(-6px);
-            box-shadow: @dnf-shadow-card-glow;
+            box-shadow: 0 8px 32px var(--theme-secondary);
 
             &::before {
                 opacity: 1;
@@ -708,17 +716,17 @@ export default {
 
             .tech-icon {
                 transform: scale(1.15) rotate(5deg);
-                color: @dnf-secondary-purple;
-                filter: drop-shadow(0 0 15px fade(@dnf-secondary-purple, 0.6));
+                color: var(--theme-secondary);
+                filter: drop-shadow(0 0 15px var(--theme-secondary));
             }
         }
 
         .tech-icon {
             font-size: 48px;
-            color: @dnf-primary-gold;
+            color: var(--theme-accent);
             margin-bottom: @spacing-lg;
             transition: all @transition-smooth;
-            filter: drop-shadow(0 0 8px fade(@dnf-primary-gold, 0.4));
+            filter: drop-shadow(0 0 8px var(--theme-accent));
         }
 
         h3 {
@@ -726,14 +734,14 @@ export default {
             font-size: @font-size-lg;
             font-weight: 600;
             letter-spacing: 0.1em;
-            color: @dnf-primary-gold;
-            text-shadow: 0 0 15px fade(@dnf-primary-gold, 0.5);
+            color: var(--theme-accent);
+            text-shadow: 0 0 15px var(--theme-accent);
             margin-bottom: @spacing-sm;
         }
 
         p {
             font-size: @font-size-sm;
-            color: @dnf-text-primary;
+            color: var(--theme-text-primary);
             line-height: @line-height-relaxed;
         }
     }
@@ -758,7 +766,10 @@ export default {
 }
 
 .feature-card {
-    .glass-card();
+    background: var(--theme-bg-card);
+    border: 1px solid var(--theme-border);
+    border-radius: @border-radius-xl;
+    backdrop-filter: blur(10px);
     padding: @spacing-2xl;
     position: relative;
     overflow: hidden;
@@ -773,7 +784,7 @@ export default {
         left: 0;
         right: 0;
         height: 3px;
-        background: linear-gradient(90deg, @dnf-secondary-purple, @dnf-primary-gold, @dnf-info);
+        background: linear-gradient(90deg, var(--theme-secondary), var(--theme-accent), var(--theme-info));
         opacity: 0;
         transition: opacity @transition-normal;
     }
@@ -784,7 +795,7 @@ export default {
         left: -50%;
         width: 200%;
         height: 200%;
-        background: radial-gradient(circle, fade(@dnf-secondary-purple, 0.08) 0%, transparent 50%);
+        background: radial-gradient(circle, var(--theme-secondary) 0%, transparent 50%);
         pointer-events: none;
         opacity: 0;
         transition: opacity @transition-smooth;
@@ -792,9 +803,8 @@ export default {
 
     &:hover {
         transform: translateY(-8px) scale(1.02);
-        box-shadow:
-            @dnf-shadow-xl,
-            0 0 50px fade(@dnf-secondary-purple, 0.15);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
+            0 0 50px var(--theme-secondary);
 
         &::before {
             opacity: 1;
@@ -806,22 +816,22 @@ export default {
 
         .feature-icon {
             transform: scale(1.2) rotate(10deg);
-            color: @dnf-primary-gold;
-            filter: drop-shadow(0 0 20px fade(@dnf-primary-gold, 0.8));
+            color: var(--theme-accent);
+            filter: drop-shadow(0 0 20px var(--theme-accent));
         }
 
         h3 {
-            color: @dnf-primary-gold;
-            text-shadow: 0 0 15px fade(@dnf-primary-gold, 0.5);
+            color: var(--theme-accent);
+            text-shadow: 0 0 15px var(--theme-accent);
         }
     }
 
     .feature-icon {
         font-size: 52px;
-        color: @dnf-secondary-purple;
+        color: var(--theme-secondary);
         margin-bottom: @spacing-xl;
         transition: all @transition-smooth;
-        filter: drop-shadow(0 0 10px fade(@dnf-secondary-purple, 0.4));
+        filter: drop-shadow(0 0 10px var(--theme-secondary));
     }
 
     h3 {
@@ -829,14 +839,14 @@ export default {
         font-size: @font-size-xl;
         font-weight: 600;
         letter-spacing: 0.08em;
-        color: @dnf-text-primary;
+        color: var(--theme-text-primary);
         margin-bottom: @spacing-md;
         transition: all @transition-smooth;
     }
 
     p {
         font-size: @font-size-md;
-        color: @dnf-text-secondary;
+        color: var(--theme-text-secondary);
         line-height: @line-height-relaxed;
         margin-bottom: @spacing-xl;
     }
@@ -849,18 +859,19 @@ export default {
         .feature-tag {
             display: inline-block;
             padding: 4px 12px;
-            background: fade(@dnf-secondary-purple, 15%);
-            border: 1px solid fade(@dnf-secondary-purple, 30%);
+            background: var(--theme-secondary);
+            border: 1px solid var(--theme-secondary);
             border-radius: @border-radius-full;
             font-size: @font-size-xs;
-            color: @dnf-secondary-purple;
+            color: var(--theme-secondary);
             font-weight: @font-weight-medium;
             letter-spacing: 0.05em;
             transition: all @transition-fast;
+            opacity: 0.3;
 
             &:hover {
-                background: fade(@dnf-secondary-purple, 30%);
-                box-shadow: 0 0 10px fade(@dnf-secondary-purple, 0.3);
+                opacity: 0.6;
+                box-shadow: 0 0 10px var(--theme-secondary);
             }
         }
     }
@@ -879,7 +890,10 @@ export default {
 }
 
 .status-card {
-    .glass-card();
+    background: var(--theme-bg-card);
+    border: 1px solid var(--theme-border);
+    border-radius: @border-radius-xl;
+    backdrop-filter: blur(10px);
     padding: @spacing-2xl;
 
     .status-header {
@@ -888,12 +902,12 @@ export default {
         gap: @spacing-md;
         margin-bottom: @spacing-xl;
         padding-bottom: @spacing-lg;
-        border-bottom: 1px solid @dnf-border-dark;
+        border-bottom: 1px solid var(--theme-border);
 
         i {
             font-size: 28px;
-            color: @dnf-info;
-            filter: drop-shadow(0 0 10px fade(@dnf-info, 0.5));
+            color: var(--theme-info);
+            filter: drop-shadow(0 0 10px var(--theme-info));
         }
 
         span {
@@ -901,7 +915,8 @@ export default {
             font-size: @font-size-lg;
             font-weight: 600;
             letter-spacing: 0.1em;
-            .neon-cyan-text();
+            color: var(--theme-info);
+            text-shadow: 0 0 10px var(--theme-info);
         }
     }
 
@@ -916,19 +931,20 @@ export default {
         justify-content: space-between;
         align-items: center;
         padding: @spacing-md @spacing-lg;
-        background: fade(@dnf-primary-dark, 50%);
+        background: var(--theme-bg-hover);
         border-radius: @border-radius-lg;
-        border: 1px solid @dnf-border-dark;
+        border: 1px solid var(--theme-border);
         transition: all @transition-smooth;
 
         &:hover {
-            border-color: fade(@dnf-info, 30%);
-            background: fade(@dnf-info, 5%);
+            border-color: var(--theme-info);
+            background: var(--theme-bg-hover);
+            opacity: 0.95;
         }
 
         .status-label {
             font-size: @font-size-sm;
-            color: @dnf-text-muted;
+            color: var(--theme-text-secondary);
             letter-spacing: 0.05em;
         }
 
@@ -940,18 +956,18 @@ export default {
         }
 
         .status-frontend {
-            color: @dnf-success;
-            text-shadow: 0 0 8px fade(@dnf-success, 0.4);
+            color: var(--theme-success);
+            text-shadow: 0 0 8px var(--theme-success);
         }
 
         .status-backend {
-            color: @dnf-info;
-            text-shadow: 0 0 8px fade(@dnf-info, 0.4);
+            color: var(--theme-info);
+            text-shadow: 0 0 8px var(--theme-info);
         }
 
         .status-db {
-            color: @dnf-primary-gold;
-            text-shadow: 0 0 8px fade(@dnf-primary-gold, 0.4);
+            color: var(--theme-accent);
+            text-shadow: 0 0 8px var(--theme-accent);
         }
     }
 }

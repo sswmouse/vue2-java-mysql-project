@@ -23,8 +23,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FileUploadController {
 
-    // 上传文件保存目录
-    private static final String UPLOAD_DIR = "uploads/";
+    // 获取classpath目录
+    private static final String UPLOAD_DIR;
+
+    static {
+        // 获取classpath下的uploads目录
+        String classPath = FileUploadController.class.getClassLoader().getResource("").getPath();
+        UPLOAD_DIR = classPath + "static/uploads/";
+    }
 
     /**
      * 文件上传接口
@@ -44,16 +50,16 @@ public class FileUploadController {
             // 检查文件类型
             String contentType = file.getContentType();
             if (contentType == null ||
-                (!contentType.equals("image/jpeg") && !contentType.equals("image/png") && !contentType.equals("image/jpg"))) {
+                (!contentType.equals("image/jpeg") && !contentType.equals("image/png") && !contentType.equals("image/jpg") && !contentType.equals("image/gif"))) {
                 result.put("code", 400);
                 result.put("message", "只支持 JPG/PNG 格式的图片");
                 return ResponseEntity.badRequest().body(result);
             }
 
-            // 检查文件大小 (2MB)
-            if (file.getSize() > 2 * 1024 * 1024) {
+            // 检查文件大小 (5MB)
+            if (file.getSize() > 5 * 1024 * 1024) {
                 result.put("code", 400);
-                result.put("message", "图片大小不能超过 2MB");
+                result.put("message", "图片大小不能超过 5MB");
                 return ResponseEntity.badRequest().body(result);
             }
 
@@ -75,9 +81,9 @@ public class FileUploadController {
             Path filePath = Paths.get(UPLOAD_DIR + filename);
             Files.copy(file.getInputStream(), filePath);
 
-            // 构建返回结果
+            // 构建返回结果 - 使用相对路径
             Map<String, String> data = new HashMap<>();
-            data.put("url", "/" + UPLOAD_DIR + filename);
+            data.put("url", "/uploads/" + filename);
             data.put("filename", filename);
 
             result.put("code", 200);

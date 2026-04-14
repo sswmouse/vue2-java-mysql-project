@@ -1,3 +1,4 @@
+/* global describe, beforeAll, test, expect, page */
 describe('Vue应用首页测试', () => {
     beforeAll(async () => {
     // 访问首页

@@ -51,7 +51,7 @@ export default {
     overflow: hidden;
     position: relative;
 
-    // 添加DNF主题背景装饰
+    // 添加主题背景装饰
     &::before {
         content: '';
         position: fixed;
@@ -60,9 +60,10 @@ export default {
         right: 0;
         bottom: 0;
         background:
-            radial-gradient(circle at 20% 80%, fade(@dnf-primary-purple, 10%) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, fade(@dnf-primary-gold, 5%) 0%, transparent 50%),
-            @dnf-bg-dark;
+            radial-gradient(circle at 20% 80%, var(--theme-secondary) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, var(--theme-accent) 0%, transparent 50%),
+            var(--theme-bg-dark);
+        opacity: 0.1;
         z-index: -1;
     }
 
@@ -75,14 +76,14 @@ export default {
         right: 0;
         bottom: 0;
         background-image:
-            radial-gradient(2px 2px at 20px 30px, fade(@dnf-primary-gold, 30%) 1px, transparent 0),
-            radial-gradient(2px 2px at 40px 70px, fade(@dnf-primary-purple, 30%) 1px, transparent 0),
-            radial-gradient(1px 1px at 60px 20px, fade(@dnf-text-primary, 20%) 1px, transparent 0),
-            radial-gradient(1px 1px at 80px 50px, fade(@dnf-primary-blue, 30%) 1px, transparent 0),
-            radial-gradient(2px 2px at 90px 80px, fade(@dnf-primary-gold, 20%) 1px, transparent 0);
+            radial-gradient(2px 2px at 20px 30px, var(--theme-accent) 1px, transparent 0),
+            radial-gradient(2px 2px at 40px 70px, var(--theme-secondary) 1px, transparent 0),
+            radial-gradient(1px 1px at 60px 20px, var(--theme-text-primary) 1px, transparent 0),
+            radial-gradient(1px 1px at 80px 50px, var(--theme-info) 1px, transparent 0),
+            radial-gradient(2px 2px at 90px 80px, var(--theme-accent) 1px, transparent 0);
         background-size: 100px 100px;
         z-index: -1;
-        opacity: 0.5;
+        opacity: 0.3;
         animation: mist-flow 20s linear infinite;
     }
 }

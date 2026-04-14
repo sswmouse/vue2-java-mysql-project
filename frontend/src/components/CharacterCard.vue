@@ -153,6 +153,14 @@ export default {
     transition: opacity 0.5s ease;
     pointer-events: none;
     z-index: -1;
+
+    .character-card-container:hover & {
+        opacity: 1;
+        background: radial-gradient(ellipse at center,
+                var(--theme-secondary) 0%,
+                var(--theme-accent) 30%,
+                transparent 70%);
+    }
 }
 
 .card-glow-inner {
@@ -163,7 +171,7 @@ export default {
     width: 100%;
     height: 100%;
     background: radial-gradient(ellipse at center,
-            fade(@dnf-info, 0.15) 0%,
+            var(--theme-info) 0%,
             transparent 60%);
     border-radius: 50%;
     filter: blur(20px);
@@ -171,17 +179,22 @@ export default {
     transition: opacity 0.5s ease;
     pointer-events: none;
     z-index: -1;
+
+    .character-card-container:hover & {
+        opacity: 1;
+        background: radial-gradient(ellipse at center,
+                var(--theme-info) 0%,
+                transparent 60%);
+    }
 }
 
 .character-card-container:hover,
 .character-card-container.flipped {
     .card-glow {
-        opacity: 1;
         animation: glow-pulse 3s ease-in-out infinite;
     }
 
     .card-glow-inner {
-        opacity: 1;
         animation: glow-pulse 4s ease-in-out infinite;
         animation-delay: 1s;
     }
@@ -219,11 +232,8 @@ export default {
 // ============================================
 
 .card-front {
-    background: linear-gradient(160deg,
-            #1a1a2e 0%,
-            #16213e 40%,
-            #0f0f23 100%);
-    border: 2px solid rgba(200, 168, 50, 0.4);
+    background: var(--theme-bg-card);
+    border: 2px solid var(--theme-border);
     display: flex;
     flex-direction: column;
 
@@ -232,7 +242,7 @@ export default {
         position: absolute;
         width: 20px;
         height: 20px;
-        border-color: @dnf-primary-gold;
+        border-color: var(--theme-accent);
         border-style: solid;
         opacity: 0.5;
         transition: opacity 0.3s ease;
@@ -291,9 +301,7 @@ export default {
             .placeholder-image {
                 width: 100%;
                 height: 100%;
-                background: linear-gradient(180deg,
-                        rgba(74, 16, 144, 0.3) 0%,
-                        rgba(13, 25, 48, 0.8) 100%);
+                background: var(--theme-bg-hover);
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -301,13 +309,13 @@ export default {
                 .placeholder-inner {
                     width: 100px;
                     height: 100px;
-                    background: linear-gradient(135deg, @dnf-secondary-purple, @dnf-primary-purple);
+                    background: var(--theme-secondary);
                     border-radius: @border-radius-xl;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     box-shadow:
-                        0 0 30px fade(@dnf-secondary-purple, 0.4),
+                        0 0 30px var(--theme-secondary),
                         inset 0 0 20px rgba(255, 255, 255, 0.1);
                     animation: logo-pulse 3s ease-in-out infinite;
 
@@ -328,14 +336,13 @@ export default {
             height: 60%;
             background: linear-gradient(180deg,
                     transparent 0%,
-                    rgba(10, 10, 20, 0.7) 60%,
-                    rgba(10, 10, 20, 0.95) 100%);
+                    var(--theme-bg-dark) 100%);
             pointer-events: none;
         }
     }
 
     &:hover {
-        border-color: rgba(200, 168, 50, 0.8);
+        border-color: var(--theme-accent);
 
         .card-image img {
             transform: scale(1.05);
@@ -346,9 +353,7 @@ export default {
     .card-info {
         padding: @spacing-md @spacing-lg;
         text-align: center;
-        background: linear-gradient(180deg,
-                rgba(10, 10, 20, 0.8) 0%,
-                rgba(10, 10, 20, 0.95) 100%);
+        background: var(--theme-bg-dark);
         position: relative;
 
         &::before {
@@ -358,10 +363,7 @@ export default {
             left: 20%;
             right: 20%;
             height: 1px;
-            background: linear-gradient(90deg,
-                    transparent,
-                    @dnf-primary-gold,
-                    transparent);
+            background: var(--theme-accent);
         }
 
         .character-name {
@@ -369,21 +371,22 @@ export default {
             font-size: 18px;
             font-weight: 700;
             letter-spacing: 0.1em;
-            color: @dnf-primary-gold;
-            text-shadow: 0 0 15px fade(@dnf-primary-gold, 0.6);
+            color: var(--theme-accent);
+            text-shadow: 0 0 15px var(--theme-accent);
+            opacity: 0.6;
             margin: 0 0 @spacing-xs 0;
         }
 
         .character-type {
             font-size: 12px;
-            color: @dnf-info;
+            color: var(--theme-info);
             margin: 0 0 @spacing-xs 0;
             letter-spacing: 0.05em;
         }
 
         .character-job {
             font-size: 11px;
-            color: @dnf-text-muted;
+            color: var(--theme-text-secondary);
             margin: 0;
             letter-spacing: 0.03em;
         }
@@ -395,9 +398,7 @@ export default {
         justify-content: space-between;
         align-items: center;
         padding: @spacing-sm @spacing-lg @spacing-md;
-        background: linear-gradient(180deg,
-                rgba(10, 10, 20, 0.95) 0%,
-                rgba(10, 10, 20, 1) 100%);
+        background: var(--theme-bg-dark);
 
         .card-level {
             display: flex;
@@ -408,7 +409,7 @@ export default {
                 font-family: @font-display, 'Orbitron', sans-serif;
                 font-size: 10px;
                 font-weight: 700;
-                color: @dnf-text-muted;
+                color: var(--theme-text-secondary);
                 letter-spacing: 0.1em;
             }
 
@@ -416,8 +417,8 @@ export default {
                 font-family: @font-display, 'Orbitron', sans-serif;
                 font-size: 16px;
                 font-weight: 700;
-                color: @dnf-success;
-                text-shadow: 0 0 10px fade(@dnf-success, 0.5);
+                color: var(--theme-success);
+                text-shadow: 0 0 10px var(--theme-success);
             }
         }
 
@@ -426,7 +427,7 @@ export default {
             align-items: center;
             gap: 4px;
             font-size: 11px;
-            color: @dnf-primary-gold;
+            color: var(--theme-accent);
             opacity: 0.7;
             transition: opacity 0.3s ease;
 
@@ -521,16 +522,17 @@ export default {
 }
 
 .card-content::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--theme-bg-hover);
     border-radius: 2px;
 }
 
 .card-content::-webkit-scrollbar-thumb {
-    background: rgba(200, 168, 50, 0.3);
+    background: var(--theme-accent);
     border-radius: 2px;
+    opacity: 0.3;
 
     &:hover {
-        background: rgba(200, 168, 50, 0.5);
+        opacity: 0.5;
     }
 }
 </style>

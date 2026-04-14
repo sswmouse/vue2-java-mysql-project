@@ -674,9 +674,9 @@ export default {
     .form-section-title {
         margin: 24px 0 12px 0;
         padding: 10px 12px;
-        border-left: 4px solid #409eff;
-        background-color: #f5f7fa;
-        color: #303133;
+        border-left: 4px solid var(--theme-primary);
+        background-color: var(--theme-bg-hover);
+        color: var(--theme-text-primary);
         font-size: 15px;
         font-weight: 600;
         border-radius: 4px;
@@ -685,7 +685,7 @@ export default {
     .form-tip {
         margin-top: 4px;
         font-size: 12px;
-        color: #909399;
+        color: var(--theme-text-secondary);
     }
 
     /deep/ .el-form-item {
@@ -695,7 +695,7 @@ export default {
         &__error {
             position: absolute;
             z-index: 2000;
-            background: #ef4444;
+            background: var(--theme-danger);
             color: #ffffff !important;
             padding: 4px 8px;
             border-radius: 4px;
@@ -714,7 +714,7 @@ export default {
                 left: 16px;
                 border-width: 4px;
                 border-style: solid;
-                border-color: transparent transparent #ef4444 transparent;
+                border-color: transparent transparent var(--theme-danger) transparent;
             }
         }
     }
@@ -738,7 +738,7 @@ export default {
 
     /deep/ .el-input .el-input__count .el-input__count-inner {
         background-color: transparent !important;
-        color: #909399;
+        color: var(--theme-text-secondary);
     }
 
 
@@ -747,7 +747,7 @@ export default {
     }
 
     /deep/.el-input__inner {
-        border-color: #475569 !important;
+        border-color: var(--theme-border) !important;
     }
 }
 
@@ -761,14 +761,14 @@ export default {
 
         &:first-child {
             // 取消按钮
-            background: #2d3748;
-            border-color: #475569;
-            color: #e2e8f0;
+            background: var(--theme-bg-hover);
+            border-color: var(--theme-border);
+            color: var(--theme-text-primary);
 
             &:hover {
-                background: #4a5568;
-                border-color: #6a11cb;
-                color: #ffffff;
+                background: var(--theme-bg-hover);
+                border-color: var(--theme-primary);
+                color: var(--theme-text-primary);
                 transform: translateY(-2px);
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
             }
@@ -783,7 +783,7 @@ export default {
             // 确定按钮
             &:hover {
                 transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(106, 17, 203, 0.3);
+                box-shadow: 0 4px 12px var(--theme-primary);
             }
 
             &:active {
@@ -794,32 +794,32 @@ export default {
 }
 
 /deep/ .el-dialog {
-    background: #1e293b;
-    border: 1px solid #1e293b;
+    background: var(--theme-bg-card);
+    border: 1px solid var(--theme-border);
     border-radius: 12px;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
 
     &__header {
-        background: rgba(26, 58, 95, 0.3);
-        border-bottom: 1px solid #1e293b;
+        background: var(--theme-bg-hover);
+        border-bottom: 1px solid var(--theme-border);
         padding: 24px;
         border-radius: 12px 12px 0 0;
 
         .el-dialog__title {
-            color: #ffffff;
+            color: var(--theme-text-primary);
             font-weight: 700;
             font-size: 20px;
         }
 
         .el-dialog__headerbtn {
             position: absolute !important;
-            top: 7px;
+            top: 16px;
 
             .el-dialog__close {
-                color: #b0b7c3;
+                color: var(--theme-text-secondary);
 
                 &:hover {
-                    color: #ffffff;
+                    color: var(--theme-text-primary);
                 }
             }
         }
@@ -827,12 +827,12 @@ export default {
 
     &__body {
         padding: 32px;
-        color: #b0b7c3;
+        color: var(--theme-text-secondary);
     }
 
     &__footer {
-        background: rgba(15, 23, 42, 0.3);
-        border-top: 1px solid #1e293b;
+        background: var(--theme-bg-hover);
+        border-top: 1px solid var(--theme-border);
         padding: 24px;
         border-radius: 0 0 12px 12px;
     }
@@ -859,7 +859,7 @@ export default {
 .avatar-upload-container {
     .avatar-uploader {
         /deep/ .el-upload {
-            border: 1px dashed #475569;
+            border: 1px dashed var(--theme-border);
             border-radius: 8px;
             cursor: pointer;
             position: relative;
@@ -869,15 +869,15 @@ export default {
             transition: all 0.3s ease;
 
             &:hover {
-                border-color: #6a11cb;
+                border-color: var(--theme-primary);
                 transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(106, 17, 203, 0.2);
+                box-shadow: 0 4px 12px var(--theme-primary);
             }
         }
 
         .avatar-uploader-icon {
             font-size: 32px;
-            color: #8a94a6;
+            color: var(--theme-text-secondary);
             width: 120px;
             height: 120px;
             line-height: 120px;
@@ -896,7 +896,7 @@ export default {
     .upload-tip {
         margin-top: 8px;
         font-size: 12px;
-        color: #8a94a6;
+        color: var(--theme-text-secondary);
         line-height: 1.5;
     }
 }
@@ -906,15 +906,15 @@ export default {
         margin-bottom: 12px;
 
         /deep/ .el-input-group__prepend {
-            background: #2d3748;
-            border-color: #475569;
-            color: #b0b7c3;
+            background: var(--theme-bg-hover);
+            border-color: var(--theme-border);
+            color: var(--theme-text-secondary);
         }
     }
 
     .url-tip {
         font-size: 12px;
-        color: #8a94a6;
+        color: var(--theme-text-secondary);
         margin-bottom: 16px;
         line-height: 1.5;
     }
@@ -922,7 +922,7 @@ export default {
     .avatar-preview {
         .preview-label {
             font-size: 14px;
-            color: #b0b7c3;
+            color: var(--theme-text-secondary);
             margin-bottom: 8px;
             font-weight: 500;
         }
@@ -932,8 +932,8 @@ export default {
             height: 120px;
             border-radius: 8px;
             object-fit: cover;
-            border: 1px solid #475569;
-            background: #1e293b;
+            border: 1px solid var(--theme-border);
+            background: var(--theme-bg-hover);
         }
     }
 }
@@ -941,12 +941,12 @@ export default {
 // 级联选择器面板样式
 /deep/ .el-cascader-panel,
 /deep/ .el-cascader__dropdown {
-    background: #1e293b !important;
-    border: 1px solid #1e293b !important;
+    background: var(--theme-bg-card) !important;
+    border: 1px solid var(--theme-border) !important;
 
     .el-cascader-menu {
-        background: #1e293b !important;
-        border-right: 1px solid #475569 !important;
+        background: var(--theme-bg-card) !important;
+        border-right: 1px solid var(--theme-border) !important;
 
         &:last-child {
             border-right: none !important;
@@ -958,19 +958,19 @@ export default {
 /deep/ .el-select,
 /deep/ .el-cascader {
     .el-input__inner {
-        background: #1e293b !important;
-        border-color: #475569 !important;
-        color: #b0b7c3 !important;
+        background: var(--theme-bg-hover) !important;
+        border-color: var(--theme-border) !important;
+        color: var(--theme-text-primary) !important;
 
         &:focus {
-            border-color: #6a11cb !important;
-            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.2) !important;
+            border-color: var(--theme-primary) !important;
+            box-shadow: 0 0 0 3px var(--theme-primary) !important;
         }
     }
 
     .el-input__suffix {
         .el-select__caret {
-            color: #b0b7c3 !important;
+            color: var(--theme-text-secondary) !important;
         }
     }
 }
@@ -979,42 +979,42 @@ export default {
 // 下拉选择器和级联选择器弹窗样式
 .el-cascader__dropdown,
 .el-select-dropdown {
-    background: #1e293b !important;
-    border: 1px solid #6a11cb !important;
-    box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.2) !important;
-    // box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5) !important;
+    background: var(--theme-bg-card) !important;
+    border: 1px solid var(--theme-primary) !important;
+    box-shadow: 0 0 0 3px var(--theme-primary) !important;
 
     .el-select-dropdown__item,
     .el-cascader-node,
     .el-cascader-menu__item {
-        color: #b0b7c3 !important;
+        color: var(--theme-text-secondary) !important;
 
         &:hover,
         &:focus {
-            background: #2d3748 !important;
-            color: #ffffff !important;
+            background: var(--theme-bg-hover) !important;
+            color: var(--theme-text-primary) !important;
         }
 
         &.selected,
         &.is-active,
         &.el-cascader-node--selectable.in-active-path {
-            color: #d4af37 !important;
-            background: rgba(212, 175, 55, 0.1) !important;
+            color: var(--theme-accent) !important;
+            background: var(--theme-accent) !important;
+            opacity: 0.1;
         }
     }
 
     .el-select-dropdown__item.hover,
     .el-select-dropdown__item:hover {
-        background: #2d3748 !important;
+        background: var(--theme-bg-hover) !important;
     }
 
     .el-cascader-menu {
-        border-right: solid 1px #6a11cb;
+        border-right: solid 1px var(--theme-primary);
     }
 }
 
 .el-popper .popper__arrow::after {
     top: 0 !important;
-    border-bottom-color: #2d3748 !important;
+    border-bottom-color: var(--theme-bg-hover) !important;
 }
 </style>

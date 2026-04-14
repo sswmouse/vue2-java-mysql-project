@@ -21,6 +21,10 @@ setRouterStore(store)
 // 应用启动时初始化认证状态
 store.dispatch('auth/initAuth')
 
+// 应用启动时初始化主题（先应用本地保存的主题，再从服务器加载最新）
+store.dispatch('theme/applyTheme', store.state.theme.currentTheme)
+store.dispatch('theme/loadThemeFromServer')
+
 // 添加全局动画配置
 Vue.prototype.$animate = (element, animation, options = {}) => {
     import('@/utils/animations').then(module => {

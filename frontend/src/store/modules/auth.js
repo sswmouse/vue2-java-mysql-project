@@ -172,6 +172,17 @@ const actions = {
      */
     clearAuth({ commit }) {
         commit('CLEAR_AUTH')
+    },
+
+    /**
+     * 更新个人资料
+     */
+    async updateProfile({ commit }, profileData) {
+        const response = await request.put(api.auth.updateProfile, profileData)
+        if (response && response.user) {
+            commit('SET_USER', response.user)
+        }
+        return response
     }
 }
 

@@ -16,5 +16,17 @@ export default {
     permissions: '/auth/permissions',
 
     // 更新用户角色
-    updateRole: '/auth/users'
+    updateRole: '/auth/users',
+
+    // 更新个人资料
+    updateProfile: '/auth/profile',
+
+    // 获取用户主题偏好
+    getTheme: '/auth/theme',
+
+    // 更新用户主题偏好
+    updateTheme: '/auth/theme',
+
+    // 文件上传
+    upload: '/upload/upload'
 }

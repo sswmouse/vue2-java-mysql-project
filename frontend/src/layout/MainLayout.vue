@@ -47,7 +47,12 @@
             <div class="sidebar-footer">
                 <div class="user-info">
                     <div class="user-avatar">
-                        <span>{{ userInitial }}</span>
+                        <img
+                            v-if="userAvatar"
+                            :src="userAvatar"
+                            class="avatar-img"
+                        >
+                        <span v-else>{{ userInitial }}</span>
                     </div>
                     <div class="user-details">
                         <span class="user-name">{{ username }}</span>
@@ -81,7 +86,12 @@
                     >
                         <div class="user-menu">
                             <div class="user-avatar-small">
-                                <span>{{ userInitial }}</span>
+                                <img
+                                    v-if="userAvatar"
+                                    :src="userAvatar"
+                                    class="avatar-img"
+                                >
+                                <span v-else>{{ userInitial }}</span>
                             </div>
                             <span class="user-name">{{ username }}</span>
                             <i class="el-icon-arrow-down" />
@@ -95,11 +105,15 @@
                                 <i class="el-icon-user" />
                                 用户管理
                             </el-dropdown-item>
-                            <el-dropdown-item>
+                            <el-dropdown-item
+                                @click.native="goToProfile"
+                            >
                                 <i class="el-icon-user-solid" />
                                 个人中心
                             </el-dropdown-item>
-                            <el-dropdown-item>
+                            <el-dropdown-item
+                                @click.native="goToSetting"
+                            >
                                 <i class="el-icon-setting" />
                                 设置
                             </el-dropdown-item>
@@ -133,6 +147,7 @@ export default {
             // 默认菜单配置（权限树加载前使用）
             defaultMenuItems: [
                 { path: '/', title: '首页', icon: 'el-icon-s-home', roles: ['admin', 'user'] },
+                { path: '/setting', title: '系统设置', icon: 'el-icon-setting', roles: ['admin', 'user'] },
                 { path: '/role', title: '角色管理', icon: 'el-icon-s-custom', roles: ['admin', 'user'] },
                 { path: '/equipment', title: '装备管理', icon: 'el-icon-suitcase', roles: ['admin', 'user'] },
                 { path: '/fashion', title: '时装管理', icon: 'el-icon-shopping-bag-2', roles: ['admin', 'user'] },
@@ -163,6 +178,9 @@ export default {
             const name = this.username
             return name ? name.charAt(0).toUpperCase() : 'A'
         },
+        userAvatar() {
+            return this.$store.state.auth.user && this.$store.state.auth.user.avatar
+        },
         // 从Vuex获取权限树菜单
         menuTree() {
             return this.$store.getters['auth/menuTree']
@@ -174,14 +192,19 @@ export default {
         },
         // 根据权限树或角色过滤可见菜单
         visibleMenuItems() {
+            let items = []
+
             // 优先使用权限树
             if (this.menuTree && this.menuTree.length > 0) {
-                return this.menuTree
+                items = this.menuTree
+            } else {
+                // 降级方案：根据角色过滤
+                const currentRole = this.userRole
+                items = this.defaultMenuItems.filter(item => item.roles.includes(currentRole))
             }
 
-            // 降级方案：根据角色过滤
-            const currentRole = this.userRole
-            return this.defaultMenuItems.filter(item => item.roles.includes(currentRole))
+            // 始终排除个人中心（通过下拉菜单访问）
+            return items.filter(item => item.path !== '/profile')
         }
     },
     mounted() {
@@ -206,6 +229,12 @@ export default {
         },
         goToUsers() {
             this.$router.push('/users')
+        },
+        goToProfile() {
+            this.$router.push('/profile')
+        },
+        goToSetting() {
+            this.$router.push('/setting')
         },
         handleLogout() {
             this.$msgbox({
@@ -235,7 +264,7 @@ export default {
     display: flex;
     height: 100%;
     min-height: 100vh;
-    background: @dnf-bg-dark;
+    background: var(--theme-bg-dark, @dnf-bg-dark);
 }
 
 // ============================================
@@ -244,8 +273,8 @@ export default {
 
 .sidebar {
     width: 180px;
-    background: #1a2744;
-    border-right: 1px solid #2a3a58;
+    background: var(--theme-bg-card, #1a2744);
+    border-right: 1px solid var(--theme-border, #2a3a58);
     display: flex;
     flex-direction: column;
     position: relative;
@@ -286,8 +315,8 @@ export default {
     transform: translateY(-50%);
     width: 28px;
     height: 28px;
-    background: #2a3a58;
-    border: 1px solid #3a4a68;
+    background: var(--theme-bg-hover, #2a3a58);
+    border: 1px solid var(--theme-border, #3a4a68);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -298,15 +327,15 @@ export default {
 
     i {
         font-size: 14px;
-        color: #8899aa;
+        color: var(--theme-text-secondary, #8899aa);
         transition: all 0.2s ease;
     }
 
     &:hover {
-        background: #3a4a68;
+        background: var(--theme-bg-hover, #3a4a68);
 
         i {
-            color: #ffd700;
+            color: var(--theme-accent, #ffd700);
         }
     }
 }
@@ -315,8 +344,8 @@ export default {
 .sidebar-header {
     padding: 16px 12px;
     text-align: center;
-    border-bottom: 1px solid #2a3a58;
-    background: linear-gradient(180deg, #1e2d4a 0%, #1a2744 100%);
+    border-bottom: 1px solid var(--theme-border, #2a3a58);
+    background: var(--theme-bg-card, linear-gradient(180deg, #1e2d4a 0%, #1a2744 100%));
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -376,7 +405,7 @@ export default {
     padding: 10px 16px;
     margin: 2px 8px;
     border-radius: 6px;
-    color: #b8c4d8;
+    color: var(--theme-text-secondary, #b8c4d8);
     text-decoration: none;
     transition: all 0.2s ease;
     font-size: 13px;
@@ -385,7 +414,7 @@ export default {
     i {
         font-size: 16px;
         width: 20px;
-        color: #8899aa;
+        color: var(--theme-text-secondary, #8899aa);
         transition: all 0.2s ease;
         flex-shrink: 0;
     }
@@ -396,23 +425,23 @@ export default {
 
     &:hover {
         background: rgba(123, 47, 255, 0.15);
-        color: #ffffff;
+        color: var(--theme-text-primary, #ffffff);
         transform: translateX(2px);
 
         i {
-            color: #7b2fff;
+            color: var(--theme-primary, #7b2fff);
         }
     }
 
     &.active {
         background: rgba(123, 47, 255, 0.25);
-        color: #ffd700;
-        border-left: 3px solid #ffd700;
+        color: var(--theme-accent, #ffd700);
+        border-left: 3px solid var(--theme-accent, #ffd700);
         margin-left: 5px;
         padding-left: 13px;
 
         i {
-            color: #ffd700;
+            color: var(--theme-accent, #ffd700);
         }
     }
 }
@@ -420,8 +449,8 @@ export default {
 // 用户信息
 .sidebar-footer {
     padding: 12px;
-    border-top: 1px solid #2a3a58;
-    background: #151f38;
+    border-top: 1px solid var(--theme-border, #2a3a58);
+    background: var(--theme-bg-dark, #151f38);
 
     .user-info {
         display: flex;
@@ -431,12 +460,19 @@ export default {
         .user-avatar {
             width: 36px;
             height: 36px;
-            background: linear-gradient(135deg, #7b2fff, #4a1090);
+            background: linear-gradient(135deg, var(--theme-primary, #7b2fff), var(--theme-secondary, #4a1090));
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            overflow: hidden;
+
+            .avatar-img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
 
             span {
                 font-size: 14px;
@@ -454,7 +490,7 @@ export default {
             .user-name {
                 font-size: 12px;
                 font-weight: 600;
-                color: #ffffff;
+                color: var(--theme-text-primary, #ffffff);
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -462,7 +498,7 @@ export default {
 
             .user-role {
                 font-size: 10px;
-                color: #7b2fff;
+                color: var(--theme-primary, #7b2fff);
             }
         }
     }
@@ -484,8 +520,8 @@ export default {
 // 顶部栏
 .topbar {
     height: 60px;
-    background: #0d1525;
-    border-bottom: 1px solid #1a2744;
+    background: var(--theme-bg-dark, #0d1525);
+    border-bottom: 1px solid var(--theme-border, #1a2744);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -499,7 +535,7 @@ export default {
         h2 {
             font-size: 18px;
             font-weight: 600;
-            color: #ffd700;
+            color: var(--theme-accent, #ffd700);
             margin: 0;
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
@@ -517,19 +553,19 @@ export default {
     align-items: center;
     gap: 6px;
     padding: 6px 12px;
-    background: rgba(13, 21, 37, 0.8);
-    border: 1px solid #1a2744;
+    background: var(--theme-bg-card, rgba(13, 21, 37, 0.8));
+    border: 1px solid var(--theme-border, #1a2744);
     border-radius: 6px;
 
     i {
         font-size: 14px;
-        color: #00b4ff;
+        color: var(--theme-info, #00b4ff);
     }
 
     span {
         font-family: monospace;
         font-size: 12px;
-        color: #8899aa;
+        color: var(--theme-text-secondary, #8899aa);
     }
 }
 
@@ -542,24 +578,31 @@ export default {
     align-items: center;
     gap: 8px;
     padding: 6px 12px;
-    background: rgba(13, 21, 37, 0.8);
-    border: 1px solid #1a2744;
+    background: var(--theme-bg-card, rgba(13, 21, 37, 0.8));
+    border: 1px solid var(--theme-border, #1a2744);
     border-radius: 6px;
     transition: all 0.2s ease;
 
     &:hover {
-        border-color: #7b2fff;
+        border-color: var(--theme-primary, #7b2fff);
         background: rgba(123, 47, 255, 0.1);
     }
 
     .user-avatar-small {
         width: 28px;
         height: 28px;
-        background: linear-gradient(135deg, #7b2fff, #4a1090);
+        background: linear-gradient(135deg, var(--theme-primary, #7b2fff), var(--theme-secondary, #4a1090));
         border-radius: 6px;
         display: flex;
         align-items: center;
         justify-content: center;
+        overflow: hidden;
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
         span {
             font-size: 12px;
@@ -570,60 +613,12 @@ export default {
 
     .user-name {
         font-size: 12px;
-        color: #ffffff;
+        color: var(--theme-text-primary, #ffffff);
     }
 
     i {
         font-size: 12px;
-        color: #8899aa;
-    }
-}
-
-// 退出确认弹窗样式
-::v-deep .logout-confirm-dialog {
-    background: #1a2744;
-    border: 1px solid #2a3a58;
-    border-radius: 12px;
-
-    .el-message-box__header {
-        background: #1a2744;
-        border-bottom: 1px solid #2a3a58;
-
-        .el-message-box__title {
-            color: #ffffff;
-        }
-    }
-
-    .el-message-box__content {
-        background: #1a2744;
-
-        .el-message-box__message {
-            color: #b8c4d8;
-        }
-    }
-
-    .el-message-box__btns {
-        background: #1a2744;
-
-        .el-button--primary {
-            background: linear-gradient(135deg, #7b2fff 0%, #5a1fd4 100%);
-            border: none;
-
-            &:hover {
-                background: linear-gradient(135deg, #8a3fff 0%, #6a2fe4 100%);
-            }
-        }
-
-        .el-button--default {
-            background: transparent;
-            border: 1px solid #2a3a58;
-            color: #b8c4d8;
-
-            &:hover {
-                border-color: #7b2fff;
-                color: #7b2fff;
-            }
-        }
+        color: var(--theme-text-secondary, #8899aa);
     }
 }
 
@@ -641,15 +636,15 @@ export default {
     }
 
     &::-webkit-scrollbar-track {
-        background: #0d1525;
+        background: var(--theme-bg-dark, #0d1525);
     }
 
     &::-webkit-scrollbar-thumb {
-        background: #2a3a58;
+        background: var(--theme-border, #2a3a58);
         border-radius: 4px;
 
         &:hover {
-            background: #3a4a68;
+            background: var(--theme-bg-hover, #3a4a68);
         }
     }
 }

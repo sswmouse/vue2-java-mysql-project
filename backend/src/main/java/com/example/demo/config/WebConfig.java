@@ -23,9 +23,9 @@ public class WebConfig {
 
             @Override
             public void addResourceHandlers(ResourceHandlerRegistry registry) {
-                // 映射上传目录为静态资源
+                // 映射上传目录为静态资源 (classpath)
                 registry.addResourceHandler("/uploads/**")
-                        .addResourceLocations("file:uploads/");
+                        .addResourceLocations("classpath:/static/uploads/");
             }
         };
     }

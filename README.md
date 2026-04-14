@@ -15,6 +15,8 @@ vue2-java-mysql-project/
 │   │   │   └── CharacterDialog.vue     # 角色创建/编辑对话框
 │   │   ├── views/         # 页面视图
 │   │   │   ├── Home.vue          # 首页
+│   │   │   ├── Login.vue         # 登录页面
+│   │   │   ├── Register.vue      # 注册页面
 │   │   │   ├── Users.vue         # 用户管理
 │   │   │   ├── Role.vue          # 角色管理
 │   │   │   ├── Equipment.vue     # 装备管理
@@ -61,9 +63,11 @@ vue2-java-mysql-project/
 │   │   │   ├── UserController.java
 │   │   │   ├── CharacterController.java
 │   │   │   ├── CharacterTypeController.java
+│   │   │   ├── AuthController.java      # 认证控制器
 │   │   │   └── FileUploadController.java
 │   │   ├── service/       # 服务层
 │   │   │   ├── UserService.java
+│   │   │   ├── AuthService.java        # 认证服务
 │   │   │   ├── CharacterService.java
 │   │   │   ├── CharacterTypeService.java
 │   │   │   └── impl/      # 服务实现
@@ -78,9 +82,17 @@ vue2-java-mysql-project/
 │   │   ├── dto/           # 数据传输对象
 │   │   │   ├── UserDTO.java
 │   │   │   ├── CharacterDTO.java
-│   │   │   └── CharacterTypeDTO.java
+│   │   │   ├── CharacterTypeDTO.java
+│   │   │   ├── LoginDTO.java           # 登录请求DTO
+│   │   │   ├── RegisterDTO.java         # 注册请求DTO
+│   │   │   ├── AuthResponse.java       # 认证响应DTO
+│   │   │   └── RoleUpdateDTO.java      # 角色更新DTO
 │   │   ├── config/        # 配置类
-│   │   │   └── WebConfig.java
+│   │   │   ├── WebConfig.java
+│   │   │   ├── SecurityConfig.java      # Spring Security配置
+│   │   │   └── JwtAuthFilter.java       # JWT认证过滤器
+│   │   ├── utils/         # 工具类
+│   │   │   └── JwtUtil.java            # JWT工具类
 │   │   └── exception/     # 异常处理
 │   │       └── GlobalExceptionHandler.java
 │   ├── src/main/resources/
@@ -135,6 +147,8 @@ vue2-java-mysql-project/
 ### 核心功能
 - ✅ 用户管理（增删改查）
 - ✅ 角色管理（CRUD + 拖拽排序 + 3D翻转卡片）
+- ✅ 登录注册系统（JWT认证）
+- ✅ 权限管理系统（admin/user角色）
 - ✅ 装备管理系统
 - ✅ 时装管理系统
 - ✅ 强化系统
@@ -155,6 +169,9 @@ vue2-java-mysql-project/
 - ✅ DNF霓虹暗色主题
 - ✅ Java Spring Boot REST API
 - ✅ Spring Data JPA数据访问
+- ✅ Spring Security安全框架
+- ✅ JWT Token认证
+- ✅ BCrypt密码加密
 - ✅ MySQL数据库集成
 - ✅ 跨域支持（CORS）
 - ✅ 全局异常处理
@@ -225,6 +242,34 @@ npm run serve
 | POST | /users | 创建用户 |
 | PUT | /users/{id} | 更新用户 |
 | DELETE | /users/{id} | 删除用户 |
+
+### 认证系统
+
+| 方法 | 端点 | 描述 | 权限 |
+|------|------|------|------|
+| POST | /auth/login | 用户登录 | 公开 |
+| POST | /auth/register | 用户注册 | 公开 |
+| GET | /auth/me | 获取当前用户信息 | 需认证 |
+| PUT | /auth/users/{id}/role | 修改用户角色 | 仅管理员 |
+
+**登录请求示例:**
+```json
+{
+  "username": "admin",
+  "password": "password123"
+}
+```
+
+**登录响应示例:**
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIs...",
+  "userId": 1,
+  "username": "admin",
+  "email": "admin@example.com",
+  "role": "admin"
+}
+```
 
 ### 角色管理
 
@@ -444,11 +489,11 @@ describe('页面描述', () => {
    - 宠物养成系统
    - 迷雾大陆探索逻辑
 
-2. **添加认证功能**
-   - JWT令牌认证
-   - 登录/注册页面
-   - 权限控制
-   - 用户角色管理
+2. **增强认证功能**
+   - 邮箱验证
+   - 找回密码
+   - 登录历史记录
+   - 会话管理
 
 3. **性能优化**
    - 前端路由懒加载

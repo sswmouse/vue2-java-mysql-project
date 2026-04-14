@@ -12,7 +12,7 @@
             :src="cardBackImage"
             :alt="'卡片背面'"
             class="card-back-image"
-        />
+        >
     </div>
 </template>
 

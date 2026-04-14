@@ -22,18 +22,20 @@ public class User {
     private Long id;
 
     @NotBlank(message = "用户名不能为空")
-    @Size(min = 3, max = 20, message = "用户名长度必须在3到20个字符之间")
+    @Size(min = 2, max = 20, message = "用户名长度必须在2到20个字符之间")
     @Column(unique = true, nullable = false)
     private String username;
 
-    @NotBlank(message = "邮箱不能为空")
-    @Email(message = "邮箱格式不正确")
+    @NotBlank(message = "手机号不能为空")
     @Column(unique = true, nullable = false)
-    private String email;
+    private String phone;
 
     @Size(min = 6, message = "密码长度不能小于6位")
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private String role = "user";
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

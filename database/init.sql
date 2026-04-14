@@ -14,19 +14,21 @@ USE vue2_java_mysql;
 CREATE TABLE IF NOT EXISTS users (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(20) NOT NULL UNIQUE,
-    email VARCHAR(100) NOT NULL UNIQUE,
+    phone VARCHAR(20) NOT NULL UNIQUE COMMENT '手机号',
     password VARCHAR(255) NOT NULL,
+    role VARCHAR(20) NOT NULL DEFAULT 'user' COMMENT '用户角色：admin-管理员/user-普通用户',
     created_at DATETIME,
     updated_at DATETIME,
     INDEX idx_username (username),
-    INDEX idx_email (email)
+    INDEX idx_phone (phone),
+    INDEX idx_role (role)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 插入示例数据
-INSERT INTO users (username, email, password, created_at, updated_at) VALUES
-('admin', 'admin@example.com', 'password123', NOW(), NOW()),
-('user1', 'user1@example.com', 'password123', NOW(), NOW()),
-('user2', 'user2@example.com', 'password123', NOW(), NOW())
+INSERT INTO users (username, phone, password, role, created_at, updated_at) VALUES
+('admin', '13800138000', 'password123', 'admin', NOW(), NOW()),
+('user1', '13800138001', 'password123', 'user', NOW(), NOW()),
+('user2', '13800138002', 'password123', 'user', NOW(), NOW())
 ON DUPLICATE KEY UPDATE updated_at = NOW();
 
 -- 创建角色类型表（DNF所有角色类型）

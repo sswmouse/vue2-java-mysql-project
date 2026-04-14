@@ -34,9 +34,9 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("用户名已存在: " + user.getUsername());
         }
 
-        // 检查邮箱是否已存在
-        if (userRepository.existsByEmail(user.getEmail())) {
-            throw new RuntimeException("邮箱已存在: " + user.getEmail());
+        // 检查手机号是否已存在
+        if (userRepository.existsByPhone(user.getPhone())) {
+            throw new RuntimeException("手机号已存在: " + user.getPhone());
         }
 
         // 检查密码是否为空
@@ -57,14 +57,14 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("用户名已存在: " + userDetails.getUsername());
         }
 
-        // 检查新邮箱是否与其他用户冲突
-        if (!user.getEmail().equals(userDetails.getEmail()) &&
-                userRepository.existsByEmail(userDetails.getEmail())) {
-            throw new RuntimeException("邮箱已存在: " + userDetails.getEmail());
+        // 检查新手机号是否与其他用户冲突
+        if (!user.getPhone().equals(userDetails.getPhone()) &&
+                userRepository.existsByPhone(userDetails.getPhone())) {
+            throw new RuntimeException("手机号已存在: " + userDetails.getPhone());
         }
 
         user.setUsername(userDetails.getUsername());
-        user.setEmail(userDetails.getEmail());
+        user.setPhone(userDetails.getPhone());
         if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
             user.setPassword(userDetails.getPassword());
         }

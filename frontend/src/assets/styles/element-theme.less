@@ -737,6 +737,60 @@
 }
 
 // ============================================
+// 下拉菜单样式定制
+// ============================================
+
+.el-dropdown-menu {
+    background: @dnf-bg-card;
+    border: 1px solid @dnf-secondary-purple;
+    border-radius: @border-radius-xl;
+    padding: 8px;
+    box-shadow: 0 0 30px rgba(123, 47, 255, 0.3),
+        0 10px 40px rgba(0, 0, 0, 0.5);
+
+    .el-dropdown-menu__item {
+        padding: 10px 16px;
+        border-radius: @border-radius-md;
+        color: @dnf-text-secondary;
+        font-size: 13px;
+        transition: all 0.2s ease;
+        margin: 2px 0;
+
+        i {
+            margin-right: 10px;
+            color: @dnf-secondary-purple;
+            font-size: 14px;
+        }
+
+        &:hover {
+            background: fade(@dnf-secondary-purple, 20%);
+            color: @dnf-primary-gold;
+            transform: translateX(4px);
+
+            i {
+                color: @dnf-primary-gold;
+            }
+        }
+
+        &.el-dropdown-menu__item--divided {
+            border-top: 1px solid fade(@dnf-secondary-purple, 30%);
+            margin-top: 8px;
+            padding-top: 12px;
+        }
+    }
+
+    // 退出登录特殊样式
+    .el-dropdown-menu__item:last-child:hover {
+        background: fade(@dnf-danger, 20%);
+        color: @dnf-danger;
+
+        i {
+            color: @dnf-danger;
+        }
+    }
+}
+
+// ============================================
 // 日期选择器样式定制
 // ============================================
 

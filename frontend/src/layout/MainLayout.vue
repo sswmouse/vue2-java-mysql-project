@@ -86,10 +86,7 @@
                             <span class="user-name">{{ username }}</span>
                             <i class="el-icon-arrow-down" />
                         </div>
-                        <el-dropdown-menu
-                            slot="dropdown"
-                            class="user-dropdown-menu"
-                        >
+                        <el-dropdown-menu slot="dropdown">
                             <!-- 只有admin角色才显示用户管理 -->
                             <el-dropdown-item
                                 v-if="isAdmin"
@@ -133,7 +130,8 @@ export default {
         return {
             isCollapsed: false,
             currentTime: '',
-            menuItems: [
+            // 默认菜单配置（权限树加载前使用）
+            defaultMenuItems: [
                 { path: '/', title: '首页', icon: 'el-icon-s-home', roles: ['admin', 'user'] },
                 { path: '/role', title: '角色管理', icon: 'el-icon-s-custom', roles: ['admin', 'user'] },
                 { path: '/equipment', title: '装备管理', icon: 'el-icon-suitcase', roles: ['admin', 'user'] },
@@ -148,11 +146,12 @@ export default {
         }
     },
     computed: {
+        // 从Vuex获取用户信息
         username() {
-            return (this.$store.state.user && this.$store.state.user.username) || 'Admin'
+            return (this.$store.state.auth.user && this.$store.state.auth.user.username) || 'Admin'
         },
         userRole() {
-            return (this.$store.state.user && this.$store.state.user.role) || 'admin'
+            return (this.$store.state.auth.user && this.$store.state.auth.user.role) || 'admin'
         },
         isAdmin() {
             return this.userRole === 'admin'
@@ -164,18 +163,35 @@ export default {
             const name = this.username
             return name ? name.charAt(0).toUpperCase() : 'A'
         },
+        // 从Vuex获取权限树菜单
+        menuTree() {
+            return this.$store.getters['auth/menuTree']
+        },
+        // 当前页面标题
         currentPageTitle() {
-            const current = this.menuItems.find(item => item.path === this.$route.path)
+            const current = this.visibleMenuItems.find(item => item.path === this.$route.path)
             return current ? current.title : 'DNF管理系统'
         },
+        // 根据权限树或角色过滤可见菜单
         visibleMenuItems() {
+            // 优先使用权限树
+            if (this.menuTree && this.menuTree.length > 0) {
+                return this.menuTree
+            }
+
+            // 降级方案：根据角色过滤
             const currentRole = this.userRole
-            return this.menuItems.filter(item => item.roles.includes(currentRole))
+            return this.defaultMenuItems.filter(item => item.roles.includes(currentRole))
         }
     },
     mounted() {
         this.updateTime()
         setInterval(this.updateTime, 1000)
+
+        // 初始化时如果需要，加载权限树
+        if (this.$store.state.auth.token && !this.$store.state.auth.permissions) {
+            this.$store.dispatch('auth/loadPermissions')
+        }
     },
     methods: {
         toggleSidebar() {
@@ -192,14 +208,19 @@ export default {
             this.$router.push('/users')
         },
         handleLogout() {
-            this.$confirm('确定要退出登录吗？', '提示', {
+            this.$msgbox({
+                title: '提示',
+                message: '确定要退出登录吗？',
+                showCancelButton: true,
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
-                type: 'warning'
+                type: 'warning',
+                customClass: 'logout-confirm-dialog'
             }).then(() => {
+                // 使用Vuex auth模块清除登录状态
+                this.$store.dispatch('auth/logout')
                 this.$message.success('已退出登录')
-                this.$store.commit('SET_USER', null)
-                // 实际项目中这里应该跳转到登录页
+                this.$router.push('/login')
             }).catch(() => { })
         }
     }
@@ -212,6 +233,7 @@ export default {
 
 .main-layout {
     display: flex;
+    height: 100%;
     min-height: 100vh;
     background: @dnf-bg-dark;
 }
@@ -557,32 +579,50 @@ export default {
     }
 }
 
-// 下拉菜单样式
-::v-deep .user-dropdown-menu {
+// 退出确认弹窗样式
+::v-deep .logout-confirm-dialog {
     background: #1a2744;
     border: 1px solid #2a3a58;
-    border-radius: 8px;
-    padding: 4px;
+    border-radius: 12px;
 
-    .el-dropdown-menu__item {
-        padding: 8px 16px;
-        border-radius: 4px;
-        color: #b8c4d8;
-        font-size: 12px;
+    .el-message-box__header {
+        background: #1a2744;
+        border-bottom: 1px solid #2a3a58;
 
-        i {
-            margin-right: 8px;
-            color: #7b2fff;
-        }
-
-        &:hover {
-            background: rgba(123, 47, 255, 0.15);
+        .el-message-box__title {
             color: #ffffff;
         }
+    }
 
-        &.el-dropdown-menu__item--divided {
-            border-top: 1px solid #2a3a58;
-            margin-top: 4px;
+    .el-message-box__content {
+        background: #1a2744;
+
+        .el-message-box__message {
+            color: #b8c4d8;
+        }
+    }
+
+    .el-message-box__btns {
+        background: #1a2744;
+
+        .el-button--primary {
+            background: linear-gradient(135deg, #7b2fff 0%, #5a1fd4 100%);
+            border: none;
+
+            &:hover {
+                background: linear-gradient(135deg, #8a3fff 0%, #6a2fe4 100%);
+            }
+        }
+
+        .el-button--default {
+            background: transparent;
+            border: 1px solid #2a3a58;
+            color: #b8c4d8;
+
+            &:hover {
+                border-color: #7b2fff;
+                color: #7b2fff;
+            }
         }
     }
 }
@@ -590,6 +630,8 @@ export default {
 // 页面内容 - 修复滚动问题
 .page-content {
     flex: 1;
+    height: 0;
+    min-height: 0;
     overflow-y: auto;
     overflow-x: hidden;
     position: relative;

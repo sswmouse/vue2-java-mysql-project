@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
+import router, { setRouterStore } from './router'
 import store from './store'
 import ElementUI from 'element-ui'
 import { HttpPlugin } from '@/utils/http'
@@ -14,6 +14,12 @@ Vue.config.productionTip = false
 
 Vue.use(ElementUI)
 Vue.use(HttpPlugin)
+
+// 设置store到router（用于路由守卫访问Vuex）
+setRouterStore(store)
+
+// 应用启动时初始化认证状态
+store.dispatch('auth/initAuth')
 
 // 添加全局动画配置
 Vue.prototype.$animate = (element, animation, options = {}) => {

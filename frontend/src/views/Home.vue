@@ -229,8 +229,9 @@ export default {
         }
     },
     mounted() {
-        this.initAnimations()
-        this.setupScrollAnimations()
+        // 禁用GSAP动画，确保内容直接可见
+        // this.initAnimations()
+        // this.setupScrollAnimations()
     },
     beforeDestroy() {
         if (this.timeline) {
@@ -311,58 +312,59 @@ export default {
         },
 
         setupScrollAnimations() {
+            // 滚动动画已禁用，避免干扰页面布局
             // Logo视差效果
-            gsap.to('.hero-section', {
-                scrollTrigger: {
-                    trigger: '.home',
-                    start: 'top top',
-                    end: 'bottom top',
-                    scrub: 1
-                },
-                y: 80,
-                opacity: 0.6
-            })
+            // gsap.to('.hero-section', {
+            //     scrollTrigger: {
+            //         trigger: '.home',
+            //         start: 'top top',
+            //         end: 'bottom top',
+            //         scrub: 1
+            //     },
+            //     y: 80,
+            //     opacity: 0.6
+            // })
 
-            // 标题呼吸效果
-            gsap.to('.hero-title', {
-                scrollTrigger: {
-                    trigger: '.hero-title',
-                    start: 'top 80%',
-                    end: 'bottom 20%',
-                    scrub: 1
-                },
-                textShadow: '0 0 40px rgba(200, 168, 50, 0.8), 0 0 80px rgba(74, 16, 144, 0.4)'
-            })
+            // // 标题呼吸效果
+            // gsap.to('.hero-title', {
+            //     scrollTrigger: {
+            //         trigger: '.hero-title',
+            //         start: 'top 80%',
+            //         end: 'bottom 20%',
+            //         scrub: 1
+            //     },
+            //     textShadow: '0 0 40px rgba(200, 168, 50, 0.8), 0 0 80px rgba(74, 16, 144, 0.4)'
+            // })
 
-            // 功能卡片滚动进入
-            gsap.utils.toArray('.feature-card').forEach((card, i) => {
-                gsap.from(card, {
-                    scrollTrigger: {
-                        trigger: card,
-                        start: 'top 85%',
-                        end: 'bottom 20%',
-                        toggleActions: 'play none none reverse'
-                    },
-                    y: 80,
-                    opacity: 0,
-                    scale: 0.85,
-                    rotationY: 20,
-                    duration: 1,
-                    ease: 'power3.out',
-                    delay: i * 0.1
-                })
-            })
+            // // 功能卡片滚动进入
+            // gsap.utils.toArray('.feature-card').forEach((card, i) => {
+            //     gsap.from(card, {
+            //         scrollTrigger: {
+            //             trigger: card,
+            //             start: 'top 85%',
+            //             end: 'bottom 20%',
+            //             toggleActions: 'play none none reverse'
+            //         },
+            //         y: 80,
+            //         opacity: 0,
+            //         scale: 0.85,
+            //         rotationY: 20,
+            //         duration: 1,
+            //         ease: 'power3.out',
+            //         delay: i * 0.1
+            //     })
+            // })
 
-            // 背景粒子视差
-            gsap.to('.bg-particles', {
-                scrollTrigger: {
-                    trigger: '.home',
-                    start: 'top top',
-                    end: 'bottom bottom',
-                    scrub: 0.5
-                },
-                y: 200
-            })
+            // // 背景粒子视差
+            // gsap.to('.bg-particles', {
+            //     scrollTrigger: {
+            //         trigger: '.home',
+            //         start: 'top top',
+            //         end: 'bottom bottom',
+            //         scrub: 0.5
+            //     },
+            //     y: 200
+            // })
         }
     }
 }
@@ -375,6 +377,7 @@ export default {
 .home {
     position: relative;
     min-height: 100%;
+    height: 100%;
     overflow-x: hidden;
     background: @dnf-bg-dark;
     padding: 0;
@@ -385,7 +388,7 @@ export default {
 // ============================================
 
 .bg-particles {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
@@ -467,12 +470,12 @@ export default {
 
 .hero-section {
     position: relative;
-    min-height: 90vh;
+    min-height: 70vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: @spacing-4xl @spacing-xl;
+    padding: @spacing-2xl @spacing-xl;
     z-index: 1;
 
     &::before {
@@ -636,14 +639,14 @@ export default {
 .tech-stack-section {
     position: relative;
     z-index: 1;
-    padding: @spacing-3xl @spacing-xl;
+    padding: @spacing-2xl @spacing-xl;
     max-width: 1200px;
     margin: 0 auto;
 }
 
 .section-header {
     text-align: center;
-    margin-bottom: @spacing-3xl;
+    margin-bottom: @spacing-2xl;
 
     h2 {
         font-family: @font-display, 'Orbitron', sans-serif;
@@ -651,7 +654,8 @@ export default {
         font-weight: 700;
         letter-spacing: 0.15em;
         text-transform: uppercase;
-        .neon-gold-text();
+        color: @dnf-primary-gold;
+        text-shadow: 0 0 20px fade(@dnf-primary-gold, 0.6);
         margin-bottom: @spacing-md;
     }
 
@@ -678,6 +682,8 @@ export default {
         transition: all @transition-smooth;
         position: relative;
         overflow: hidden;
+        opacity: 1 !important;
+        visibility: visible !important;
 
         &::before {
             content: '';
@@ -720,13 +726,14 @@ export default {
             font-size: @font-size-lg;
             font-weight: 600;
             letter-spacing: 0.1em;
-            .neon-gold-text();
+            color: @dnf-primary-gold;
+            text-shadow: 0 0 15px fade(@dnf-primary-gold, 0.5);
             margin-bottom: @spacing-sm;
         }
 
         p {
             font-size: @font-size-sm;
-            color: @dnf-text-secondary;
+            color: @dnf-text-primary;
             line-height: @line-height-relaxed;
         }
     }
@@ -739,7 +746,7 @@ export default {
 .feature-section {
     position: relative;
     z-index: 1;
-    padding: @spacing-3xl @spacing-xl;
+    padding: @spacing-2xl @spacing-xl;
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -756,6 +763,8 @@ export default {
     position: relative;
     overflow: hidden;
     transition: all @transition-smooth;
+    opacity: 1 !important;
+    visibility: visible !important;
 
     &::before {
         content: '';
@@ -802,7 +811,8 @@ export default {
         }
 
         h3 {
-            .neon-gold-text();
+            color: @dnf-primary-gold;
+            text-shadow: 0 0 15px fade(@dnf-primary-gold, 0.5);
         }
     }
 
@@ -863,7 +873,7 @@ export default {
 .status-section {
     position: relative;
     z-index: 1;
-    padding: @spacing-3xl @spacing-xl;
+    padding: @spacing-2xl @spacing-xl;
     max-width: 600px;
     margin: 0 auto;
 }

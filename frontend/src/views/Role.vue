@@ -162,8 +162,10 @@ export default {
 .role-page {
     padding: 24px;
     min-height: 100%;
+    height: 100%;
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
     overflow-x: hidden;
+    overflow-y: auto;
 
     .page-header {
         display: flex;

@@ -58,7 +58,8 @@ public class UserController {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());
         userDTO.setUsername(user.getUsername());
-        userDTO.setEmail(user.getEmail());
+        userDTO.setPhone(user.getPhone());
+        userDTO.setRole(user.getRole());
         // 密码不返回给前端
         userDTO.setPassword(null);
         return userDTO;
@@ -68,8 +69,9 @@ public class UserController {
         User user = new User();
         user.setId(userDTO.getId());
         user.setUsername(userDTO.getUsername());
-        user.setEmail(userDTO.getEmail());
+        user.setPhone(userDTO.getPhone());
         user.setPassword(userDTO.getPassword());
+        user.setRole(userDTO.getRole());
         return user;
     }
 }

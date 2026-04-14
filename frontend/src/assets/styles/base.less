@@ -29,14 +29,15 @@ html {
     -moz-osx-font-smoothing: grayscale;
     text-size-adjust: 100%;
     height: 100%;
+    overflow: hidden;
 }
 
 body {
     font-family: @font-body, 'Quicksand', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     color: @dnf-text-primary;
     background-color: @dnf-bg-dark;
-    min-height: 100vh;
-    overflow-x: hidden;
+    height: 100%;
+    overflow: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: 'liga' 1, 'kern' 1;
@@ -114,7 +115,8 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: @font-weight-bold;
     line-height: @line-height-tight;
     margin-bottom: @spacing-lg;
-    .neon-gold-text();
+    color: @dnf-primary-gold;
+    text-shadow: 0 0 10px fade(@dnf-primary-gold, 0.5);
 
     &.dnf-title {
         position: relative;

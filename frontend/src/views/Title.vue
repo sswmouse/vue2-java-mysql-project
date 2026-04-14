@@ -29,6 +29,9 @@ export default {
 <style lang="less" scoped>
 .title-page {
     padding: 20px;
+    min-height: 100%;
+    height: 100%;
+    overflow-y: auto;
 
     .page-content {
         margin-top: 20px;

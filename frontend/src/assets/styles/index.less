@@ -1,10 +1,15 @@
 /*
  * @Description: 全局样式入口文件
  * @Author: Claude Code
- * @Date: 2026-04-10
- * @LastEditTime: 2026-04-10
+ * @Date: 2026-04-14
+ * @LastEditTime: 2026-04-14
  * @FilePath: /frontend/src/assets/styles/index.less
  */
+
+// ============================================
+// Google Fonts 导入
+// ============================================
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap');
 
 // ============================================
 // 导入所有样式文件
@@ -61,9 +66,11 @@
 
     // 全局标题样式
     .dnf-section-title {
-        .gold-gradient-text();
+        .neon-gold-text();
         font-size: @font-size-2xl;
         font-weight: @font-weight-bold;
+        font-family: @font-display, 'Orbitron', sans-serif;
+        letter-spacing: 0.08em;
         margin-bottom: @spacing-xl;
         position: relative;
         padding-bottom: @spacing-md;
@@ -82,10 +89,7 @@
 
     // 全局分隔线
     .dnf-divider {
-        height: 1px;
-        background: @gradient-purple-gold;
-        margin: @spacing-xl 0;
-        border: none;
+        .gradient-divider();
     }
 
     // 全局徽章
@@ -103,6 +107,7 @@
     .dnf-success {
         color: @dnf-success;
         font-weight: @font-weight-semibold;
+        text-shadow: 0 0 8px fade(@dnf-success, 40%);
 
         &::before {
             content: '✓ ';
@@ -113,6 +118,7 @@
     .dnf-warning {
         color: @dnf-warning;
         font-weight: @font-weight-semibold;
+        text-shadow: 0 0 8px fade(@dnf-warning, 40%);
 
         &::before {
             content: '⚠ ';
@@ -123,6 +129,7 @@
     .dnf-error {
         color: @dnf-danger;
         font-weight: @font-weight-semibold;
+        text-shadow: 0 0 8px fade(@dnf-danger, 40%);
 
         &::before {
             content: '✗ ';
@@ -156,12 +163,40 @@
     margin-bottom: @spacing-xl;
     border-bottom: 1px solid @dnf-border-dark;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: @gradient-surface;
+        pointer-events: none;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 200px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, @dnf-primary-gold, transparent);
+    }
 
     .page-title {
         font-size: @font-size-3xl;
-        .gold-gradient-text();
+        font-family: @font-display, 'Orbitron', sans-serif;
+        letter-spacing: 0.1em;
+        .neon-gold-text();
         margin-bottom: @spacing-md;
         animation: logo-glow 3s ease-in-out infinite;
+        position: relative;
+        z-index: 1;
     }
 
     .page-description {
@@ -169,6 +204,8 @@
         max-width: 600px;
         margin: 0 auto;
         font-size: @font-size-lg;
+        position: relative;
+        z-index: 1;
     }
 }
 
@@ -291,7 +328,7 @@
 
 // 渐变文字
 .gradient-text-effect {
-    .gold-gradient-text();
+    .neon-gold-text();
 }
 
 // ============================================

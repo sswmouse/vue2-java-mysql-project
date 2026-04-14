@@ -32,11 +32,14 @@ html {
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+    font-family: @font-body, 'Quicksand', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     color: @dnf-text-primary;
     background-color: @dnf-bg-dark;
     min-height: 100vh;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'liga' 1, 'kern' 1;
 }
 
 // 移除默认列表样式
@@ -111,7 +114,7 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: @font-weight-bold;
     line-height: @line-height-tight;
     margin-bottom: @spacing-lg;
-    .gold-gradient-text();
+    .neon-gold-text();
 
     &.dnf-title {
         position: relative;
@@ -134,16 +137,19 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
     font-size: @font-size-4xl;
     margin-bottom: @spacing-xl;
+    .game-title();
 }
 
 h2 {
     font-size: @font-size-3xl;
     margin-bottom: @spacing-lg;
+    .game-title();
 }
 
 h3 {
     font-size: @font-size-2xl;
     margin-bottom: @spacing-md;
+    font-family: @font-heading, 'Rajdhani', sans-serif;
 }
 
 h4 {

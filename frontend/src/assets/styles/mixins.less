@@ -1,26 +1,47 @@
 /*
- * @Description: LESS混合函数库
+ * @Description: LESS混合函数库 - 增强版DNF游戏风格
  * @Author: Claude Code
- * @Date: 2026-04-10
- * @LastEditTime: 2026-04-10
+ * @Date: 2026-04-14
+ * @LastEditTime: 2026-04-14
  * @FilePath: /frontend/src/assets/styles/mixins.less
  */
 
-// 导入变量
 @import './variables.less';
+
+// ============================================
+// 字体相关混合函数
+// ============================================
+
+// 科幻标题字体
+.game-title() {
+    font-family: @font-display, 'Orbitron', sans-serif;
+    font-weight: @font-weight-bold;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+// RPG正文字体
+.game-body() {
+    font-family: @font-body, 'Quicksand', sans-serif;
+    font-weight: @font-weight-normal;
+}
+
+// 技术/数据字体
+.game-mono() {
+    font-family: @font-mono, 'Share Tech Mono', monospace;
+    letter-spacing: 0.05em;
+}
 
 // ============================================
 // 文本相关混合函数
 // ============================================
 
-// 文本截断（单行）
 .text-truncate() {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-// 文本截断（多行）
 .text-truncate-multiline(@lines: 2) {
     display: -webkit-box;
     -webkit-line-clamp: @lines;
@@ -28,32 +49,51 @@
     overflow: hidden;
 }
 
-// 金色渐变文字
-.gold-gradient-text() {
+// 霓虹金色渐变文字
+.neon-gold-text() {
     background: @gradient-gold-text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    text-shadow: none;
+    filter: drop-shadow(0 0 8px fade(@dnf-primary-gold, 50%));
 }
 
-// 紫色渐变文字
-.purple-gradient-text() {
-    background: @gradient-blue-purple;
+// 霓虹紫色渐变文字
+.neon-purple-text() {
+    background: @gradient-neon-purple;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    filter: drop-shadow(0 0 8px fade(@dnf-secondary-purple, 50%));
+}
+
+// 青色渐变文字
+.neon-cyan-text() {
+    background: @gradient-neon-cyan;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 8px fade(@dnf-info, 50%));
 }
 
 // 文字发光效果
 .text-glow(@color: @dnf-primary-gold, @blur: 10px) {
-    text-shadow: 0 0 @blur @color;
+    text-shadow: 0 0 @blur @color, 0 0 (@blur * 2) @color;
+}
+
+// 霓虹文字发光
+.text-neon(@color: @dnf-secondary-purple, @blur: 15px) {
+    text-shadow:
+        0 0 @blur @color,
+        0 0 (@blur * 2) @color,
+        0 0 (@blur * 3) fade(@color, 50%);
 }
 
 // ============================================
 // 布局相关混合函数
 // ============================================
 
-// 绝对居中
 .absolute-center() {
     position: absolute;
     top: 50%;
@@ -61,33 +101,33 @@
     transform: translate(-50%, -50%);
 }
 
-// 弹性盒子居中
 .flex-center() {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-// 弹性盒子垂直居中
 .flex-vertical-center() {
     display: flex;
     align-items: center;
 }
 
-// 弹性盒子水平居中
 .flex-horizontal-center() {
     display: flex;
     justify-content: center;
 }
 
-// 弹性盒子两端对齐
 .flex-space-between() {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-// 清除浮动
+.flex-column() {
+    display: flex;
+    flex-direction: column;
+}
+
 .clearfix() {
     &::after {
         content: '';
@@ -100,27 +140,63 @@
 // 背景和边框混合函数
 // ============================================
 
-// DNF卡片样式
+// DNF深色卡片 - 增强版
 .dnf-card() {
-    background-color: @dnf-bg-card;
+    background: @gradient-card;
     border: 1px solid @dnf-border-dark;
     border-radius: @border-radius-lg;
     box-shadow: @dnf-shadow-md;
-    transition: all @transition-normal;
+    transition: all @transition-smooth;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: @gradient-gold-text;
+        opacity: 0;
+        transition: opacity @transition-normal;
+    }
 
     &:hover {
-        border-color: @dnf-primary-purple;
-        box-shadow: @dnf-shadow-purple;
-        transform: translateY(-2px);
+        border-color: @dnf-secondary-purple;
+        box-shadow: @dnf-shadow-card-glow;
+        transform: translateY(-4px);
+
+        &::before {
+            opacity: 1;
+        }
     }
+}
+
+// 毛玻璃卡片
+.glass-card() {
+    background: @glass-bg;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid @glass-border;
+    border-radius: @border-radius-xl;
+    box-shadow: @dnf-shadow-lg;
 }
 
 // 深色背景卡片
 .dnf-dark-card() {
-    background-color: @dnf-primary-dark;
+    background: @gradient-dark-blue;
     border: 1px solid @dnf-border-dark;
     border-radius: @border-radius-lg;
     box-shadow: @dnf-shadow-lg;
+}
+
+// 霓虹边框效果
+.neon-border(@color: @dnf-secondary-purple, @glow-blur: 20px) {
+    border: 1px solid @color;
+    box-shadow:
+        0 0 @glow-blur fade(@color, 40%),
+        inset 0 0 @glow-blur fade(@color, 20%);
 }
 
 // 渐变边框
@@ -138,6 +214,34 @@
         background: @gradient;
         border-radius: @border-radius-lg + @width;
         z-index: -1;
+        opacity: 0.6;
+    }
+}
+
+// 动态渐变边框动画
+.animated-gradient-border(@duration: 3s) {
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(
+            45deg,
+            @dnf-primary-purple,
+            @dnf-secondary-gold,
+            @dnf-secondary-purple,
+            @dnf-info,
+            @dnf-primary-purple
+        );
+        background-size: 400% 400%;
+        border-radius: inherit;
+        z-index: -1;
+        animation: gradient-border-shift @duration ease infinite;
+        opacity: 0.7;
     }
 }
 
@@ -147,78 +251,137 @@
     -webkit-backdrop-filter: blur(@blur);
 }
 
+// 光晕背景效果
+.glow-bg(@color: @dnf-primary-purple, @opacity: 0.1) {
+    background:
+        radial-gradient(ellipse at center, fade(@color, @opacity) 0%, transparent 70%);
+}
+
 // ============================================
 // 按钮样式混合函数
 // ============================================
 
-// DNF主按钮样式
+// DNF主按钮样式 - 霓虹风格
 .dnf-primary-button() {
     background: @gradient-blue-purple;
-    border: none;
+    border: 1px solid transparent;
     border-radius: @border-radius-md;
     color: @dnf-text-primary;
     font-weight: @font-weight-semibold;
-    transition: all @transition-normal;
+    transition: all @transition-smooth;
     position: relative;
     overflow: hidden;
+    letter-spacing: 0.05em;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.15),
+            transparent
+        );
+        transition: left 0.5s ease;
+    }
 
     &:hover {
         transform: translateY(-2px);
-        box-shadow: @dnf-shadow-purple;
+        box-shadow: @dnf-shadow-neon-purple, 0 8px 25px rgba(123, 47, 255, 0.3);
+        border-color: @dnf-secondary-purple;
+
+        &::before {
+            left: 100%;
+        }
     }
 
     &:active {
         transform: translateY(0);
     }
-
-    // 添加金色边框效果
-    &::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        border: 1px solid transparent;
-        border-radius: @border-radius-md;
-        background: @gradient-gold-text;
-        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-        padding: 1px;
-    }
 }
 
-// DNF金色按钮
+// DNF金色按钮 - 高级质感
 .dnf-gold-button() {
     background: @gradient-gold-text;
     border: none;
     border-radius: @border-radius-md;
     color: @dnf-primary-dark;
     font-weight: @font-weight-bold;
-    transition: all @transition-normal;
+    transition: all @transition-smooth;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 50%);
+        pointer-events: none;
+    }
 
     &:hover {
         transform: translateY(-2px);
-        box-shadow: @dnf-shadow-gold;
+        box-shadow: @dnf-shadow-gold, 0 8px 25px rgba(200, 168, 50, 0.4);
+        filter: brightness(1.1);
     }
 
     &:active {
         transform: translateY(0);
+        filter: brightness(0.95);
     }
 }
 
-// 幽灵按钮（透明背景）
+// 幽灵按钮（霓虹边框）
 .dnf-ghost-button() {
     background: transparent;
-    border: 2px solid @dnf-primary-purple;
+    border: 2px solid @dnf-secondary-purple;
     border-radius: @border-radius-md;
-    color: @dnf-text-primary;
-    transition: all @transition-normal;
+    color: @dnf-secondary-purple;
+    transition: all @transition-smooth;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: @dnf-secondary-purple;
+        opacity: 0;
+        transition: opacity @transition-normal;
+        z-index: -1;
+    }
 
     &:hover {
-        background: fade(@dnf-primary-purple, 20%);
+        color: @dnf-text-primary;
+        border-color: @dnf-secondary-purple;
+        box-shadow: 0 0 20px fade(@dnf-secondary-purple, 40%);
         transform: translateY(-2px);
+
+        &::before {
+            opacity: 1;
+        }
+    }
+}
+
+// 危险按钮
+.dnf-danger-button() {
+    background: @gradient-danger;
+    border: none;
+    border-radius: @border-radius-md;
+    color: @dnf-text-primary;
+    font-weight: @font-weight-semibold;
+    transition: all @transition-smooth;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 25px fade(@dnf-danger, 50%);
+        filter: brightness(1.1);
     }
 }
 
@@ -226,83 +389,26 @@
 // 动画混合函数
 // ============================================
 
-// 呼吸动画
 .breathing-animation(@duration: 3s) {
     animation: breathing @duration ease-in-out infinite;
-
-    @keyframes breathing {
-        0%, 100% {
-            opacity: 0.9;
-            transform: scale(1);
-        }
-        50% {
-            opacity: 1;
-            transform: scale(1.05);
-        }
-    }
 }
 
-// 脉动动画（心跳效果）
-.pulse-animation(@duration: 2s, @color: @dnf-primary-purple) {
+.pulse-animation(@duration: 2s, @color: @dnf-secondary-purple) {
     animation: pulse @duration cubic-bezier(0.4, 0, 0.6, 1) infinite;
-
-    @keyframes pulse {
-        0%, 100% {
-            opacity: 1;
-            box-shadow: 0 0 0 0 fade(@color, 70%);
-        }
-        50% {
-            opacity: 0.8;
-            box-shadow: 0 0 0 10px fade(@color, 0%);
-        }
-    }
 }
 
-// 浮动动画
 .float-animation(@distance: 10px, @duration: 3s) {
     animation: float @duration ease-in-out infinite;
-
-    @keyframes float {
-        0%, 100% {
-            transform: translateY(0);
-        }
-        50% {
-            transform: translateY(-@distance);
-        }
-    }
 }
 
-// 旋转动画
 .spin-animation(@duration: 20s) {
     animation: spin @duration linear infinite;
-
-    @keyframes spin {
-        from {
-            transform: rotate(0deg);
-        }
-        to {
-            transform: rotate(360deg);
-        }
-    }
 }
 
-// 淡入动画
 .fade-in-animation(@duration: 0.5s, @delay: 0s) {
     animation: fadeIn @duration ease @delay both;
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
 }
 
-// 滑动进入动画
 .slide-in-animation(@direction: left, @duration: 0.5s) {
     @fromX: if(@direction = left, -100%, 100%);
 
@@ -320,22 +426,26 @@
     }
 }
 
+// 3D翻转动画
+.flip-animation(@duration: 0.6s) {
+    transform-style: preserve-3d;
+    animation: flip @duration ease-in-out;
+}
+
 // ============================================
 // 工具类混合函数
 // ============================================
 
-// 隐藏滚动条
 .hide-scrollbar() {
-    scrollbar-width: none; // Firefox
-    -ms-overflow-style: none; // IE and Edge
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 
     &::-webkit-scrollbar {
-        display: none; // Chrome, Safari, Opera
+        display: none;
     }
 }
 
-// 自定义滚动条
-.custom-scrollbar(@width: 8px, @track-color: @dnf-bg-card, @thumb-color: @dnf-primary-purple) {
+.custom-scrollbar(@width: 6px, @track-color: @dnf-bg-card, @thumb-color: @dnf-secondary-purple) {
     &::-webkit-scrollbar {
         width: @width;
         height: @width;
@@ -349,39 +459,41 @@
     &::-webkit-scrollbar-thumb {
         background: @thumb-color;
         border-radius: @border-radius-full;
+        transition: background @transition-fast;
 
         &:hover {
-            background: lighten(@thumb-color, 10%);
+            background: lighten(@thumb-color, 15%);
         }
     }
 }
 
 // 响应式媒体查询
 .respond-to(@breakpoint, @rules) {
+    & when (@breakpoint = xs) {
+        @media (min-width: @breakpoint-xs) {
+            @rules();
+        }
+    }
     & when (@breakpoint = sm) {
         @media (min-width: @breakpoint-sm) {
             @rules();
         }
     }
-
     & when (@breakpoint = md) {
         @media (min-width: @breakpoint-md) {
             @rules();
         }
     }
-
     & when (@breakpoint = lg) {
         @media (min-width: @breakpoint-lg) {
             @rules();
         }
     }
-
     & when (@breakpoint = xl) {
         @media (min-width: @breakpoint-xl) {
             @rules();
         }
     }
-
     & when (@breakpoint = 2xl) {
         @media (min-width: @breakpoint-2xl) {
             @rules();
@@ -389,7 +501,6 @@
     }
 }
 
-// 暗色模式支持
 .dark-mode(@rules) {
     @media (prefers-color-scheme: dark) {
         @rules();
@@ -400,60 +511,65 @@
 // 特效混合函数
 // ============================================
 
-// 发光边框
-.glow-border(@color: @dnf-primary-purple, @blur: 10px) {
-    box-shadow: 0 0 @blur @color;
-    border: 1px solid fade(@color, 50%);
+.glow-border(@color: @dnf-secondary-purple, @blur: 15px) {
+    box-shadow:
+        0 0 @blur @color,
+        inset 0 0 @blur fade(@color, 30%);
+    border: 1px solid fade(@color, 60%);
 }
 
-// 内阴影效果
 .inner-shadow(@color: rgba(0, 0, 0, 0.3)) {
     box-shadow: inset 0 2px 4px 0 @color;
 }
 
-// 玻璃拟态效果
-.glass-morphism(@blur: 10px, @opacity: 0.2) {
-    background: fade(@dnf-bg-card, @opacity * 100%);
+.glass-morphism(@blur: 15px, @opacity: 0.15) {
+    background: fade(@dnf-bg-card, (1 - @opacity) * 100);
     backdrop-filter: blur(@blur);
     -webkit-backdrop-filter: blur(@blur);
-    border: 1px solid fade(@dnf-text-primary, 0.1);
+    border: 1px solid fade(@dnf-text-primary, 0.08);
 }
 
-// 3D抬起效果
 .lift-3d(@distance: 10px) {
-    transform: perspective(1000px) rotateX(5deg) translateZ(@distance);
-    transition: transform @transition-normal;
+    transform: perspective(1000px) rotateX(3deg) translateZ(@distance);
+    transition: transform @transition-smooth;
+}
+
+// 卡牌3D悬停效果
+.card-3d-hover(@rotateX: -5deg, @rotateY: 5deg) {
+    transform: perspective(1000px) rotateX(@rotateX) rotateY(@rotateY) translateZ(10px);
+    box-shadow:
+        20px 20px 60px rgba(0, 0, 0, 0.5),
+        -5px -5px 20px rgba(255, 255, 255, 0.03);
 }
 
 // ============================================
 // 状态指示器混合函数
 // ============================================
 
-// 加载指示器
-.loading-indicator(@size: 20px, @color: @dnf-primary-purple) {
+.loading-indicator(@size: 20px, @color: @dnf-secondary-purple) {
     display: inline-block;
     width: @size;
     height: @size;
-    border: 2px solid fade(@color, 25%);
+    border: 2px solid fade(@color, 20%);
     border-top-color: @color;
     border-radius: 50%;
-    animation: spin 1s linear infinite;
+    animation: spin 0.8s linear infinite;
 }
 
-// 徽章样式
-.dnf-badge(@background: @dnf-primary-purple, @color: @dnf-text-primary) {
-    display: inline-block;
-    padding: @spacing-xs @spacing-sm;
+.dnf-badge(@background: @dnf-secondary-purple, @color: @dnf-text-primary) {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 10px;
     background: @background;
     color: @color;
     border-radius: @border-radius-full;
     font-size: @font-size-xs;
     font-weight: @font-weight-bold;
-    line-height: 1;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
+    border: 1px solid fade(@color, 20%);
 }
 
-// 状态点
 .status-dot(@size: 8px, @color: @dnf-success) {
     display: inline-block;
     width: @size;
@@ -461,4 +577,123 @@
     background: @color;
     border-radius: 50%;
     vertical-align: middle;
+    box-shadow: 0 0 8px @color;
+    animation: pulse-dot 2s infinite;
+}
+
+// ============================================
+// 骨架屏混合函数
+// ============================================
+.skeleton-shimmer() {
+    background: linear-gradient(
+        90deg,
+        @dnf-bg-card 25%,
+        @dnf-bg-hover 50%,
+        @dnf-bg-card 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+// ============================================
+// 装饰元素混合函数
+// ============================================
+
+// 角落装饰线
+.corner-decoration(@color: @dnf-primary-gold) {
+    position: relative;
+
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-color: @color;
+        border-style: solid;
+        opacity: 0.6;
+    }
+
+    &::before {
+        top: -1px;
+        left: -1px;
+        border-width: 2px 0 0 2px;
+    }
+
+    &::after {
+        bottom: -1px;
+        right: -1px;
+        border-width: 0 2px 2px 0;
+    }
+}
+
+// 分隔线 - 渐变风格
+.gradient-divider(@color1: @dnf-primary-purple, @color2: @dnf-primary-gold) {
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        @color1 20%,
+        @color2 50%,
+        @color1 80%,
+        transparent 100%
+    );
+    margin: @spacing-xl 0;
+    border: none;
+}
+
+// 角标装饰
+.badge-decoration(@bg: @dnf-danger, @size: 60px) {
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: -@size/2;
+        right: -@size/2;
+        width: @size;
+        height: @size;
+        background: @bg;
+        border-radius: 50%;
+        transform: rotate(45deg);
+    }
+}
+
+// ============================================
+// 交互反馈混合函数
+// ============================================
+
+.press-effect() {
+    transition: all 0.1s ease;
+
+    &:active {
+        transform: scale(0.97) translateY(1px);
+    }
+}
+
+.ripple-effect(@color: @dnf-text-primary) {
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        background-image: radial-gradient(circle, @color 10%, transparent 10%);
+        background-repeat: no-repeat;
+        background-position: 50%;
+        transform: scale(10);
+        opacity: 0;
+        transition: transform 0.5s, opacity 1s;
+    }
+
+    &:active::after {
+        transform: scale(0);
+        opacity: 0.3;
+        transition: 0s;
+    }
 }

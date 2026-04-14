@@ -1,699 +1,665 @@
 <!--
- * @Description: 主布局组件，包含左侧导航栏、右侧内容区、右上角用户头像
+ * @Description: 主布局组件 - DNF霓虹风格
  * @Author: Claude Code
- * @Date: 2026-04-10
- * @LastEditTime: 2026-04-10 17:20:12
- * @FilePath: /vue2-java-mysql-project/frontend/src/layout/MainLayout.vue
- -->
+ * @Date: 2026-04-14
+-->
 <template>
-    <el-container class="main-layout">
-        <!-- 左侧导航栏 -->
-        <el-aside
-            width="200px"
+    <div class="main-layout">
+        <!-- 侧边栏 -->
+        <aside
             class="sidebar"
+            :class="{ collapsed: isCollapsed }"
         >
-            <div class="logo">
-                <h2>DNF助手</h2>
-            </div>
-            <el-menu
-                :default-active="activeMenu"
-                :default-openeds="openedMenus"
-                router
-                background-color="#304156"
-                text-color="#bfcbd9"
-                active-text-color="#409EFF"
-                class="sidebar-menu"
+            <!-- 展开/收起按钮 -->
+            <div
+                class="sidebar-toggle"
+                @click="toggleSidebar"
             >
-                <el-menu-item index="/">
-                    <i class="el-icon-s-home" />
-                    <span slot="title">首页</span>
-                </el-menu-item>
-                <el-menu-item index="/users">
-                    <i class="el-icon-user-solid" />
-                    <span slot="title">用户管理</span>
-                </el-menu-item>
-                <el-menu-item index="/role">
-                    <i class="el-icon-user" />
-                    <span slot="title">角色</span>
-                </el-menu-item>
-                <el-menu-item index="/equipment">
-                    <i class="el-icon-suitcase" />
-                    <span slot="title">装备</span>
-                </el-menu-item>
-                <el-menu-item index="/fashion">
-                    <i class="el-icon-star-off" />
-                    <span slot="title">时装</span>
-                </el-menu-item>
-                <el-menu-item index="/enhancement">
-                    <i class="el-icon-top" />
-                    <span slot="title">增幅</span>
-                </el-menu-item>
-                <el-menu-item index="/enchantment">
-                    <i class="el-icon-magic-stick" />
-                    <span slot="title">附魔</span>
-                </el-menu-item>
-                <el-menu-item index="/badge">
-                    <i class="el-icon-medal" />
-                    <span slot="title">徽章</span>
-                </el-menu-item>
-                <el-menu-item index="/title">
-                    <i class="el-icon-crown" />
-                    <span slot="title">称号</span>
-                </el-menu-item>
-                <el-menu-item index="/pet">
-                    <i class="el-icon-dog" />
-                    <span slot="title">宠物</span>
-                </el-menu-item>
-                <el-menu-item index="/mist">
-                    <i class="el-icon-cloudy" />
-                    <span slot="title">迷雾</span>
-                </el-menu-item>
-            </el-menu>
-        </el-aside>
+                <i :class="isCollapsed ? 'el-icon-d-arrow-right' : 'el-icon-d-arrow-left'" />
+            </div>
 
-        <!-- 右侧主内容区 -->
-        <el-container class="main-container">
-            <!-- 顶部导航栏 -->
-            <el-header class="header">
-                <div class="header-right">
+            <!-- Logo区域 -->
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-d">D</span>
+                    <span class="logo-n">N</span>
+                    <span class="logo-f">F</span>
+                </div>
+                <span class="logo-text">DNF管理</span>
+            </div>
+
+            <!-- 导航菜单 -->
+            <nav class="sidebar-nav">
+                <router-link
+                    v-for="item in visibleMenuItems"
+                    :key="item.path"
+                    :to="item.path"
+                    class="nav-item"
+                    :class="{ active: $route.path === item.path }"
+                    :title="item.title"
+                >
+                    <i :class="item.icon" />
+                    <span class="nav-text">{{ item.title }}</span>
+                </router-link>
+            </nav>
+
+            <!-- 用户信息 -->
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <span>{{ userInitial }}</span>
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name">{{ username }}</span>
+                        <span class="user-role">{{ userRoleText }}</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <!-- 顶部栏 -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <div class="page-title">
+                        <h2>{{ currentPageTitle }}</h2>
+                    </div>
+                </div>
+
+                <div class="topbar-right">
+                    <!-- 时间显示 -->
+                    <div class="time-display">
+                        <i class="el-icon-time" />
+                        <span>{{ currentTime }}</span>
+                    </div>
+
+                    <!-- 用户菜单 -->
                     <el-dropdown
                         trigger="click"
-                        @command="handleUserCommand"
-                        @visible-change="handleDropdownShow"
+                        class="user-dropdown"
                     >
-                        <div
-                            class="user-avatar"
-                            @mouseenter="handleAvatarHover"
-                            @mouseleave="handleAvatarLeave"
-                        >
-                            <el-avatar
-                                size="medium"
-                                :src="userAvatar"
-                                class="user-avatar-img"
-                            >
-                                {{ userInitials }}
-                            </el-avatar>
-                            <span class="user-name">{{ userName }}</span>
-                            <i class="el-icon-arrow-down el-icon--right" />
+                        <div class="user-menu">
+                            <div class="user-avatar-small">
+                                <span>{{ userInitial }}</span>
+                            </div>
+                            <span class="user-name">{{ username }}</span>
+                            <i class="el-icon-arrow-down" />
                         </div>
                         <el-dropdown-menu
                             slot="dropdown"
-                            class="user-dropdown"
+                            class="user-dropdown-menu"
                         >
-                            <el-dropdown-item command="profile">
+                            <!-- 只有admin角色才显示用户管理 -->
+                            <el-dropdown-item
+                                v-if="isAdmin"
+                                @click.native="goToUsers"
+                            >
                                 <i class="el-icon-user" />
+                                用户管理
+                            </el-dropdown-item>
+                            <el-dropdown-item>
+                                <i class="el-icon-user-solid" />
                                 个人中心
                             </el-dropdown-item>
-                            <el-dropdown-item
-                                command="settings"
-                                divided
-                            >
+                            <el-dropdown-item>
                                 <i class="el-icon-setting" />
                                 设置
                             </el-dropdown-item>
-                            <el-dropdown-item command="logout">
+                            <el-dropdown-item
+                                divided
+                                @click.native="handleLogout"
+                            >
                                 <i class="el-icon-switch-button" />
                                 退出登录
                             </el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </div>
-            </el-header>
+            </header>
 
-            <!-- 主要内容区域 -->
-            <el-main class="content">
+            <!-- 页面内容 -->
+            <main class="page-content">
                 <router-view />
-            </el-main>
-        </el-container>
-    </el-container>
+            </main>
+        </div>
+    </div>
 </template>
 
 <script>
-import {
-    logoGlow,
-    logoFloat,
-    menuItemHover,
-    menuItemLeave,
-    buttonHover,
-    buttonLeave,
-    dropdownExpand,
-    dropdownCollapse
-} from '@/utils/animations'
-
 export default {
     name: 'MainLayout',
     data() {
         return {
-            activeMenu: '/',
-            openedMenus: [],
-            userName: '管理员',
-            userAvatar: '',
-            userInitials: '管',
-            logoAnimation: null,
-            dropdownVisible: false
+            isCollapsed: false,
+            currentTime: '',
+            menuItems: [
+                { path: '/', title: '首页', icon: 'el-icon-s-home', roles: ['admin', 'user'] },
+                { path: '/role', title: '角色管理', icon: 'el-icon-s-custom', roles: ['admin', 'user'] },
+                { path: '/equipment', title: '装备管理', icon: 'el-icon-suitcase', roles: ['admin', 'user'] },
+                { path: '/fashion', title: '时装管理', icon: 'el-icon-shopping-bag-2', roles: ['admin', 'user'] },
+                { path: '/enhancement', title: '强化系统', icon: 'el-icon-data-line', roles: ['admin', 'user'] },
+                { path: '/enchantment', title: '附魔系统', icon: 'el-icon-magic-stick', roles: ['admin', 'user'] },
+                { path: '/badge', title: '徽章系统', icon: 'el-icon-medal', roles: ['admin', 'user'] },
+                { path: '/title', title: '称号系统', icon: 'el-icon-postcard', roles: ['admin', 'user'] },
+                { path: '/pet', title: '宠物系统', icon: 'el-icon-cpu', roles: ['admin', 'user'] },
+                { path: '/mist', title: '迷雾大陆', icon: 'el-icon-cloudy', roles: ['admin', 'user'] }
+            ]
         }
     },
-    watch: {
-        $route: {
-            immediate: true,
-            handler(route) {
-                this.activeMenu = route.path
-            }
+    computed: {
+        username() {
+            return (this.$store.state.user && this.$store.state.user.username) || 'Admin'
+        },
+        userRole() {
+            return (this.$store.state.user && this.$store.state.user.role) || 'admin'
+        },
+        isAdmin() {
+            return this.userRole === 'admin'
+        },
+        userRoleText() {
+            return this.isAdmin ? '管理员' : '普通用户'
+        },
+        userInitial() {
+            const name = this.username
+            return name ? name.charAt(0).toUpperCase() : 'A'
+        },
+        currentPageTitle() {
+            const current = this.menuItems.find(item => item.path === this.$route.path)
+            return current ? current.title : 'DNF管理系统'
+        },
+        visibleMenuItems() {
+            const currentRole = this.userRole
+            return this.menuItems.filter(item => item.roles.includes(currentRole))
         }
     },
     mounted() {
-        this.initAnimations()
-        this.setupMenuAnimations()
-    },
-    beforeDestroy() {
-        this.cleanupAnimations()
+        this.updateTime()
+        setInterval(this.updateTime, 1000)
     },
     methods: {
-        initAnimations() {
-            // 初始化Logo动画
-            const logoElement = this.$el.querySelector('.logo h2')
-            if (logoElement) {
-                this.logoAnimation = logoGlow(logoElement)
-                logoFloat(logoElement)
-            }
+        toggleSidebar() {
+            this.isCollapsed = !this.isCollapsed
         },
-        cleanupAnimations() {
-            // 清理动画
-            if (this.logoAnimation) {
-                this.logoAnimation.kill()
-            }
+        updateTime() {
+            const now = new Date()
+            const hours = String(now.getHours()).padStart(2, '0')
+            const minutes = String(now.getMinutes()).padStart(2, '0')
+            const seconds = String(now.getSeconds()).padStart(2, '0')
+            this.currentTime = `${hours}:${minutes}:${seconds}`
         },
-        setupMenuAnimations() {
-            // 设置菜单项动画
-            const menuItems = this.$el.querySelectorAll('.el-menu-item')
-            menuItems.forEach(item => {
-                item.addEventListener('mouseenter', (e) => {
-                    menuItemHover(e.currentTarget)
-                })
-                item.addEventListener('mouseleave', (e) => {
-                    menuItemLeave(e.currentTarget)
-                })
-            })
+        goToUsers() {
+            this.$router.push('/users')
         },
-        handleUserCommand(command) {
-            switch (command) {
-                case 'profile':
-                    this.$message.info('打开个人中心')
-                    break
-                case 'settings':
-                    this.$message.info('打开设置')
-                    break
-                case 'logout':
-                    this.$confirm('确定要退出登录吗?', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                    }).then(() => {
-                        this.$message.success('已退出登录')
-                        // 实际项目中这里应该跳转到登录页
-                    }).catch(() => { })
-                    break
-                default:
-                    break
-            }
-        },
-        handleDropdownShow() {
-            this.dropdownVisible = true
-            const dropdown = this.$el.querySelector('.el-dropdown-menu')
-            if (dropdown) {
-                dropdownExpand(dropdown)
-            }
-        },
-        handleDropdownHide() {
-            this.dropdownVisible = false
-            const dropdown = this.$el.querySelector('.el-dropdown-menu')
-            if (dropdown) {
-                dropdownCollapse(dropdown)
-            }
-        },
-        handleAvatarHover(event) {
-            buttonHover(event.currentTarget)
-        },
-        handleAvatarLeave(event) {
-            buttonLeave(event.currentTarget)
+        handleLogout() {
+            this.$confirm('确定要退出登录吗？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.$message.success('已退出登录')
+                this.$store.commit('SET_USER', null)
+                // 实际项目中这里应该跳转到登录页
+            }).catch(() => { })
         }
     }
 }
 </script>
 
 <style lang="less" scoped>
-// 导入DNF主题变量和混合函数
 @import '@/assets/styles/variables.less';
 @import '@/assets/styles/mixins.less';
 
 .main-layout {
-    height: 100vh;
-    overflow: hidden;
+    display: flex;
+    min-height: 100vh;
     background: @dnf-bg-dark;
+}
 
-    .sidebar {
-        background: @gradient-dark-blue;
-        transition: all @transition-normal;
-        position: relative;
-        z-index: 100;
-        box-shadow: @dnf-shadow-lg;
+// ============================================
+// 侧边栏
+// ============================================
 
-        .logo {
-            height: 70px;
+.sidebar {
+    width: 180px;
+    background: #1a2744;
+    border-right: 1px solid #2a3a58;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: width 0.3s ease;
+    overflow: hidden;
+
+    &.collapsed {
+        width: 60px;
+
+        .sidebar-header {
+            .logo-text {
+                display: none;
+            }
+        }
+
+        .nav-item {
+            justify-content: center;
+            padding: 10px;
+
+            .nav-text {
+                display: none;
+            }
+        }
+
+        .sidebar-footer {
+            .user-details {
+                display: none;
+            }
+        }
+    }
+}
+
+// 展开/收起按钮
+.sidebar-toggle {
+    position: absolute;
+    top: 50%;
+    right: -14px;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background: #2a3a58;
+    border: 1px solid #3a4a68;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.2s ease;
+
+    i {
+        font-size: 14px;
+        color: #8899aa;
+        transition: all 0.2s ease;
+    }
+
+    &:hover {
+        background: #3a4a68;
+
+        i {
+            color: #ffd700;
+        }
+    }
+}
+
+// Logo区域
+.sidebar-header {
+    padding: 16px 12px;
+    text-align: center;
+    border-bottom: 1px solid #2a3a58;
+    background: linear-gradient(180deg, #1e2d4a 0%, #1a2744 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+
+    .logo {
+        font-size: 22px;
+        font-weight: 900;
+        letter-spacing: 2px;
+        display: flex;
+        justify-content: center;
+        gap: 1px;
+
+        span {
+            display: inline-block;
+        }
+
+        .logo-d {
+            color: #7b2fff;
+            text-shadow: 0 0 10px rgba(123, 47, 255, 0.8);
+        }
+
+        .logo-n {
+            color: #00b4ff;
+            text-shadow: 0 0 10px rgba(0, 180, 255, 0.8);
+        }
+
+        .logo-f {
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
+    }
+
+    .logo-text {
+        font-size: 11px;
+        color: #8899aa;
+        white-space: nowrap;
+    }
+}
+
+// 导航菜单
+.sidebar-nav {
+    flex: 1;
+    padding: 8px 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    &::-webkit-scrollbar {
+        width: 0;
+    }
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    margin: 2px 8px;
+    border-radius: 6px;
+    color: #b8c4d8;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-size: 13px;
+    white-space: nowrap;
+
+    i {
+        font-size: 16px;
+        width: 20px;
+        color: #8899aa;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+    }
+
+    .nav-text {
+        transition: opacity 0.2s ease;
+    }
+
+    &:hover {
+        background: rgba(123, 47, 255, 0.15);
+        color: #ffffff;
+        transform: translateX(2px);
+
+        i {
+            color: #7b2fff;
+        }
+    }
+
+    &.active {
+        background: rgba(123, 47, 255, 0.25);
+        color: #ffd700;
+        border-left: 3px solid #ffd700;
+        margin-left: 5px;
+        padding-left: 13px;
+
+        i {
+            color: #ffd700;
+        }
+    }
+}
+
+// 用户信息
+.sidebar-footer {
+    padding: 12px;
+    border-top: 1px solid #2a3a58;
+    background: #151f38;
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #7b2fff, #4a1090);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: @spacing-md;
-            border-bottom: 1px solid @dnf-border-dark;
-            background: linear-gradient(180deg, #1a2d4a, #0f172a);
-            position: relative;
-            overflow: hidden;
+            flex-shrink: 0;
 
-            // 简化的背景光效
-            &::before {
-                content: '';
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 150%;
-                height: 150%;
-                background: radial-gradient(circle, rgba(255, 215, 0, 0.08) 0%, transparent 50%);
-                pointer-events: none;
-            }
-
-            h2 {
-                margin: 0;
-                font-size: @font-size-2xl;
-                font-weight: 900;
-                letter-spacing: 3px;
-                position: relative;
-                padding: @spacing-sm @spacing-lg;
-                border-radius: @border-radius-md;
-                background: linear-gradient(180deg, rgba(15, 23, 42, 0.95), rgba(26, 45, 74, 0.95));
-                border: 2px solid #ffd700;
-                color: #ffd700;
-                // 多层发光效果 + 黑色描边增强对比度
-                text-shadow:
-                    0 0 8px rgba(255, 215, 0, 0.9),
-                    0 0 16px rgba(255, 215, 0, 0.7),
-                    0 0 24px rgba(255, 215, 0, 0.5),
-                    2px 2px 0 #000000,
-                    -1px -1px 0 #000000,
-                    1px -1px 0 #000000,
-                    -1px 1px 0 #000000;
-                cursor: default;
-                user-select: none;
-                z-index: 10;
-                animation: logo-glow 3s ease-in-out infinite alternate;
-
-                // 顶部高光层 - 增强金属质感
-                &::before {
-                    content: 'DNF助手';
-                    position: absolute;
-                    top: -1px;
-                    left: 0;
-                    padding: @spacing-sm @spacing-lg;
-                    background: linear-gradient(180deg,
-                        rgba(255, 255, 255, 0.8) 0%,
-                        rgba(255, 223, 0, 0.9) 20%,
-                        rgba(255, 215, 0, 0.6) 40%,
-                        transparent 100%);
-                    -webkit-background-clip: text;
-                    background-clip: text;
-                    -webkit-text-fill-color: transparent;
-                    pointer-events: none;
-                    z-index: 1;
-                }
-
-                // 外发光层
-                &::after {
-                    content: '';
-                    position: absolute;
-                    top: -2px;
-                    left: -2px;
-                    right: -2px;
-                    bottom: -2px;
-                    background: linear-gradient(135deg, #ffd700, #ffec8b, #ffd700);
-                    border-radius: @border-radius-md;
-                    z-index: -1;
-                    opacity: 0.5;
-                    filter: blur(6px);
-                    animation: logo-border-glow 3s ease-in-out infinite alternate;
-                }
+            span {
+                font-size: 14px;
+                font-weight: 700;
+                color: #ffffff;
             }
         }
 
-        .sidebar-menu {
-            border-right: none;
-            height: calc(100vh - 70px);
-            overflow-y: auto;
-            background: transparent;
-            .custom-scrollbar(6px, transparent, @dnf-primary-purple);
-
-            &:not(.el-menu--collapse) {
-                width: 200px;
-            }
-
-            .el-menu-item {
-                position: relative;
-                margin: @spacing-xs @spacing-md;
-                border-radius: @border-radius-md;
-                transition: all @transition-normal;
-                border-left: 3px solid transparent;
-
-                i {
-                    color: @dnf-primary-gold;
-                    font-size: @font-size-lg;
-                }
-
-                span {
-                    font-weight: @font-weight-medium;
-                }
-
-                &:hover {
-                    background: fade(@dnf-primary-purple, 20%) !important;
-                    transform: translateX(5px);
-                    border-left: 3px solid @dnf-primary-gold;
-
-                    i {
-                        transform: scale(1.2);
-                    }
-                }
-
-                &.is-active {
-                    background: fade(@dnf-primary-purple, 30%) !important;
-                    color: @dnf-primary-gold !important;
-                    border-left: 3px solid @dnf-primary-gold;
-                    box-shadow: @dnf-shadow-purple;
-
-                    &::after {
-                        content: '';
-                        position: absolute;
-                        right: 10px;
-                        top: 50%;
-                        transform: translateY(-50%);
-                        width: 8px;
-                        height: 8px;
-                        background: @dnf-primary-gold;
-                        border-radius: 50%;
-                        box-shadow: 0 0 10px @dnf-primary-gold;
-                    }
-                }
-            }
-        }
-    }
-
-    .main-container {
-        display: flex;
-        flex-direction: column;
-
-        .header {
+        .user-details {
             display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding: 0 @spacing-xl;
-            background: @dnf-primary-blue;
-            border-bottom: 1px solid @dnf-border-dark;
-            height: 70px;
-            box-shadow: @dnf-shadow-md;
-            position: relative;
-            z-index: 90;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 0;
 
-            &::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: linear-gradient(90deg, transparent, fade(@dnf-primary-purple, 20%), transparent);
-                opacity: 0.5;
+            .user-name {
+                font-size: 12px;
+                font-weight: 600;
+                color: #ffffff;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
-            .header-right {
-                position: relative;
-                z-index: 1;
-
-                .user-avatar {
-                    display: flex;
-                    align-items: center;
-                    cursor: pointer;
-                    padding: @spacing-sm @spacing-md;
-                    border-radius: @border-radius-lg;
-                    transition: all @transition-normal;
-                    background: fade(@dnf-bg-card, 30%);
-                    border: 1px solid fade(@dnf-primary-gold, 20%);
-                    position: relative;
-                    overflow: hidden;
-
-                    &::before {
-                        content: '';
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        right: 0;
-                        bottom: 0;
-                        background: @gradient-purple-gold;
-                        opacity: 0;
-                        transition: opacity @transition-normal;
-                        z-index: -1;
-                    }
-
-                    &:hover {
-                        border-color: @dnf-primary-gold;
-                        box-shadow: @dnf-shadow-gold;
-
-                        &::before {
-                            opacity: 0.1;
-                        }
-
-                        .user-avatar-img {
-                            transform: scale(1.1);
-                            box-shadow: 0 0 15px @dnf-primary-gold;
-                        }
-
-                        .user-name {
-                            color: @dnf-primary-gold;
-                        }
-
-                        .el-icon-arrow-down {
-                            transform: rotate(180deg);
-                            color: @dnf-primary-gold;
-                        }
-                    }
-
-                    .user-avatar-img {
-                        transition: all @transition-normal;
-                        border: 2px solid fade(@dnf-primary-gold, 50%);
-                        background: @gradient-gold-text;
-                        font-weight: @font-weight-bold;
-                    }
-
-                    .user-name {
-                        margin-left: @spacing-md;
-                        margin-right: @spacing-sm;
-                        font-size: @font-size-md;
-                        font-weight: @font-weight-medium;
-                        color: @dnf-text-primary;
-                        transition: color @transition-normal;
-                    }
-
-                    .el-icon-arrow-down {
-                        transition: all @transition-normal;
-                        color: @dnf-text-secondary;
-                    }
-                }
-
-                .user-dropdown {
-                    background: @dnf-bg-card;
-                    border: 1px solid @dnf-border-dark;
-                    border-radius: @border-radius-lg;
-                    box-shadow: @dnf-shadow-xl;
-                    padding: @spacing-sm 0;
-                    margin-top: @spacing-sm;
-
-                    &::before {
-                        content: '';
-                        position: absolute;
-                        top: -5px;
-                        right: 20px;
-                        width: 10px;
-                        height: 10px;
-                        background: @dnf-bg-card;
-                        border-top: 1px solid @dnf-border-dark;
-                        border-left: 1px solid @dnf-border-dark;
-                        transform: rotate(45deg);
-                    }
-
-                    .el-dropdown-menu__item {
-                        color: @dnf-text-secondary;
-                        padding: @spacing-sm @spacing-xl;
-                        font-weight: @font-weight-medium;
-                        transition: all @transition-fast;
-
-                        i {
-                            margin-right: @spacing-sm;
-                            color: @dnf-primary-purple;
-                        }
-
-                        &:hover {
-                            background: @dnf-bg-hover;
-                            color: @dnf-text-primary;
-                            transform: translateX(5px);
-
-                            i {
-                                color: @dnf-primary-gold;
-                            }
-                        }
-
-                        &.is-divided {
-                            position: relative;
-
-                            &::before {
-                                content: '';
-                                position: absolute;
-                                top: 0;
-                                left: @spacing-xl;
-                                right: @spacing-xl;
-                                height: 1px;
-                                background: @dnf-border-dark;
-                            }
-                        }
-                    }
-                }
+            .user-role {
+                font-size: 10px;
+                color: #7b2fff;
             }
-        }
-
-        .content {
-            padding: @spacing-xl;
-            background: @dnf-bg-dark;
-            overflow-y: auto;
-            flex: 1;
-            position: relative;
-
-            &::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 1px;
-                background: @gradient-purple-gold;
-                opacity: 0.3;
-            }
-
-            .custom-scrollbar();
         }
     }
 }
 
-// 响应式调整
+// ============================================
+// 主内容区
+// ============================================
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    min-width: 0;
+}
+
+// 顶部栏
+.topbar {
+    height: 60px;
+    background: #0d1525;
+    border-bottom: 1px solid #1a2744;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.topbar-left {
+    .page-title {
+        h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffd700;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+    }
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.time-display {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: rgba(13, 21, 37, 0.8);
+    border: 1px solid #1a2744;
+    border-radius: 6px;
+
+    i {
+        font-size: 14px;
+        color: #00b4ff;
+    }
+
+    span {
+        font-family: monospace;
+        font-size: 12px;
+        color: #8899aa;
+    }
+}
+
+.user-dropdown {
+    cursor: pointer;
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    background: rgba(13, 21, 37, 0.8);
+    border: 1px solid #1a2744;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+
+    &:hover {
+        border-color: #7b2fff;
+        background: rgba(123, 47, 255, 0.1);
+    }
+
+    .user-avatar-small {
+        width: 28px;
+        height: 28px;
+        background: linear-gradient(135deg, #7b2fff, #4a1090);
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        span {
+            font-size: 12px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+    }
+
+    .user-name {
+        font-size: 12px;
+        color: #ffffff;
+    }
+
+    i {
+        font-size: 12px;
+        color: #8899aa;
+    }
+}
+
+// 下拉菜单样式
+::v-deep .user-dropdown-menu {
+    background: #1a2744;
+    border: 1px solid #2a3a58;
+    border-radius: 8px;
+    padding: 4px;
+
+    .el-dropdown-menu__item {
+        padding: 8px 16px;
+        border-radius: 4px;
+        color: #b8c4d8;
+        font-size: 12px;
+
+        i {
+            margin-right: 8px;
+            color: #7b2fff;
+        }
+
+        &:hover {
+            background: rgba(123, 47, 255, 0.15);
+            color: #ffffff;
+        }
+
+        &.el-dropdown-menu__item--divided {
+            border-top: 1px solid #2a3a58;
+            margin-top: 4px;
+        }
+    }
+}
+
+// 页面内容 - 修复滚动问题
+.page-content {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #0d1525;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #2a3a58;
+        border-radius: 4px;
+
+        &:hover {
+            background: #3a4a68;
+        }
+    }
+}
+
+// ============================================
+// 响应式设计
+// ============================================
+
 @media (max-width: @breakpoint-md) {
-    .main-layout {
-        .sidebar {
-            width: 60px !important;
+    .sidebar {
+        width: 60px;
+
+        .sidebar-toggle {
+            display: none;
+        }
+
+        .sidebar-header {
+            padding: 12px 8px;
 
             .logo {
-                h2 {
-                    font-size: 12px;
-                    padding: 6px 6px;
-                    letter-spacing: 1px;
-                    text-shadow:
-                        0 0 6px rgba(255, 215, 0, 0.9),
-                        0 0 12px rgba(255, 215, 0, 0.7),
-                        2px 2px 0 #000000,
-                        -1px -1px 0 #000000,
-                        1px -1px 0 #000000,
-                        -1px 1px 0 #000000;
-                }
+                font-size: 16px;
+                letter-spacing: 0;
+                gap: 0;
             }
 
-            .sidebar-menu {
-                .el-menu-item {
-                    span {
-                        display: none;
-                    }
-
-                    i {
-                        margin-right: 0;
-                    }
-                }
+            .logo-text {
+                display: none;
             }
         }
 
-        .main-container {
-            .header {
-                padding: 0 @spacing-md;
+        .nav-item {
+            justify-content: center;
+            padding: 10px;
 
-                .user-avatar {
-                    .user-name {
-                        display: none;
-                    }
-                }
+            .nav-text {
+                display: none;
             }
+        }
 
-            .content {
-                padding: @spacing-md;
+        .sidebar-footer {
+            .user-details {
+                display: none;
             }
         }
     }
-}
 
-// 动画类
-.logo-animation {
-    animation: logo-glow 3s ease-in-out infinite;
-}
+    .topbar {
+        padding: 0 12px;
 
-// Logo发光动画
-@keyframes logo-glow {
-    0% {
-        text-shadow:
-            0 0 5px fade(@dnf-primary-gold, 80%),
-            0 0 10px fade(@dnf-primary-gold, 60%),
-            0 0 20px fade(@dnf-primary-gold, 40%),
-            0 0 30px fade(@dnf-primary-gold, 20%),
-            0 2px 4px rgba(0, 0, 0, 0.8);
+        .user-menu .user-name {
+            display: none;
+        }
     }
-    100% {
-        text-shadow:
-            0 0 10px fade(@dnf-secondary-gold, 100%),
-            0 0 20px fade(@dnf-secondary-gold, 80%),
-            0 0 30px fade(@dnf-primary-gold, 60%),
-            0 0 40px fade(@dnf-primary-gold, 40%),
-            0 2px 4px rgba(0, 0, 0, 0.8);
-    }
-}
-
-// Logo边框发光动画
-@keyframes logo-border-glow {
-    0% {
-        opacity: 0.4;
-        filter: blur(6px);
-    }
-    100% {
-        opacity: 0.7;
-        filter: blur(10px);
-    }
-}
-
-// Logo背景脉动动画
-@keyframes logo-bg-pulse {
-    0%, 100% {
-        opacity: 0.1;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 0.2;
-        transform: scale(1.1);
-    }
-}
-
-.menu-item-animation {
-    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-.avatar-animation {
-    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 </style>

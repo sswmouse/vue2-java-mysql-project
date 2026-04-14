@@ -1,121 +1,146 @@
 <!--
- * @Description: 首页组件
- * @Author: System
- * @Date: 2026-04-10
- * @LastEditTime: 2026-04-10 17:23:54
+ * @Description: 首页组件 - DNF沉浸式风格
+ * @Author: Claude Code
+ * @Date: 2026-04-14
+ * @LastEditTime: 2026-04-14 11:38:01
  * @FilePath: /vue2-java-mysql-project/frontend/src/views/Home.vue
- -->
+-->
 <template>
     <div class="home">
-        <!-- Logo区域 -->
-        <div class="logo-section">
-            <div class="logo-container">
-                <div class="logo-text">
-                    <span class="logo-d">D</span>
-                    <span class="logo-n">N</span>
-                    <span class="logo-f">F</span>
+        <!-- 动态粒子背景 -->
+        <div class="bg-particles">
+            <div
+                v-for="i in 20"
+                :key="i"
+                class="particle"
+                :class="`particle-${(i % 3) + 1}`"
+                :style="{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    animationDelay: `${Math.random() * 8}s`,
+                    animationDuration: `${8 + Math.random() * 6}s`
+                }"
+            />
+            <!-- 背景光晕 -->
+            <div class="glow-orb glow-orb-1" />
+            <div class="glow-orb glow-orb-2" />
+            <div class="glow-orb glow-orb-3" />
+        </div>
+
+        <!-- 英雄区域 -->
+        <div class="hero-section">
+            <div class="hero-content">
+                <!-- Logo区域 -->
+                <div class="logo-container">
+                    <div class="logo-text">
+                        <span class="logo-letter logo-d">D</span>
+                        <span class="logo-letter logo-n">N</span>
+                        <span class="logo-letter logo-f">F</span>
+                    </div>
+                    <div class="logo-subtitle">
+                        <span class="subtitle-line" />
+                        <span class="subtitle-text">DUNGEON FANTASY</span>
+                        <span class="subtitle-line" />
+                    </div>
                 </div>
-                <div class="logo-subtitle">
-                    地下城与勇士风格
-                </div>
+
+                <!-- 主标题 -->
+                <h1
+                    ref="mainTitle"
+                    class="hero-title"
+                >
+                    地下城与勇士风格管理系统
+                </h1>
+
+                <!-- 副标题 -->
+                <p class="hero-subtitle">
+                    基于 Vue2 + Spring Boot + MySQL 的沉浸式游戏化管理平台
+                </p>
+            </div>
+
+            <!-- 装饰线条 -->
+            <div class="hero-decoration">
+                <div class="deco-line deco-left" />
+                <div class="deco-diamond" />
+                <div class="deco-line deco-right" />
             </div>
         </div>
 
-        <!-- 主标题 -->
-        <h1 ref="mainTitle">
-            欢迎使用Vue2 + Java + MySQL全栈项目
-        </h1>
+        <!-- 技术栈展示 -->
+        <div class="tech-stack-section">
+            <div class="section-header">
+                <h2>技术架构</h2>
+                <div class="section-line" />
+            </div>
 
-        <!-- 描述区域 -->
-        <div
-            ref="description"
-            class="description"
-        >
-            <p>这是一个完整的全栈项目示例，包含：</p>
-            <ul>
-                <li>前端：Vue2 + Element UI + Vue Router + Vuex</li>
-                <li>后端：Java Spring Boot + MySQL</li>
-                <li>数据库：MySQL</li>
-                <li>测试：Jest + Puppeteer端到端测试</li>
-                <li>部署：Docker容器化支持</li>
-            </ul>
-            <p>点击上方导航栏的"用户管理"来管理用户数据。</p>
+            <div class="tech-grid">
+                <div
+                    v-for="(tech, index) in techStack"
+                    :key="index"
+                    class="tech-item"
+                >
+                    <div class="tech-icon">
+                        <i :class="tech.icon" />
+                    </div>
+                    <h3>{{ tech.title }}</h3>
+                    <p>{{ tech.description }}</p>
+                </div>
+            </div>
         </div>
 
         <!-- 功能卡片网格 -->
-        <div class="feature-grid">
-            <div
-                ref="featureCard1"
-                class="feature-card"
-            >
-                <div class="feature-icon">
-                    <i class="el-icon-monitor" />
-                </div>
-                <h3 class="feature-title">
-                    现代前端技术
-                </h3>
-                <p class="feature-description">
-                    基于Vue2生态系统，包含路由、状态管理、UI组件库
-                </p>
+        <div class="feature-section">
+            <div class="section-header">
+                <h2>核心功能</h2>
+                <div class="section-line" />
             </div>
-            <div
-                ref="featureCard2"
-                class="feature-card"
-            >
-                <div class="feature-icon">
-                    <i class="el-icon-data-line" />
+
+            <div class="feature-grid">
+                <div
+                    v-for="(feature, index) in features"
+                    :key="index"
+                    class="feature-card"
+                    :class="`feature-${index + 1}`"
+                >
+                    <div class="feature-glow" />
+                    <div class="feature-icon">
+                        <i :class="feature.icon" />
+                    </div>
+                    <h3>{{ feature.title }}</h3>
+                    <p>{{ feature.description }}</p>
+                    <div class="feature-tags">
+                        <span
+                            v-for="tag in feature.tags"
+                            :key="tag"
+                            class="feature-tag"
+                        >{{ tag }}</span>
+                    </div>
                 </div>
-                <h3 class="feature-title">
-                    强大后端支持
-                </h3>
-                <p class="feature-description">
-                    Spring Boot + MySQL，提供RESTful API和数据库管理
-                </p>
-            </div>
-            <div
-                ref="featureCard3"
-                class="feature-card"
-            >
-                <div class="feature-icon">
-                    <i class="el-icon-setting" />
-                </div>
-                <h3 class="feature-title">
-                    完整开发工具链
-                </h3>
-                <p class="feature-description">
-                    包含代码规范、测试框架、构建工具和部署配置
-                </p>
-            </div>
-            <div
-                ref="featureCard4"
-                class="feature-card"
-            >
-                <div class="feature-icon">
-                    <i class="el-icon-guide" />
-                </div>
-                <h3 class="feature-title">
-                    DNF主题设计
-                </h3>
-                <p class="feature-description">
-                    地下城与勇士风格界面，暗色主题与华丽特效
-                </p>
             </div>
         </div>
 
-        <!-- 状态卡片 -->
-        <div
-            ref="statusCard"
-            class="status"
-        >
-            <el-alert
-                title="项目状态"
-                type="info"
-                :closable="false"
-            >
-                <p>前端运行在: <strong>http://localhost:8080</strong></p>
-                <p>后端API运行在: <strong>http://localhost:8081</strong></p>
-                <p>数据库: <strong>MySQL @ localhost:3306</strong></p>
-            </el-alert>
+        <!-- 状态信息 -->
+        <div class="status-section">
+            <div class="status-card">
+                <div class="status-header">
+                    <i class="el-icon-monitor" />
+                    <span>运行环境</span>
+                </div>
+                <div class="status-list">
+                    <div class="status-item">
+                        <span class="status-label">前端服务</span>
+                        <span class="status-value status-frontend">http://localhost:8080</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">后端API</span>
+                        <span class="status-value status-backend">http://localhost:8081</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">数据库</span>
+                        <span class="status-value status-db">MySQL @ localhost:3306</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -124,392 +149,535 @@
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
+gsap.registerPlugin(ScrollTrigger)
+
 export default {
     name: 'Home',
     data() {
         return {
-            timeline: null
+            timeline: null,
+            techStack: [
+                {
+                    icon: 'el-icon-monitor',
+                    title: '前端框架',
+                    description: 'Vue 2.6 + Vue Router + Vuex 完整生态'
+                },
+                {
+                    icon: 'el-icon-data-analysis',
+                    title: 'UI组件库',
+                    description: 'Element UI 深度定制，霓虹暗色主题'
+                },
+                {
+                    icon: 'el-icon-box',
+                    title: '构建工具',
+                    description: 'Vue CLI 5 + LESS 预处理器'
+                },
+                {
+                    icon: 'el-icon-connection',
+                    title: '后端服务',
+                    description: 'Spring Boot 2.7 + RESTful API'
+                },
+                {
+                    icon: 'el-icon-coin',
+                    title: '数据库',
+                    description: 'MySQL 8.0 关系型数据库'
+                },
+                {
+                    icon: 'el-icon-magic-stick',
+                    title: '动画引擎',
+                    description: 'GSAP + ScrollTrigger 流畅动效'
+                }
+            ],
+            features: [
+                {
+                    icon: 'el-icon-user',
+                    title: '角色管理',
+                    description: '创建、编辑、删除游戏角色，支持拖拽排序和3D翻转卡片展示',
+                    tags: ['CRUD', '拖拽排序', '3D翻转']
+                },
+                {
+                    icon: 'el-icon-s-shop',
+                    title: '装备系统',
+                    description: '管理角色装备穿戴，装备强化与附魔系统',
+                    tags: ['强化', '附魔', '套装']
+                },
+                {
+                    icon: 'el-icon-cloudy',
+                    title: '时装系统',
+                    description: '角色外观时装管理，支持多种风格分类',
+                    tags: ['外观', '染色', '幻化']
+                },
+                {
+                    icon: 'el-icon-data-line',
+                    title: '宠物系统',
+                    description: '宠物捕捉、养成与技能配置',
+                    tags: ['养成', '技能', '进化']
+                },
+                {
+                    icon: 'el-icon-medal',
+                    title: '成就徽章',
+                    description: '记录玩家成就，解锁专属荣誉徽章',
+                    tags: ['成就', '荣誉', '排名']
+                },
+                {
+                    icon: 'el-icon-moon',
+                    title: '迷雾大陆',
+                    description: '探索未知的地图区域，解锁新剧情',
+                    tags: ['探索', '剧情', '地图']
+                }
+            ]
         }
     },
     mounted() {
-        // 注册ScrollTrigger插件
-        gsap.registerPlugin(ScrollTrigger)
-
-        // 创建主时间轴
-        this.timeline = gsap.timeline({
-            defaults: {
-                duration: 1.2,
-                ease: 'power3.out'
-            }
-        })
-
-        // Logo区域动画 - 字母依次出现
-        this.timeline.from('.logo-text span', {
-            y: 60,
-            opacity: 0,
-            scale: 0,
-            rotation: 180,
-            stagger: 0.3,
-            ease: 'back.out(1.7)'
-        })
-
-        // Logo副标题动画
-        this.timeline.from('.logo-subtitle', {
-            y: 30,
-            opacity: 0,
-            scale: 0.8,
-            ease: 'elastic.out(1, 0.5)'
-        }, '-=0.4')
-
-        // 标题动画
-        this.timeline.from('.home h1', {
-            y: 50,
-            opacity: 0,
-            scale: 0.8,
-            rotationX: 15
-        }, '-=0.2')
-
-        // 描述区域动画
-        this.timeline.from('.description', {
-            y: 40,
-            opacity: 0,
-            scale: 0.95
-        }, '-=0.6')
-
-        // 列表项交错动画
-        this.timeline.from('.description li', {
-            y: 30,
-            opacity: 0,
-            stagger: 0.2
-        }, '-=0.4')
-
-        // 功能卡片网格动画
-        this.timeline.from('.feature-card', {
-            y: 50,
-            opacity: 0,
-            scale: 0.85,
-            stagger: 0.15,
-            rotationY: 20
-        }, '-=0.4')
-
-        // 状态卡片动画
-        this.timeline.from('.status', {
-            y: 40,
-            opacity: 0,
-            scale: 0.95
-        }, '-=0.4')
-
-        // 设置滚动触发动画
+        this.initAnimations()
         this.setupScrollAnimations()
     },
     beforeDestroy() {
-        // 清理动画实例
         if (this.timeline) {
             this.timeline.kill()
         }
         ScrollTrigger.getAll().forEach(trigger => trigger.kill())
     },
     methods: {
+        initAnimations() {
+            this.timeline = gsap.timeline({
+                defaults: {
+                    duration: 1,
+                    ease: 'power3.out'
+                }
+            })
+
+            // Logo字母依次出现
+            this.timeline.from('.logo-letter', {
+                y: 100,
+                opacity: 0,
+                scale: 0,
+                rotation: -30,
+                stagger: 0.2,
+                ease: 'back.out(1.7)'
+            })
+
+            // Logo副标题
+            this.timeline.from('.logo-subtitle', {
+                y: 30,
+                opacity: 0,
+                scaleX: 0,
+                ease: 'power2.out'
+            }, '-=0.4')
+
+            // 主标题
+            this.timeline.from('.hero-title', {
+                y: 60,
+                opacity: 0,
+                scale: 0.9,
+                ease: 'power2.out'
+            }, '-=0.6')
+
+            // 副标题
+            this.timeline.from('.hero-subtitle', {
+                y: 30,
+                opacity: 0
+            }, '-=0.4')
+
+            // 装饰元素
+            this.timeline.from('.hero-decoration', {
+                scaleX: 0,
+                opacity: 0
+            }, '-=0.4')
+
+            // 技术栈
+            this.timeline.from('.tech-item', {
+                y: 40,
+                opacity: 0,
+                stagger: 0.1,
+                scale: 0.9
+            }, '-=0.4')
+
+            // 功能卡片
+            this.timeline.from('.feature-card', {
+                y: 60,
+                opacity: 0,
+                scale: 0.85,
+                stagger: 0.12,
+                rotationY: 15
+            }, '-=0.3')
+
+            // 状态卡片
+            this.timeline.from('.status-card', {
+                y: 40,
+                opacity: 0,
+                scale: 0.95
+            }, '-=0.2')
+        },
+
         setupScrollAnimations() {
-            // Logo区域视差效果
-            gsap.to('.logo-section', {
+            // Logo视差效果
+            gsap.to('.hero-section', {
                 scrollTrigger: {
                     trigger: '.home',
                     start: 'top top',
                     end: 'bottom top',
-                    scrub: true,
-                    markers: false
+                    scrub: 1
                 },
-                y: 50,
-                opacity: 0.8,
-                scale: 0.95
+                y: 80,
+                opacity: 0.6
             })
 
-            // 为描述区域添加滚动触发动画
-            gsap.from('.description', {
+            // 标题呼吸效果
+            gsap.to('.hero-title', {
                 scrollTrigger: {
-                    trigger: '.description',
-                    start: 'top 85%',
-                    end: 'bottom 20%',
-                    toggleActions: 'play none none reverse',
-                    markers: false
-                },
-                y: 40,
-                opacity: 0,
-                rotationX: 10,
-                duration: 1.2,
-                ease: 'power3.out'
-            })
-
-            // 描述区域列表项交错动画
-            gsap.from('.description li', {
-                scrollTrigger: {
-                    trigger: '.description',
-                    start: 'top 75%',
-                    end: 'bottom 20%',
-                    toggleActions: 'play none none reverse',
-                    markers: false
-                },
-                y: 30,
-                opacity: 0,
-                stagger: 0.15,
-                duration: 0.8,
-                ease: 'back.out(1.5)'
-            })
-
-            // 为功能卡片添加滚动触发动画
-            gsap.from('.feature-card', {
-                scrollTrigger: {
-                    trigger: '.feature-grid',
-                    start: 'top 90%',
-                    end: 'bottom 20%',
-                    toggleActions: 'play none none reverse',
-                    markers: false,
-                    scrub: 0.5
-                },
-                y: 60,
-                opacity: 0,
-                scale: 0.85,
-                rotationY: 30,
-                stagger: 0.2,
-                duration: 1,
-                ease: 'power3.out'
-            })
-
-            // 为状态卡片添加滚动触发动画
-            gsap.from('.status', {
-                scrollTrigger: {
-                    trigger: '.status',
-                    start: 'top 85%',
-                    end: 'bottom 20%',
-                    toggleActions: 'play none none reverse',
-                    markers: false
-                },
-                y: 40,
-                opacity: 0,
-                scale: 0.9,
-                duration: 1.2,
-                ease: 'elastic.out(1, 0.5)'
-            })
-
-            // 标题浮动效果
-            gsap.to('h1', {
-                scrollTrigger: {
-                    trigger: 'h1',
+                    trigger: '.hero-title',
                     start: 'top 80%',
                     end: 'bottom 20%',
-                    scrub: true,
-                    markers: false
+                    scrub: 1
                 },
-                y: -20,
-                scale: 1.05,
-                textShadow: '0 0 30px rgba(212, 175, 55, 0.7)'
+                textShadow: '0 0 40px rgba(200, 168, 50, 0.8), 0 0 80px rgba(74, 16, 144, 0.4)'
             })
 
-            // Logo区域悬停效果增强
-            const logoLetters = document.querySelectorAll('.logo-text span')
-            logoLetters.forEach((letter, index) => {
-                letter.addEventListener('mouseenter', () => {
-                    gsap.to(letter, {
-                        scale: 1.4,
-                        y: -15,
-                        rotation: 15,
-                        color: index === 0 ? '#8a2be2' : index === 1 ? '#3b82f6' : '#ffd700',
-                        duration: 0.3,
-                        ease: 'power2.out'
-                    })
-                    // 添加粒子效果
-                    this.createParticles(letter, index)
-                })
-                letter.addEventListener('mouseleave', () => {
-                    gsap.to(letter, {
-                        scale: 1,
-                        y: 0,
-                        rotation: 0,
-                        color: index === 0 ? '#6a11cb' : index === 1 ? '#1a3a5f' : '#d4af37',
-                        duration: 0.5,
-                        ease: 'elastic.out(1, 0.5)'
-                    })
-                })
-            })
-        },
-        createParticles(element, index) {
-            const colors = ['#8a2be2', '#3b82f6', '#ffd700']
-            const color = colors[index]
-            for (let i = 0; i < 8; i++) {
-                const particle = document.createElement('div')
-                particle.style.position = 'absolute'
-                particle.style.width = '4px'
-                particle.style.height = '4px'
-                particle.style.backgroundColor = color
-                particle.style.borderRadius = '50%'
-                particle.style.pointerEvents = 'none'
-                particle.style.zIndex = '1000'
-
-                const rect = element.getBoundingClientRect()
-                const x = rect.left + rect.width / 2
-                const y = rect.top + rect.height / 2
-
-                particle.style.left = `${x}px`
-                particle.style.top = `${y}px`
-
-                document.body.appendChild(particle)
-
-                gsap.to(particle, {
-                    x: (Math.random() - 0.5) * 100,
-                    y: (Math.random() - 0.5) * 100,
+            // 功能卡片滚动进入
+            gsap.utils.toArray('.feature-card').forEach((card, i) => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 85%',
+                        end: 'bottom 20%',
+                        toggleActions: 'play none none reverse'
+                    },
+                    y: 80,
                     opacity: 0,
-                    scale: 0,
-                    duration: 0.8,
-                    ease: 'power2.out',
-                    onComplete: () => {
-                        document.body.removeChild(particle)
-                    }
+                    scale: 0.85,
+                    rotationY: 20,
+                    duration: 1,
+                    ease: 'power3.out',
+                    delay: i * 0.1
                 })
-            }
+            })
+
+            // 背景粒子视差
+            gsap.to('.bg-particles', {
+                scrollTrigger: {
+                    trigger: '.home',
+                    start: 'top top',
+                    end: 'bottom bottom',
+                    scrub: 0.5
+                },
+                y: 200
+            })
         }
     }
 }
 </script>
 
 <style lang="less" scoped>
-// 导入DNF主题变量和混合函数
 @import '@/assets/styles/variables.less';
 @import '@/assets/styles/mixins.less';
 
 .home {
-    padding: @spacing-xl;
-    animation: page-fade-in 0.6s ease-out;
+    position: relative;
+    min-height: 100%;
+    overflow-x: hidden;
+    background: @dnf-bg-dark;
+    padding: 0;
+}
 
-    // Logo区域样式
-    .logo-section {
-        text-align: center;
-        margin-bottom: @spacing-3xl;
-        position: relative;
-        overflow: hidden;
-        padding: @spacing-xl 0;
+// ============================================
+// 粒子背景
+// ============================================
 
-        .logo-container {
-            position: relative;
-            display: inline-block;
-        }
+.bg-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
 
-        .logo-text {
-            font-size: 72px;
-            font-weight: @font-weight-bold;
-            letter-spacing: 8px;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            margin-bottom: @spacing-md;
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+}
 
-            .logo-d, .logo-n, .logo-f {
-                display: inline-block;
-                position: relative;
-                text-shadow: 0 0 20px @dnf-primary-purple;
-                animation: logo-float 6s ease-in-out infinite;
+.particle-1 {
+    width: 4px;
+    height: 4px;
+    background: @dnf-secondary-purple;
+    box-shadow: 0 0 10px @dnf-secondary-purple;
+    animation: particle-drift-1 12s ease-in-out infinite;
+}
 
-                &::after {
-                    content: '';
-                    position: absolute;
-                    bottom: -10px;
-                    left: 0;
-                    right: 0;
-                    height: 4px;
-                    background: @gradient-purple-gold;
-                    border-radius: 2px;
-                    transform: scaleX(0);
-                    transform-origin: center;
-                    animation: logo-line 3s ease-in-out infinite;
-                }
-            }
+.particle-2 {
+    width: 3px;
+    height: 3px;
+    background: @dnf-primary-gold;
+    box-shadow: 0 0 8px @dnf-primary-gold;
+    animation: particle-drift-2 15s ease-in-out infinite;
+}
 
-            .logo-d {
-                color: @dnf-primary-purple;
-                animation-delay: 0s;
-            }
+.particle-3 {
+    width: 5px;
+    height: 5px;
+    background: @dnf-info;
+    box-shadow: 0 0 12px @dnf-info;
+    animation: particle-drift-3 10s ease-in-out infinite;
+}
 
-            .logo-n {
-                color: @dnf-primary-blue;
-                animation-delay: 0.2s;
-            }
+.glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+}
 
-            .logo-f {
-                color: @dnf-primary-gold;
-                animation-delay: 0.4s;
-            }
-        }
+.glow-orb-1 {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, fade(@dnf-secondary-purple, 0.15) 0%, transparent 70%);
+    top: -200px;
+    left: -100px;
+    animation: glow-pulse 8s ease-in-out infinite;
+}
 
-        .logo-subtitle {
-            color: @dnf-text-secondary;
-            font-size: @font-size-lg;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            position: relative;
-            display: inline-block;
-            padding: @spacing-sm @spacing-lg;
-            background: fade(@dnf-primary-dark, 70%);
-            border-radius: @border-radius-full;
-            border: 1px solid fade(@dnf-primary-gold, 30%);
+.glow-orb-2 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, fade(@dnf-primary-gold, 0.1) 0%, transparent 70%);
+    top: 30%;
+    right: -150px;
+    animation: glow-pulse 10s ease-in-out infinite;
+    animation-delay: 2s;
+}
 
-            &::before, &::after {
-                content: '';
-                position: absolute;
-                top: 50%;
-                width: 40px;
-                height: 1px;
-                background: @gradient-purple-gold;
-            }
+.glow-orb-3 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, fade(@dnf-info, 0.08) 0%, transparent 70%);
+    bottom: 20%;
+    left: 20%;
+    animation: glow-pulse 12s ease-in-out infinite;
+    animation-delay: 4s;
+}
 
-            &::before {
-                right: 100%;
-                margin-right: @spacing-md;
-            }
+// ============================================
+// 英雄区域
+// ============================================
 
-            &::after {
-                left: 100%;
-                margin-left: @spacing-md;
-            }
-        }
+.hero-section {
+    position: relative;
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: @spacing-4xl @spacing-xl;
+    z-index: 1;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(ellipse at center top, fade(@dnf-secondary-purple, 0.1) 0%, transparent 60%);
+        pointer-events: none;
     }
+}
 
-    h1 {
-        text-align: center;
-        margin-bottom: @spacing-2xl;
-        font-size: @font-size-3xl;
-        font-weight: @font-weight-bold;
-        .gold-gradient-text();
-        text-shadow: 0 0 20px fade(@dnf-primary-gold, 50%);
+.hero-content {
+    text-align: center;
+    max-width: 900px;
+}
+
+.logo-container {
+    margin-bottom: @spacing-2xl;
+}
+
+.logo-text {
+    font-size: 96px;
+    font-weight: 900;
+    letter-spacing: 16px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: @spacing-lg;
+    position: relative;
+
+    .logo-letter {
+        display: inline-block;
+        animation: logo-float 6s ease-in-out infinite;
         position: relative;
-        padding-bottom: @spacing-lg;
 
         &::after {
             content: '';
             position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
+            bottom: -12px;
+            left: 0;
+            right: 0;
             height: 4px;
-            background: @gradient-purple-gold;
             border-radius: 2px;
             animation: title-underline 3s ease-in-out infinite;
         }
     }
 
-    .description {
-        text-align: center;
-        max-width: 800px;
-        margin: @spacing-2xl auto;
+    .logo-d {
+        color: @dnf-secondary-purple;
+        text-shadow: 0 0 30px fade(@dnf-secondary-purple, 0.8), 0 0 60px fade(@dnf-secondary-purple, 0.4);
+        animation-delay: 0s;
+
+        &::after {
+            background: @dnf-secondary-purple;
+            box-shadow: 0 0 15px fade(@dnf-secondary-purple, 0.8);
+        }
+    }
+
+    .logo-n {
+        color: @dnf-info;
+        text-shadow: 0 0 30px fade(@dnf-info, 0.8), 0 0 60px fade(@dnf-info, 0.4);
+        animation-delay: 0.15s;
+
+        &::after {
+            background: linear-gradient(90deg, @dnf-secondary-purple, @dnf-info);
+        }
+    }
+
+    .logo-f {
+        color: @dnf-primary-gold;
+        text-shadow: 0 0 30px fade(@dnf-primary-gold, 0.8), 0 0 60px fade(@dnf-primary-gold, 0.4);
+        animation-delay: 0.3s;
+
+        &::after {
+            background: @dnf-primary-gold;
+            box-shadow: 0 0 15px fade(@dnf-primary-gold, 0.8);
+        }
+    }
+}
+
+.logo-subtitle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: @spacing-lg;
+
+    .subtitle-line {
+        width: 80px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, @dnf-primary-gold, transparent);
+    }
+
+    .subtitle-text {
+        font-family: @font-display, 'Orbitron', sans-serif;
+        font-size: @font-size-sm;
+        letter-spacing: 0.4em;
+        color: @dnf-primary-gold;
+        text-shadow: 0 0 20px fade(@dnf-primary-gold, 0.5);
+    }
+}
+
+.hero-title {
+    font-family: @font-display, 'Orbitron', sans-serif;
+    font-size: @font-size-3xl;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    .neon-gold-text();
+    margin-bottom: @spacing-xl;
+    position: relative;
+    padding: 0 @spacing-lg;
+}
+
+.hero-subtitle {
+    font-family: @font-body, 'Quicksand', sans-serif;
+    font-size: @font-size-xl;
+    color: @dnf-text-secondary;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: @line-height-relaxed;
+    letter-spacing: 0.02em;
+}
+
+.hero-decoration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: @spacing-lg;
+    margin-top: @spacing-3xl;
+    opacity: 0.6;
+
+    .deco-line {
+        width: 150px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, @dnf-primary-gold);
+    }
+
+    .deco-left {
+        transform: rotate(180deg);
+    }
+
+    .deco-right {
+        background: linear-gradient(90deg, @dnf-primary-gold, transparent);
+    }
+
+    .deco-diamond {
+        width: 12px;
+        height: 12px;
+        background: @dnf-primary-gold;
+        transform: rotate(45deg);
+        box-shadow: 0 0 15px fade(@dnf-primary-gold, 0.8);
+    }
+}
+
+// ============================================
+// 技术栈区域
+// ============================================
+
+.tech-stack-section {
+    position: relative;
+    z-index: 1;
+    padding: @spacing-3xl @spacing-xl;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: @spacing-3xl;
+
+    h2 {
+        font-family: @font-display, 'Orbitron', sans-serif;
+        font-size: @font-size-2xl;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        .neon-gold-text();
+        margin-bottom: @spacing-md;
+    }
+
+    .section-line {
+        width: 200px;
+        height: 2px;
+        margin: 0 auto;
+        background: linear-gradient(90deg, transparent, @dnf-primary-gold, @dnf-secondary-purple, transparent);
+        border-radius: 1px;
+    }
+}
+
+.tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: @spacing-xl;
+
+    .tech-item {
+        background: @gradient-card;
+        border: 1px solid @dnf-border-dark;
+        border-radius: @border-radius-xl;
         padding: @spacing-xl;
-        .dnf-card();
-        .gradient-border(@gradient-purple-gold, 3px);
+        text-align: center;
+        transition: all @transition-smooth;
         position: relative;
         overflow: hidden;
-        background: fade(@dnf-primary-dark, 80%);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
 
         &::before {
             content: '';
@@ -517,416 +685,361 @@ export default {
             top: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            background: @gradient-purple-gold;
-            opacity: 0.1;
-            z-index: -1;
+            height: 2px;
+            background: @gradient-blue-purple;
+            opacity: 0;
+            transition: opacity @transition-normal;
+        }
+
+        &:hover {
+            border-color: fade(@dnf-secondary-purple, 50%);
+            transform: translateY(-6px);
+            box-shadow: @dnf-shadow-card-glow;
+
+            &::before {
+                opacity: 1;
+            }
+
+            .tech-icon {
+                transform: scale(1.15) rotate(5deg);
+                color: @dnf-secondary-purple;
+                filter: drop-shadow(0 0 15px fade(@dnf-secondary-purple, 0.6));
+            }
+        }
+
+        .tech-icon {
+            font-size: 48px;
+            color: @dnf-primary-gold;
+            margin-bottom: @spacing-lg;
+            transition: all @transition-smooth;
+            filter: drop-shadow(0 0 8px fade(@dnf-primary-gold, 0.4));
+        }
+
+        h3 {
+            font-family: @font-display, 'Orbitron', sans-serif;
+            font-size: @font-size-lg;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            .neon-gold-text();
+            margin-bottom: @spacing-sm;
         }
 
         p {
+            font-size: @font-size-sm;
             color: @dnf-text-secondary;
-            font-size: @font-size-lg;
-            margin-bottom: @spacing-lg;
             line-height: @line-height-relaxed;
-
-            &:first-child {
-                color: @dnf-text-primary;
-                font-size: @font-size-xl;
-                font-weight: @font-weight-bold;
-                .gold-gradient-text();
-                text-shadow: 0 0 15px fade(@dnf-primary-gold, 50%);
-                margin-bottom: @spacing-xl;
-            }
-        }
-
-        ul {
-            margin: @spacing-lg auto;
-            padding: 0;
-            list-style: none;
-            max-width: 600px;
-        }
-
-        li {
-            margin: @spacing-md 0;
-            padding: @spacing-md @spacing-lg;
-            background: fade(@dnf-primary-blue, 20%);
-            border-radius: @border-radius-md;
-            border-left: 4px solid @dnf-primary-purple;
-            color: @dnf-text-secondary;
-            transition: all @transition-normal;
-            text-align: left;
-            position: relative;
-            overflow: hidden;
-
-            &::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: @gradient-blue-purple;
-                opacity: 0;
-                transition: opacity @transition-normal;
-                z-index: -1;
-            }
-
-            &:hover {
-                background: fade(@dnf-primary-purple, 10%);
-                transform: translateX(8px);
-                border-left-color: @dnf-primary-gold;
-                color: @dnf-text-primary;
-
-                &::before {
-                    opacity: 0.2;
-                }
-            }
-        }
-    }
-
-    .status {
-        max-width: 600px;
-        margin: @spacing-2xl auto;
-        text-align: left;
-
-        .el-alert {
-            .dnf-card();
-            .gradient-border(@gradient-blue-purple, 2px);
-            background: fade(@dnf-primary-dark, 70%);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            position: relative;
-            overflow: hidden;
-
-            &::before {
-                content: '';
-                position: absolute;
-                top: -2px;
-                left: -2px;
-                right: -2px;
-                bottom: -2px;
-                background: @gradient-blue-purple;
-                border-radius: @border-radius-lg + 2px;
-                opacity: 0.3;
-                z-index: -1;
-            }
-
-            .el-alert__title {
-                color: @dnf-primary-gold;
-                font-weight: @font-weight-bold;
-                font-size: @font-size-lg;
-                .gold-gradient-text();
-                margin-bottom: @spacing-md;
-            }
-
-            p {
-                color: @dnf-text-secondary;
-                margin: @spacing-sm 0;
-                font-size: @font-size-md;
-
-                strong {
-                    color: @dnf-primary-gold;
-                    font-weight: @font-weight-bold;
-                    text-shadow: 0 0 8px fade(@dnf-primary-gold, 50%);
-                }
-            }
-        }
-    }
-
-    // 功能卡片网格
-    .feature-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: @spacing-xl;
-        margin: @spacing-3xl 0;
-
-        .feature-card {
-            .dnf-card();
-            .gradient-border(@gradient-blue-purple, 2px);
-            padding: @spacing-2xl @spacing-xl;
-            text-align: center;
-            transition: all @transition-normal;
-            position: relative;
-            overflow: hidden;
-            background: fade(@dnf-primary-dark, 70%);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-
-            &::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: @gradient-blue-purple;
-                opacity: 0;
-                transition: opacity @transition-normal;
-                z-index: -1;
-            }
-
-            &::after {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: -100%;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(
-                    90deg,
-                    transparent,
-                    fade(@dnf-primary-gold, 20%),
-                    transparent
-                );
-                transition: left @transition-slow;
-            }
-
-            &:hover {
-                transform: translateY(-15px) scale(1.03);
-                box-shadow: @dnf-shadow-purple, 0 20px 40px fade(@dnf-primary-purple, 30%);
-
-                &::before {
-                    opacity: 0.15;
-                }
-
-                &::after {
-                    left: 100%;
-                }
-
-                .feature-icon {
-                    transform: scale(1.3) rotate(10deg);
-                    color: @dnf-primary-gold;
-                    filter: drop-shadow(0 0 12px @dnf-primary-gold);
-                }
-
-                .feature-title {
-                    .gold-gradient-text();
-                    text-shadow: 0 0 10px fade(@dnf-primary-gold, 50%);
-                }
-
-                .feature-description {
-                    color: @dnf-text-light;
-                }
-            }
-
-            .feature-icon {
-                font-size: 56px;
-                color: @dnf-primary-purple;
-                margin-bottom: @spacing-lg;
-                transition: all @transition-normal;
-                filter: drop-shadow(0 0 8px fade(@dnf-primary-purple, 50%));
-            }
-
-            .feature-title {
-                color: @dnf-text-primary;
-                font-size: @font-size-xl;
-                font-weight: @font-weight-bold;
-                margin-bottom: @spacing-md;
-                transition: all @transition-normal;
-            }
-
-            .feature-description {
-                color: @dnf-text-secondary;
-                font-size: @font-size-md;
-                line-height: @line-height-relaxed;
-                transition: color @transition-normal;
-            }
         }
     }
 }
 
-// 响应式调整
-@media (max-width: @breakpoint-md) {
-    .home {
-        padding: @spacing-md;
+// ============================================
+// 功能卡片区域
+// ============================================
 
-        .logo-section {
-            margin-bottom: @spacing-2xl;
-            padding: @spacing-lg 0;
-
-            .logo-text {
-                font-size: 48px;
-                letter-spacing: 4px;
-                gap: 8px;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .logo-subtitle {
-                font-size: @font-size-md;
-                letter-spacing: 2px;
-                padding: @spacing-xs @spacing-md;
-
-                &::before, &::after {
-                    width: 20px;
-                }
-            }
-        }
-
-        h1 {
-            font-size: @font-size-2xl;
-            margin-bottom: @spacing-xl;
-            padding-bottom: @spacing-md;
-
-            &::after {
-                width: 150px;
-            }
-        }
-
-        .description {
-            padding: @spacing-lg;
-            margin: @spacing-xl auto;
-
-            p {
-                font-size: @font-size-md;
-
-                &:first-child {
-                    font-size: @font-size-lg;
-                }
-            }
-
-            li {
-                padding: @spacing-sm @spacing-md;
-                font-size: @font-size-sm;
-            }
-        }
-
-        .feature-grid {
-            grid-template-columns: 1fr;
-            gap: @spacing-md;
-            margin: @spacing-2xl 0;
-
-            .feature-card {
-                padding: @spacing-xl @spacing-lg;
-
-                .feature-icon {
-                    font-size: 42px;
-                }
-
-                .feature-title {
-                    font-size: @font-size-lg;
-                }
-
-                .feature-description {
-                    font-size: @font-size-sm;
-                }
-            }
-        }
-
-        .status {
-            margin: @spacing-2xl auto;
-
-            .el-alert {
-                padding: @spacing-md;
-
-                p {
-                    font-size: @font-size-sm;
-                }
-            }
-        }
-    }
+.feature-section {
+    position: relative;
+    z-index: 1;
+    padding: @spacing-3xl @spacing-xl;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-// 小屏幕手机
-@media (max-width: @breakpoint-sm) {
-    .home {
-        padding: @spacing-sm;
-
-        .logo-section {
-            .logo-text {
-                font-size: 36px;
-                letter-spacing: 2px;
-                gap: 4px;
-            }
-
-            .logo-subtitle {
-                font-size: @font-size-sm;
-                letter-spacing: 1px;
-                padding: @spacing-xs @spacing-sm;
-            }
-        }
-
-        h1 {
-            font-size: @font-size-xl;
-            margin-bottom: @spacing-lg;
-        }
-
-        .description {
-            padding: @spacing-md;
-
-            p {
-                font-size: @font-size-sm;
-
-                &:first-child {
-                    font-size: @font-size-md;
-                }
-            }
-
-            li {
-                padding: @spacing-xs @spacing-sm;
-                font-size: @font-size-xs;
-            }
-        }
-
-        .feature-grid {
-            .feature-card {
-                padding: @spacing-lg @spacing-md;
-            }
-        }
-    }
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: @spacing-xl;
 }
 
-// 动画定义
-@keyframes page-fade-in {
-    from {
+.feature-card {
+    .glass-card();
+    padding: @spacing-2xl;
+    position: relative;
+    overflow: hidden;
+    transition: all @transition-smooth;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, @dnf-secondary-purple, @dnf-primary-gold, @dnf-info);
         opacity: 0;
-        transform: translateY(20px);
+        transition: opacity @transition-normal;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+
+    .feature-glow {
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, fade(@dnf-secondary-purple, 0.08) 0%, transparent 50%);
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity @transition-smooth;
+    }
+
+    &:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow:
+            @dnf-shadow-xl,
+            0 0 50px fade(@dnf-secondary-purple, 0.15);
+
+        &::before {
+            opacity: 1;
+        }
+
+        .feature-glow {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            transform: scale(1.2) rotate(10deg);
+            color: @dnf-primary-gold;
+            filter: drop-shadow(0 0 20px fade(@dnf-primary-gold, 0.8));
+        }
+
+        h3 {
+            .neon-gold-text();
+        }
+    }
+
+    .feature-icon {
+        font-size: 52px;
+        color: @dnf-secondary-purple;
+        margin-bottom: @spacing-xl;
+        transition: all @transition-smooth;
+        filter: drop-shadow(0 0 10px fade(@dnf-secondary-purple, 0.4));
+    }
+
+    h3 {
+        font-family: @font-display, 'Orbitron', sans-serif;
+        font-size: @font-size-xl;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        color: @dnf-text-primary;
+        margin-bottom: @spacing-md;
+        transition: all @transition-smooth;
+    }
+
+    p {
+        font-size: @font-size-md;
+        color: @dnf-text-secondary;
+        line-height: @line-height-relaxed;
+        margin-bottom: @spacing-xl;
+    }
+
+    .feature-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: @spacing-sm;
+
+        .feature-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: fade(@dnf-secondary-purple, 15%);
+            border: 1px solid fade(@dnf-secondary-purple, 30%);
+            border-radius: @border-radius-full;
+            font-size: @font-size-xs;
+            color: @dnf-secondary-purple;
+            font-weight: @font-weight-medium;
+            letter-spacing: 0.05em;
+            transition: all @transition-fast;
+
+            &:hover {
+                background: fade(@dnf-secondary-purple, 30%);
+                box-shadow: 0 0 10px fade(@dnf-secondary-purple, 0.3);
+            }
+        }
     }
 }
 
-// Logo浮动动画
-@keyframes logo-float {
-    0%, 100% {
-        transform: translateY(0);
+// ============================================
+// 状态信息区域
+// ============================================
+
+.status-section {
+    position: relative;
+    z-index: 1;
+    padding: @spacing-3xl @spacing-xl;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.status-card {
+    .glass-card();
+    padding: @spacing-2xl;
+
+    .status-header {
+        display: flex;
+        align-items: center;
+        gap: @spacing-md;
+        margin-bottom: @spacing-xl;
+        padding-bottom: @spacing-lg;
+        border-bottom: 1px solid @dnf-border-dark;
+
+        i {
+            font-size: 28px;
+            color: @dnf-info;
+            filter: drop-shadow(0 0 10px fade(@dnf-info, 0.5));
+        }
+
+        span {
+            font-family: @font-display, 'Orbitron', sans-serif;
+            font-size: @font-size-lg;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            .neon-cyan-text();
+        }
     }
-    50% {
-        transform: translateY(-15px);
+
+    .status-list {
+        display: flex;
+        flex-direction: column;
+        gap: @spacing-lg;
+    }
+
+    .status-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: @spacing-md @spacing-lg;
+        background: fade(@dnf-primary-dark, 50%);
+        border-radius: @border-radius-lg;
+        border: 1px solid @dnf-border-dark;
+        transition: all @transition-smooth;
+
+        &:hover {
+            border-color: fade(@dnf-info, 30%);
+            background: fade(@dnf-info, 5%);
+        }
+
+        .status-label {
+            font-size: @font-size-sm;
+            color: @dnf-text-muted;
+            letter-spacing: 0.05em;
+        }
+
+        .status-value {
+            font-family: @font-mono, 'Share Tech Mono', monospace;
+            font-size: @font-size-sm;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .status-frontend {
+            color: @dnf-success;
+            text-shadow: 0 0 8px fade(@dnf-success, 0.4);
+        }
+
+        .status-backend {
+            color: @dnf-info;
+            text-shadow: 0 0 8px fade(@dnf-info, 0.4);
+        }
+
+        .status-db {
+            color: @dnf-primary-gold;
+            text-shadow: 0 0 8px fade(@dnf-primary-gold, 0.4);
+        }
     }
 }
 
-// Logo下划线动画
-@keyframes logo-line {
-    0%, 100% {
-        transform: scaleX(0);
+// ============================================
+// 响应式设计
+// ============================================
+
+@media (max-width: @breakpoint-lg) {
+    .logo-text {
+        font-size: 72px;
+        letter-spacing: 10px;
+        gap: 8px;
     }
-    50% {
-        transform: scaleX(1);
+
+    .hero-title {
+        font-size: @font-size-2xl;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr;
     }
 }
 
-// Logo发光动画
-@keyframes logo-glow {
-    0%, 100% {
-        text-shadow: 0 0 20px @dnf-primary-purple;
+@media (max-width: @breakpoint-md) {
+    .hero-section {
+        min-height: 70vh;
+        padding: @spacing-2xl @spacing-md;
     }
-    50% {
-        text-shadow: 0 0 30px @dnf-primary-purple, 0 0 40px @dnf-primary-gold;
+
+    .logo-text {
+        font-size: 56px;
+        letter-spacing: 6px;
+        gap: 4px;
+    }
+
+    .logo-subtitle .subtitle-line {
+        width: 40px;
+    }
+
+    .hero-title {
+        font-size: @font-size-xl;
+    }
+
+    .hero-subtitle {
+        font-size: @font-size-md;
+    }
+
+    .tech-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-decoration .deco-line {
+        width: 60px;
     }
 }
 
-// 标题下划线动画
+@media (max-width: @breakpoint-sm) {
+    .logo-text {
+        font-size: 40px;
+        letter-spacing: 4px;
+    }
+
+    .hero-title {
+        font-size: @font-size-lg;
+        padding: 0;
+    }
+
+    .hero-subtitle {
+        font-size: @font-size-sm;
+    }
+
+    .status-card .status-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: @spacing-xs;
+    }
+}
+
+// ============================================
+// 动画
+// ============================================
+
 @keyframes title-underline {
-    0%, 100% {
-        width: 200px;
-        opacity: 1;
+
+    0%,
+    100% {
+        opacity: 0.6;
+        transform: scaleX(0.8);
     }
+
     50% {
-        width: 300px;
-        opacity: 0.8;
+        opacity: 1;
+        transform: scaleX(1);
     }
 }
 </style>

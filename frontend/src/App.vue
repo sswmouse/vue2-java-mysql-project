@@ -36,13 +36,17 @@ export default {
 </script>
 
 <style lang="less">
+// Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap');
+
 // 导入全局样式
 @import '@/assets/styles/index.less';
 
 #app {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+    font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'liga' 1, 'kern' 1;
     height: 100vh;
     overflow: hidden;
     position: relative;

@@ -1,65 +1,89 @@
 /*
- * @Description: DNF主题样式变量定义
+ * @Description: DNF主题样式变量定义 - 增强版
  * @Author: Claude Code
- * @Date: 2026-04-10
- * @LastEditTime: 2026-04-10
+ * @Date: 2026-04-14
+ * @LastEditTime: 2026-04-14
  * @FilePath: /frontend/src/assets/styles/variables.less
  */
 
 // ============================================
-// DNF主题色 - 深蓝/紫色系（经典DNF风格）
+// Google Fonts 导入 - 独特的游戏风格字体
+// ============================================
+@font-url-prefix: 'https://fonts.googleapis.com/css2?family=';
+@font-display: 'Orbitron';         // 科幻感标题字体
+@font-heading: 'Rajdhani';          // RPG风格标题字体
+@font-body: 'Quicksand';            // 可读性强的正文字体
+@font-mono: 'Share Tech Mono';      // 技术/数据展示字体
+
+// ============================================
+// DNF主题色 - 深度增强版
 // ============================================
 
-// 主色调
-@dnf-primary-dark: #0a1a2a;      // 深蓝背景 - 主背景色
-@dnf-primary-blue: #1a3a5f;      // 主蓝色 - 导航栏、卡片背景
-@dnf-primary-purple: #6a11cb;    // 紫色点缀 - 主色调、选中状态
-@dnf-primary-gold: #d4af37;      // 金色点缀 - 强调色、Logo
+// 主色调 - 深邃星空暗色系
+@dnf-primary-dark: #07091a;         // 极深蓝黑 - 主背景色（更深沉）
+@dnf-primary-blue: #0d2140;        // 深邃海军蓝 - 导航栏、卡片背景
+@dnf-primary-purple: #4a1090;       // 深紫 - 主色调、选中状态
+@dnf-primary-gold: #c8a832;         // 古铜金 - 强调色、Logo（更沉稳）
 
-// 辅助色
-@dnf-secondary-dark: #152238;    // 次深蓝 - 次要背景
-@dnf-secondary-blue: #2a4a7f;    // 次蓝色 - 悬停状态
-@dnf-secondary-purple: #8a2be2;  // 亮紫色 - 高亮状态
-@dnf-secondary-gold: #ffd700;    // 亮金色 - 高亮强调
+// 辅助色 - 霓虹点缀
+@dnf-secondary-dark: #0f1c32;      // 次深蓝 - 次要背景
+@dnf-secondary-blue: #1a3d6e;      // 次蓝色 - 悬停状态
+@dnf-secondary-purple: #7b2fff;     // 亮紫霓虹 - 高亮状态（霓虹感）
+@dnf-secondary-gold: #ffd700;       // 纯金色 - 高亮强调
 
-// 文字颜色
-@dnf-text-primary: #ffffff;      // 主文字 - 标题、重要内容
-@dnf-text-secondary: #b0b7c3;    // 次文字 - 正文、描述
-@dnf-text-muted: #8a94a6;        // 弱文字 - 占位符、辅助信息
-@dnf-text-light: #e2e8f0;        // 亮文字 - 卡片内文字
+// 文字颜色 - 多层次灰度
+@dnf-text-primary: #e8eaf6;         // 主文字 - 纯白偏蓝（更有质感）
+@dnf-text-secondary: #90a4b8;       // 次文字 - 冷灰蓝
+@dnf-text-muted: #5c6b82;           // 弱文字 - 深灰蓝
+@dnf-text-light: #c9d4e3;           // 亮文字 - 卡片内文字
 
-// 状态色
-@dnf-success: #10b981;           // 成功 - 成功状态、完成
-@dnf-warning: #f59e0b;           // 警告 - 警告状态、注意
-@dnf-danger: #ef4444;            // 危险 - 错误状态、删除
-@dnf-info: #3b82f6;              // 信息 - 提示信息、链接
+// 状态色 - 霓虹风格
+@dnf-success: #00e5a0;              // 霓虹绿 - 成功状态
+@dnf-warning: #ffaa00;              // 琥珀橙 - 警告状态
+@dnf-danger: #ff3d6e;               // 霓虹红 - 错误状态、删除
+@dnf-info: #00b4ff;                 // 电光蓝 - 信息提示、链接
 
-// 边框和分隔线
-@dnf-border-dark: #1e293b;       // 深色边框 - 主要边框
-@dnf-border-light: #334155;      // 浅色边框 - 次要边框
-@dnf-divider: #475569;           // 分隔线 - 内容分隔
+// 边框和分隔线 - 微妙发光
+@dnf-border-dark: #1a2840;          // 深色边框 - 主要边框
+@dnf-border-light: #2a3a58;         // 浅色边框 - 次要边框
+@dnf-border-glow: #4a1090;          // 发光边框 - 聚焦状态
+@dnf-divider: #2a3a58;             // 分隔线 - 内容分隔
 
-// 背景色
-@dnf-bg-dark: #0f172a;           // 深色背景 - 页面背景
-@dnf-bg-card: #1e293b;           // 卡片背景 - 卡片、面板
-@dnf-bg-hover: #2d3748;          // 悬停背景 - 悬停状态
-@dnf-bg-active: #374151;         // 激活背景 - 选中状态
+// 背景色 - 多层次深色
+@dnf-bg-dark: #07091a;             // 深色背景 - 页面背景
+@dnf-bg-card: #0d1930;             // 卡片背景 - 卡片、面板
+@dnf-bg-hover: #152040;             // 悬停背景 - 悬停状态
+@dnf-bg-active: #1a2850;           // 激活背景 - 选中状态
+@dnf-bg-overlay: rgba(7, 9, 26, 0.92); // 遮罩背景
 
-// 阴影
-@dnf-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-@dnf-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
-@dnf-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-@dnf-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
-@dnf-shadow-purple: 0 0 20px rgba(106, 17, 203, 0.3);
-@dnf-shadow-gold: 0 0 15px rgba(212, 175, 55, 0.4);
+// 阴影 - 增强版发光阴影
+@dnf-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
+@dnf-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+@dnf-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.6);
+@dnf-shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.7);
+@dnf-shadow-purple: 0 0 30px rgba(74, 16, 144, 0.4);
+@dnf-shadow-gold: 0 0 25px rgba(200, 168, 50, 0.5);
+@dnf-shadow-neon-blue: 0 0 20px rgba(0, 180, 255, 0.3);
+@dnf-shadow-neon-purple: 0 0 20px rgba(123, 47, 255, 0.4);
+@dnf-shadow-card-glow: 0 0 40px rgba(74, 16, 144, 0.2), 0 20px 50px rgba(0, 0, 0, 0.6);
 
-// 渐变
-@gradient-dark-blue: linear-gradient(135deg, @dnf-primary-dark, @dnf-primary-blue);
-@gradient-blue-purple: linear-gradient(135deg, @dnf-primary-blue, @dnf-primary-purple);
-@gradient-purple-gold: linear-gradient(135deg, @dnf-primary-purple, @dnf-primary-gold);
-@gradient-gold-text: linear-gradient(135deg, @dnf-primary-gold, @dnf-secondary-gold);
+// 渐变 - 多维度渐变系统
+@gradient-dark-blue: linear-gradient(145deg, @dnf-primary-dark 0%, @dnf-primary-blue 100%);
+@gradient-deep-space: linear-gradient(180deg, #07091a 0%, #0d1a35 40%, #0f1e40 100%);
+@gradient-card: linear-gradient(145deg, #0d1930 0%, #0a1428 100%);
+@gradient-blue-purple: linear-gradient(135deg, @dnf-secondary-blue 0%, @dnf-secondary-purple 100%);
+@gradient-purple-gold: linear-gradient(135deg, @dnf-primary-purple 0%, @dnf-secondary-gold 100%);
+@gradient-gold-text: linear-gradient(135deg, @dnf-primary-gold 0%, @dnf-secondary-gold 50%, @dnf-primary-gold 100%);
+@gradient-neon-purple: linear-gradient(135deg, @dnf-secondary-purple 0%, @dnf-primary-purple 100%);
+@gradient-neon-cyan: linear-gradient(135deg, @dnf-info 0%, #00e5a0 100%);
+@gradient-danger: linear-gradient(135deg, @dnf-danger 0%, #ff6b6b 100%);
+@gradient-surface: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
 
-// 透明度
+// 毛玻璃效果
+@glass-bg: rgba(13, 25, 48, 0.75);
+@glass-border: rgba(255, 255, 255, 0.08);
+
+// 透明度系统
 @dnf-opacity-10: rgba(0, 0, 0, 0.1);
 @dnf-opacity-20: rgba(0, 0, 0, 0.2);
 @dnf-opacity-30: rgba(0, 0, 0, 0.3);
@@ -69,34 +93,29 @@
 // ============================================
 // Element UI主题色覆盖
 // ============================================
-
-// 覆盖Element UI默认主题色，使其与DNF主题协调
-@--color-primary: @dnf-primary-purple;
+@--color-primary: @dnf-secondary-purple;
 @--color-success: @dnf-success;
 @--color-warning: @dnf-warning;
 @--color-danger: @dnf-danger;
 @--color-info: @dnf-info;
 
-// 文字颜色
 @--color-text-primary: @dnf-text-primary;
 @--color-text-regular: @dnf-text-secondary;
 @--color-text-secondary: @dnf-text-muted;
 @--color-text-placeholder: fade(@dnf-text-muted, 60%);
 
-// 边框颜色
 @--border-color-base: @dnf-border-light;
 @--border-color-light: @dnf-border-light;
-@--border-color-lighter: @dnf-border-light;
-@--border-color-extra-light: @dnf-border-light;
+@--border-color-lighter: @dnf-border-dark;
+@--border-color-extra-light: @dnf-border-dark;
 
-// 背景颜色
 @--background-color-base: @dnf-bg-card;
+@--fill-base: @dnf-bg-card;
+@--fill-light: @dnf-bg-hover;
 
 // ============================================
 // 尺寸和间距
 // ============================================
-
-// 间距
 @spacing-xs: 4px;
 @spacing-sm: 8px;
 @spacing-md: 16px;
@@ -104,23 +123,26 @@
 @spacing-xl: 32px;
 @spacing-2xl: 48px;
 @spacing-3xl: 64px;
+@spacing-4xl: 96px;
 
-// 圆角
+// 圆角 - 多样化圆角系统
 @border-radius-sm: 4px;
 @border-radius-md: 8px;
 @border-radius-lg: 12px;
 @border-radius-xl: 16px;
+@border-radius-2xl: 24px;
 @border-radius-full: 9999px;
 
-// 字体大小
-@font-size-xs: 12px;
-@font-size-sm: 14px;
-@font-size-md: 16px;
-@font-size-lg: 18px;
+// 字体大小 - 丰富层次
+@font-size-xs: 11px;
+@font-size-sm: 13px;
+@font-size-md: 15px;
+@font-size-lg: 17px;
 @font-size-xl: 20px;
-@font-size-2xl: 24px;
-@font-size-3xl: 30px;
-@font-size-4xl: 36px;
+@font-size-2xl: 26px;
+@font-size-3xl: 34px;
+@font-size-4xl: 44px;
+@font-size-5xl: 60px;
 
 // 字体粗细
 @font-weight-light: 300;
@@ -128,27 +150,42 @@
 @font-weight-medium: 500;
 @font-weight-semibold: 600;
 @font-weight-bold: 700;
+@font-weight-black: 900;
 
 // 行高
-@line-height-tight: 1.25;
+@line-height-tight: 1.2;
 @line-height-normal: 1.5;
 @line-height-relaxed: 1.75;
 
 // ============================================
-// 过渡动画
+// 过渡动画 - 增强版
 // ============================================
-
 @transition-fast: 0.15s ease;
 @transition-normal: 0.3s ease;
 @transition-slow: 0.5s ease;
+@transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 @transition-bounce: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+@transition-spring: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
 // ============================================
 // 响应式断点
 // ============================================
-
+@breakpoint-xs: 480px;
 @breakpoint-sm: 640px;
 @breakpoint-md: 768px;
 @breakpoint-lg: 1024px;
 @breakpoint-xl: 1280px;
 @breakpoint-2xl: 1536px;
+
+// ============================================
+// Z-Index 层叠系统
+// ============================================
+@z-base: 1;
+@z-dropdown: 100;
+@z-sticky: 200;
+@z-fixed: 300;
+@z-modal-backdrop: 400;
+@z-modal: 500;
+@z-popover: 600;
+@z-tooltip: 700;
+@z-toast: 800;

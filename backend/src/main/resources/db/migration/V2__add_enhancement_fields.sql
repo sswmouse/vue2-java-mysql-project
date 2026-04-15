@@ -1,0 +1,6 @@
+-- V2: 添加打造系统字段到characters表
+ALTER TABLE characters ADD COLUMN IF NOT EXISTS amplify_data TEXT COMMENT '增幅数据JSON';
+ALTER TABLE characters ADD COLUMN IF NOT EXISTS enchant_data TEXT COMMENT '附魔数据JSON';
+ALTER TABLE characters ADD COLUMN IF NOT EXISTS title_data TEXT COMMENT '称号数据JSON';
+ALTER TABLE characters ADD COLUMN IF NOT EXISTS pet_data TEXT COMMENT '宠物数据JSON';
+ALTER TABLE characters ADD COLUMN IF NOT EXISTS emblem_data TEXT COMMENT '徽章数据JSON';

@@ -3,19 +3,19 @@
  */
 export default {
     // 获取用户列表
-    list: '/users',
+    list: '/api/users',
 
     // 获取用户详情
-    detail: '/users/:id',
+    detail: (id) => `/api/users/${id}`,
 
     // 创建用户
-    create: '/users',
+    create: '/api/users',
 
     // 更新用户信息
-    update: '/users/:id',
+    update: (id) => `/api/users/${id}`,
 
     // 删除用户
-    delete: '/users/:id',
+    delete: (id) => `/api/users/${id}`,
 
     // 用户登录
     login: '/auth/login',
@@ -27,8 +27,8 @@ export default {
     register: '/auth/register',
 
     // 修改密码
-    changePassword: '/users/:id/password',
+    changePassword: (id) => `/api/users/${id}/password`,
 
     // 重置密码
-    resetPassword: '/users/:id/reset-password'
+    resetPassword: (id) => `/api/users/${id}/reset-password`
 }

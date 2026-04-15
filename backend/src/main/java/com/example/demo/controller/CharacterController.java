@@ -14,8 +14,9 @@ import java.util.List;
  * 角色Controller
  */
 @RestController
-@RequestMapping("/characters")
+@RequestMapping("/api/characters")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class CharacterController {
 
     private final CharacterService characterService;

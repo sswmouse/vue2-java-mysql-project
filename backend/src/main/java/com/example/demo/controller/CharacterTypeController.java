@@ -12,8 +12,9 @@ import java.util.List;
  * 角色类型Controller
  */
 @RestController
-@RequestMapping("/character-types")
+@RequestMapping("/api/character-types")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class CharacterTypeController {
 
     private final CharacterTypeService characterTypeService;

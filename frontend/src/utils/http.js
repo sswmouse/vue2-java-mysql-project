@@ -5,7 +5,7 @@ import { Message } from 'element-ui'
  * 创建axios实例
  */
 const service = axios.create({
-    baseURL: '/api',
+    baseURL: '',  // API路径已包含/api前缀，代理会自动转发
     timeout: 15000,
     headers: {
         'Content-Type': 'application/json;charset=UTF-8'

@@ -9,13 +9,22 @@
     <div class="role-page">
         <div class="page-header">
             <h1>我的角色</h1>
-            <el-button
-                type="primary"
-                icon="el-icon-plus"
-                @click="handleCreate"
-            >
-                创建角色
-            </el-button>
+            <div class="header-actions">
+                <el-button
+                    icon="el-icon-refresh"
+                    :loading="syncLoading"
+                    @click="handleSyncAll"
+                >
+                    同步DNF
+                </el-button>
+                <el-button
+                    type="primary"
+                    icon="el-icon-plus"
+                    @click="handleCreate"
+                >
+                    创建角色
+                </el-button>
+            </div>
         </div>
 
         <div
@@ -79,6 +88,7 @@ export default {
     data() {
         return {
             loading: false,
+            syncLoading: false,
             characters: [],
             dialogVisible: false,
             editingCharacter: null,
@@ -153,6 +163,59 @@ export default {
                 console.error('保存角色顺序失败:', error)
                 // 移除错误提示，避免干扰
             }
+        },
+
+        /**
+         * 同步单个角色
+         */
+        async handleSyncCharacter(characterId) {
+            try {
+                await this.$request({
+                    url: api.character.sync.single(characterId),
+                    method: 'post'
+                })
+                this.$message.success('同步成功')
+                await this.loadCharacters()
+            } catch (error) {
+                console.error('同步角色失败:', error)
+                this.$message.error('同步失败，请重试')
+            }
+        },
+
+        /**
+         * 同步所有角色
+         */
+        async handleSyncAll() {
+            if (this.characters.length === 0) {
+                this.$message.warning('暂无角色可同步')
+                return
+            }
+
+            // 检查是否有角色绑定了区服
+            const hasServerInfo = this.characters.some(c => c.serverName)
+            if (!hasServerInfo) {
+                this.$message.warning('请先为角色设置区服信息')
+                return
+            }
+
+            this.syncLoading = true
+            try {
+                const result = await this.$request({
+                    url: api.character.sync.all,
+                    method: 'post'
+                })
+                if (result.success) {
+                    this.$message.success(result.message || '同步成功')
+                } else {
+                    this.$message.error(result.message || '同步失败')
+                }
+                await this.loadCharacters()
+            } catch (error) {
+                console.error('同步失败:', error)
+                this.$message.error('同步失败，请重试')
+            } finally {
+                this.syncLoading = false
+            }
         }
     }
 }
@@ -183,6 +246,11 @@ export default {
             font-weight: 600;
             color: var(--theme-accent);
             text-shadow: 0 0 10px var(--theme-accent);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
         }
 
         .el-button {

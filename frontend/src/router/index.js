@@ -12,6 +12,7 @@ import Badge from '../views/Badge.vue'
 import Title from '../views/Title.vue'
 import Pet from '../views/Pet.vue'
 import Mist from '../views/Mist.vue'
+import CharacterDetail from '../views/CharacterDetail.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import NoPermission from '../views/NoPermission.vue'
@@ -123,6 +124,12 @@ const routes = [
                 name: 'Mist',
                 component: Mist,
                 meta: { requiresAuth: true, permission: 'menu:mist' }
+            },
+            {
+                path: 'character/:id',
+                name: 'CharacterDetail',
+                component: CharacterDetail,
+                meta: { requiresAuth: true, permission: 'menu:role' }
             }
         ]
     },

@@ -8,6 +8,9 @@ import productApi from './product'
 import orderApi from './order'
 import characterApi from './character'
 import authApi from './auth'
+import mistApi from './mist'
+import enhancement from './enhancement'
+import card from './card'
 
 // 统一导出
 export default {
@@ -15,8 +18,11 @@ export default {
     product: productApi,
     order: orderApi,
     character: characterApi,
-    auth: authApi
+    auth: authApi,
+    mist: mistApi,
+    enhancement,
+    card
 }
 
 // 单独导出各模块
-export { userApi, productApi, orderApi, characterApi, authApi }
+export { userApi, productApi, orderApi, characterApi, authApi, mistApi, enhancement, card }

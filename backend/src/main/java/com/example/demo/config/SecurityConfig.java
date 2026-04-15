@@ -10,6 +10,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
  * Spring Security配置
@@ -32,6 +35,8 @@ public class SecurityConfig {
         http
                 // 禁用CSRF
                 .csrf().disable()
+                // 配置CORS
+                .cors().and()
                 // 设置Session为无状态
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -47,6 +52,18 @@ public class SecurityConfig {
                 .antMatchers("/uploads/**").permitAll()
                 // 允许health检查
                 .antMatchers("/health").permitAll()
+                // 允许迷雾系统API公开访问
+                .antMatchers("/api/fogs/**").permitAll()
+                // 允许装备套装API公开访问
+                .antMatchers("/api/equipment-sets/**").permitAll()
+                // 允许誓约配置API公开访问
+                .antMatchers("/api/oath-configs/**").permitAll()
+                // 允许角色API公开访问
+                .antMatchers("/api/characters/**").permitAll()
+                // 允许角色类型API公开访问
+                .antMatchers("/api/character-types/**").permitAll()
+                // 允许角色同步API公开访问
+                .antMatchers("/api/character-sync/**").permitAll()
                 // 允许访问前端静态资源
                 .antMatchers("/*.html", "/css/**", "/js/**", "/images/**", "/favicon.ico").permitAll()
                 // 修改用户角色需要管理员权限
@@ -71,5 +88,18 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(java.util.Collections.singletonList("*"));
+        configuration.setAllowedMethods(java.util.Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(java.util.Collections.singletonList("*"));
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }

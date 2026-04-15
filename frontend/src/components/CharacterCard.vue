@@ -12,6 +12,7 @@
         @click="handleCardClick"
         @mouseenter="handleMouseEnter"
         @mouseleave="handleMouseLeave"
+        @dblclick="handleDoubleClick"
     >
         <!-- 卡牌光晕 -->
         <div class="card-glow" />
@@ -114,6 +115,10 @@ export default {
         },
         handleMouseLeave() {
             this.isHovering = false
+        },
+        handleDoubleClick() {
+            // 双击跳转到角色详情页
+            this.$router.push(`/character/${this.character.id}`)
         }
     }
 }

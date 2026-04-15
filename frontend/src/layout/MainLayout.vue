@@ -211,14 +211,30 @@ export default {
         this.updateTime()
         setInterval(this.updateTime, 1000)
 
+        // 读取侧边栏展开状态设置
+        const sidebarExpanded = localStorage.getItem('sidebarExpanded')
+        this.isCollapsed = sidebarExpanded === 'false'
+
+        // 监听设置变化事件，实时更新侧边栏状态
+        window.addEventListener('setting-change', this.handleSettingChange)
+
         // 初始化时如果需要，加载权限树
         if (this.$store.state.auth.token && !this.$store.state.auth.permissions) {
             this.$store.dispatch('auth/loadPermissions')
         }
     },
+    beforeDestroy() {
+        window.removeEventListener('setting-change', this.handleSettingChange)
+    },
     methods: {
         toggleSidebar() {
             this.isCollapsed = !this.isCollapsed
+            localStorage.setItem('sidebarExpanded', !this.isCollapsed)
+        },
+        handleSettingChange(e) {
+            if (e.detail && e.detail.key === 'sidebarExpanded') {
+                this.isCollapsed = e.detail.value === false
+            }
         },
         updateTime() {
             const now = new Date()

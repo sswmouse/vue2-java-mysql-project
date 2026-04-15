@@ -69,8 +69,15 @@ export default {
             next()
         })
 
-        // 检查是否支持减少动画
-        this.animationEnabled = !prefersReducedMotion()
+        // 检查是否支持减少动画或用户关闭了动画
+        this.animationEnabled = !prefersReducedMotion() &&
+            !document.body.classList.contains('no-animations')
+
+        // 监听设置变化事件
+        window.addEventListener('setting-change', this.handleSettingChange)
+    },
+    beforeDestroy() {
+        window.removeEventListener('setting-change', this.handleSettingChange)
     },
     methods: {
         getDefaultAnimation(to, from) {
@@ -181,6 +188,12 @@ export default {
 
             // 触发自定义事件，通知页面已离开
             this.$emit('page-left', this.$route)
+        },
+        // 监听设置变化
+        handleSettingChange(e) {
+            if (e.detail && e.detail.key === 'pageAnimations') {
+                this.animationEnabled = e.detail.value && !prefersReducedMotion()
+            }
         },
         // 公共方法：手动触发页面动画
         animatePageTransition(direction = 'forward') {

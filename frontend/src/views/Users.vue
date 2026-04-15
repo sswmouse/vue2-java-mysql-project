@@ -268,7 +268,7 @@ export default {
     position: relative;
     min-height: 100%;
     padding: @spacing-xl;
-    background: linear-gradient(135deg, #0d1525 0%, #1a2744 50%, #16213e 100%);
+    background: var(--theme-bg-dark);
     box-sizing: border-box;
 }
 
@@ -282,8 +282,8 @@ export default {
     align-items: center;
     padding: @spacing-xl @spacing-2xl;
     margin-bottom: @spacing-xl;
-    background: linear-gradient(135deg, rgba(123, 47, 255, 0.15) 0%, rgba(0, 180, 255, 0.08) 100%);
-    border: 1px solid rgba(123, 47, 255, 0.3);
+    background: var(--theme-bg-card);
+    border: 1px solid var(--theme-border);
     border-radius: 16px;
     backdrop-filter: blur(10px);
 
@@ -296,16 +296,16 @@ export default {
     .header-icon {
         width: 56px;
         height: 56px;
-        background: linear-gradient(135deg, #7b2fff, #5a1fd4);
+        background: var(--theme-secondary);
         border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 0 20px rgba(123, 47, 255, 0.4);
+        box-shadow: 0 0 20px var(--theme-secondary);
 
         i {
             font-size: 28px;
-            color: #ffffff;
+            color: var(--theme-text-primary);
         }
     }
 
@@ -313,14 +313,14 @@ export default {
         h1 {
             font-size: 24px;
             font-weight: 600;
-            color: #ffd700;
+            color: var(--theme-accent);
             margin: 0 0 4px;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            text-shadow: 0 0 10px var(--theme-accent);
         }
 
         p {
             font-size: 13px;
-            color: rgba(255, 255, 255, 0.5);
+            color: var(--theme-text-secondary);
             margin: 0;
         }
     }
@@ -331,20 +331,20 @@ export default {
             align-items: baseline;
             gap: 6px;
             padding: 8px 20px;
-            background: rgba(255, 215, 0, 0.1);
-            border: 1px solid rgba(255, 215, 0, 0.3);
+            background: var(--theme-bg-hover);
+            border: 1px solid var(--theme-border);
             border-radius: 20px;
 
             .count-number {
                 font-size: 28px;
                 font-weight: 700;
-                color: #ffd700;
+                color: var(--theme-accent);
                 font-family: 'Orbitron', monospace;
             }
 
             .count-label {
                 font-size: 14px;
-                color: rgba(255, 215, 0, 0.7);
+                color: var(--theme-text-secondary);
             }
         }
     }
@@ -368,28 +368,28 @@ export default {
         position: absolute;
         left: 16px;
         font-size: 16px;
-        color: rgba(255, 255, 255, 0.4);
+        color: var(--theme-text-secondary);
     }
 
     .search-input {
         width: 100%;
         height: 44px;
         padding: 0 44px;
-        background: rgba(13, 21, 37, 0.8);
-        border: 1px solid rgba(123, 47, 255, 0.3);
+        background: var(--theme-bg-card);
+        border: 1px solid var(--theme-border);
         border-radius: 10px;
-        color: #ffffff;
+        color: var(--theme-text-primary);
         font-size: 14px;
         outline: none;
         transition: all 0.3s ease;
 
         &::placeholder {
-            color: rgba(255, 255, 255, 0.4);
+            color: var(--theme-text-secondary);
         }
 
         &:focus {
-            border-color: #7b2fff;
-            box-shadow: 0 0 15px rgba(123, 47, 255, 0.3);
+            border-color: var(--theme-secondary);
+            box-shadow: 0 0 15px var(--theme-secondary);
         }
     }
 
@@ -397,12 +397,12 @@ export default {
         position: absolute;
         right: 12px;
         cursor: pointer;
-        color: rgba(255, 255, 255, 0.4);
+        color: var(--theme-text-secondary);
         font-size: 14px;
         transition: color 0.2s;
 
         &:hover {
-            color: #ffd700;
+            color: var(--theme-accent);
         }
     }
 }
@@ -422,19 +422,19 @@ export default {
     align-items: center;
     justify-content: center;
     padding: 80px 20px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 2px dashed rgba(123, 47, 255, 0.3);
+    background: var(--theme-bg-card);
+    border: 2px dashed var(--theme-border);
     border-radius: 16px;
 
     i {
         font-size: 64px;
-        color: rgba(255, 255, 255, 0.2);
+        color: var(--theme-text-secondary);
         margin-bottom: 16px;
     }
 
     p {
         font-size: 16px;
-        color: rgba(255, 255, 255, 0.5);
+        color: var(--theme-text-secondary);
         margin: 0;
     }
 }
@@ -450,15 +450,15 @@ export default {
 }
 
 .user-card {
-    background: linear-gradient(135deg, rgba(26, 39, 68, 0.9) 0%, rgba(13, 21, 37, 0.9) 100%);
-    border: 1px solid rgba(123, 47, 255, 0.25);
+    background: var(--theme-bg-card);
+    border: 1px solid var(--theme-border);
     border-radius: 14px;
     padding: @spacing-xl;
     transition: all 0.3s ease;
 
     &:hover {
-        border-color: rgba(123, 47, 255, 0.5);
-        box-shadow: 0 8px 32px rgba(123, 47, 255, 0.15);
+        border-color: var(--theme-secondary);
+        box-shadow: 0 8px 32px var(--theme-secondary);
         transform: translateY(-2px);
     }
 
@@ -472,14 +472,14 @@ export default {
     .user-avatar {
         width: 48px;
         height: 48px;
-        background: linear-gradient(135deg, #7b2fff, #4a1090);
+        background: var(--theme-secondary);
         border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 20px;
         font-weight: 700;
-        color: #ffffff;
+        color: var(--theme-text-primary);
         flex-shrink: 0;
     }
 
@@ -490,7 +490,7 @@ export default {
         .user-name {
             font-size: 16px;
             font-weight: 600;
-            color: #ffffff;
+            color: var(--theme-text-primary);
             margin-bottom: 4px;
             white-space: nowrap;
             overflow: hidden;
@@ -502,11 +502,11 @@ export default {
             align-items: center;
             gap: 6px;
             font-size: 13px;
-            color: rgba(255, 255, 255, 0.5);
+            color: var(--theme-text-secondary);
 
             i {
                 font-size: 14px;
-                color: #00b4ff;
+                color: var(--theme-info);
             }
         }
     }
@@ -526,15 +526,15 @@ export default {
         }
 
         &.role-admin {
-            background: rgba(255, 215, 0, 0.15);
-            border: 1px solid rgba(255, 215, 0, 0.4);
-            color: #ffd700;
+            background: var(--theme-bg-hover);
+            border: 1px solid var(--theme-accent);
+            color: var(--theme-accent);
         }
 
         &.role-user {
-            background: rgba(0, 180, 255, 0.15);
-            border: 1px solid rgba(0, 180, 255, 0.4);
-            color: #00b4ff;
+            background: var(--theme-bg-hover);
+            border: 1px solid var(--theme-info);
+            color: var(--theme-info);
         }
     }
 
@@ -561,14 +561,14 @@ export default {
         }
 
         &.btn-edit {
-            background: rgba(255, 215, 0, 0.1);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            color: #ffd700;
+            background: var(--theme-bg-hover);
+            border: 1px solid var(--theme-accent);
+            color: var(--theme-accent);
 
             &:hover {
-                background: rgba(255, 215, 0, 0.2);
-                border-color: #ffd700;
-                box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+                background: var(--theme-accent);
+                color: var(--theme-bg-dark);
+                box-shadow: 0 0 15px var(--theme-accent);
             }
         }
     }
@@ -603,8 +603,8 @@ export default {
 .modal-dialog {
     width: 90%;
     max-width: 420px;
-    background: linear-gradient(135deg, #1a2744 0%, #0d1525 100%);
-    border: 1px solid rgba(123, 47, 255, 0.4);
+    background: var(--theme-bg-card);
+    border: 1px solid var(--theme-border);
     border-radius: 16px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     transform: scale(0.9);
@@ -620,12 +620,12 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding: @spacing-xl @spacing-2xl;
-    border-bottom: 1px solid rgba(123, 47, 255, 0.2);
+    border-bottom: 1px solid var(--theme-border);
 
     h3 {
         font-size: 18px;
         font-weight: 600;
-        color: #ffd700;
+        color: var(--theme-accent);
         margin: 0;
     }
 
@@ -633,9 +633,9 @@ export default {
         width: 32px;
         height: 32px;
         background: transparent;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 1px solid var(--theme-border);
         border-radius: 8px;
-        color: rgba(255, 255, 255, 0.6);
+        color: var(--theme-text-secondary);
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -643,8 +643,8 @@ export default {
         transition: all 0.2s;
 
         &:hover {
-            border-color: #ff6b6b;
-            color: #ff6b6b;
+            border-color: var(--theme-danger);
+            color: var(--theme-danger);
         }
     }
 }
@@ -658,22 +658,22 @@ export default {
     align-items: center;
     gap: @spacing-lg;
     padding: @spacing-lg;
-    background: rgba(13, 21, 37, 0.5);
-    border: 1px solid rgba(123, 47, 255, 0.2);
+    background: var(--theme-bg-hover);
+    border: 1px solid var(--theme-border);
     border-radius: 12px;
     margin-bottom: @spacing-xl;
 
     .preview-avatar {
         width: 52px;
         height: 52px;
-        background: linear-gradient(135deg, #ffd700, #ff8c00);
+        background: var(--theme-accent);
         border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 22px;
         font-weight: 700;
-        color: #0d1525;
+        color: var(--theme-bg-dark);
     }
 
     .preview-info {
@@ -684,12 +684,12 @@ export default {
         .preview-name {
             font-size: 16px;
             font-weight: 600;
-            color: #ffffff;
+            color: var(--theme-text-primary);
         }
 
         .preview-phone {
             font-size: 13px;
-            color: rgba(255, 255, 255, 0.5);
+            color: var(--theme-text-secondary);
         }
     }
 }
@@ -699,7 +699,7 @@ export default {
         display: block;
         font-size: 14px;
         font-weight: 500;
-        color: rgba(255, 255, 255, 0.7);
+        color: var(--theme-text-secondary);
         margin-bottom: @spacing-md;
     }
 }
@@ -717,13 +717,13 @@ export default {
         display: none;
 
         &:checked + .option-box {
-            border-color: #7b2fff;
-            background: rgba(123, 47, 255, 0.2);
+            border-color: var(--theme-secondary);
+            background: var(--theme-bg-hover);
         }
 
         &:checked + .option-admin {
-            border-color: #ffd700;
-            background: rgba(255, 215, 0, 0.2);
+            border-color: var(--theme-accent);
+            background: var(--theme-bg-hover);
         }
     }
 
@@ -733,8 +733,8 @@ export default {
         align-items: center;
         gap: 8px;
         padding: @spacing-xl @spacing-lg;
-        background: rgba(13, 21, 37, 0.5);
-        border: 2px solid rgba(123, 47, 255, 0.3);
+        background: var(--theme-bg-hover);
+        border: 2px solid var(--theme-border);
         border-radius: 12px;
         transition: all 0.2s ease;
 
@@ -748,22 +748,22 @@ export default {
         }
 
         &.option-admin {
-            border-color: rgba(255, 215, 0, 0.3);
+            border-color: var(--theme-border);
 
             i, span {
-                color: #ffd700;
+                color: var(--theme-accent);
             }
         }
 
         &.option-user {
             i, span {
-                color: #00b4ff;
+                color: var(--theme-info);
             }
         }
     }
 
     &:hover .option-box {
-        border-color: rgba(123, 47, 255, 0.6);
+        border-color: var(--theme-secondary);
     }
 }
 
@@ -772,7 +772,7 @@ export default {
     justify-content: flex-end;
     gap: @spacing-md;
     padding: @spacing-lg @spacing-2xl @spacing-xl;
-    border-top: 1px solid rgba(123, 47, 255, 0.2);
+    border-top: 1px solid var(--theme-border);
 
     button {
         padding: 10px 24px;
@@ -785,23 +785,23 @@ export default {
 
     .btn-cancel {
         background: transparent;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        color: rgba(255, 255, 255, 0.7);
+        border: 1px solid var(--theme-border);
+        color: var(--theme-text-secondary);
 
         &:hover {
-            border-color: rgba(255, 255, 255, 0.4);
-            color: #ffffff;
+            border-color: var(--theme-text-primary);
+            color: var(--theme-text-primary);
         }
     }
 
     .btn-confirm {
-        background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+        background: var(--theme-accent);
         border: none;
-        color: #0d1525;
+        color: var(--theme-bg-dark);
         font-weight: 600;
 
         &:hover {
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            box-shadow: 0 0 20px var(--theme-accent);
         }
     }
 }

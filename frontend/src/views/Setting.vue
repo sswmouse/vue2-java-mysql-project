@@ -312,6 +312,13 @@ export default {
         },
         savePreference(key, value) {
             localStorage.setItem(key, value)
+
+            // 触发设置变化事件
+            window.dispatchEvent(new CustomEvent('setting-change', {
+                detail: { key, value }
+            }))
+
+            // 页面动画特殊处理
             if (key === 'pageAnimations') {
                 document.body.classList.toggle('no-animations', !value)
             }
@@ -348,11 +355,15 @@ export default {
 // 页面标题
 .page-header {
     margin-bottom: 32px;
+    padding: 24px 32px;
+    background: var(--theme-bg-card);
+    border: 1px solid var(--theme-border);
+    border-radius: 12px;
 
     h1 {
         font-size: 28px;
         font-weight: 700;
-        color: var(--theme-accent, #ffd700);
+        color: var(--theme-accent);
         margin: 0 0 8px;
         display: flex;
         align-items: center;
@@ -364,7 +375,7 @@ export default {
     }
 
     .subtitle {
-        color: var(--theme-text-secondary, #90a4b8);
+        color: var(--theme-text-secondary);
         margin: 0;
         font-size: 14px;
     }

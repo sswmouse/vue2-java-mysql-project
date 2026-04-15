@@ -859,18 +859,19 @@ export default {
         .feature-tag {
             display: inline-block;
             padding: 4px 12px;
-            background: var(--theme-secondary);
-            border: 1px solid var(--theme-secondary);
+            background: var(--theme-bg-hover);
+            border: 1px solid var(--theme-border);
             border-radius: @border-radius-full;
             font-size: @font-size-xs;
-            color: var(--theme-secondary);
+            color: var(--theme-text-secondary);
             font-weight: @font-weight-medium;
             letter-spacing: 0.05em;
             transition: all @transition-fast;
-            opacity: 0.3;
 
             &:hover {
-                opacity: 0.6;
+                background: var(--theme-secondary);
+                border-color: var(--theme-secondary);
+                color: var(--theme-text-primary);
                 box-shadow: 0 0 10px var(--theme-secondary);
             }
         }

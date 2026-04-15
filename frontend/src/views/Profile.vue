@@ -1326,15 +1326,15 @@ export default {
 // 头像上传弹窗 - DNF风格覆盖
 ::v-deep .avatar-dialog {
     .el-dialog {
-        background: @dnf-bg-card !important;
-        border: 1px solid @dnf-secondary-purple !important;
+        background: var(--theme-bg-card) !important;
+        border: 1px solid var(--theme-secondary) !important;
         border-radius: @border-radius-xl !important;
-        box-shadow: 0 0 50px rgba(123, 47, 255, 0.4) !important;
+        box-shadow: 0 0 50px var(--theme-secondary) !important;
         overflow: hidden;
 
         &__header {
-            background: linear-gradient(135deg, rgba(123, 47, 255, 0.2) 0%, rgba(0, 180, 255, 0.1) 100%) !important;
-            border-bottom: 1px solid rgba(123, 47, 255, 0.3) !important;
+            background: var(--theme-bg-hover) !important;
+            border-bottom: 1px solid var(--theme-border) !important;
             padding: @spacing-xl !important;
             position: relative;
 
@@ -1345,11 +1345,11 @@ export default {
                 left: 0;
                 right: 0;
                 height: 2px;
-                background: linear-gradient(90deg, @dnf-secondary-purple, @dnf-primary-gold, @dnf-primary-blue);
+                background: linear-gradient(90deg, var(--theme-secondary), var(--theme-accent), var(--theme-info));
             }
 
             .el-dialog__title {
-                color: @dnf-primary-gold !important;
+                color: var(--theme-accent) !important;
                 font-size: @font-size-lg !important;
                 font-weight: 700 !important;
                 font-family: 'Orbitron', sans-serif;
@@ -1361,11 +1361,11 @@ export default {
                 right: 16px !important;
 
                 .el-dialog__close {
-                    color: @dnf-text-muted !important;
+                    color: var(--theme-text-secondary) !important;
                     font-size: 16px !important;
 
                     &:hover {
-                        color: @dnf-danger !important;
+                        color: var(--theme-danger) !important;
                         transform: rotate(90deg);
                     }
                 }
@@ -1373,14 +1373,14 @@ export default {
         }
 
         &__body {
-            background: @dnf-bg-card !important;
+            background: var(--theme-bg-card) !important;
             padding: @spacing-xl !important;
-            color: @dnf-text-secondary !important;
+            color: var(--theme-text-secondary) !important;
         }
 
         &__footer {
-            background: rgba(13, 21, 37, 0.5) !important;
-            border-top: 1px solid rgba(123, 47, 255, 0.2) !important;
+            background: var(--theme-bg-dark) !important;
+            border-top: 1px solid var(--theme-border) !important;
             padding: @spacing-lg @spacing-xl !important;
         }
     }

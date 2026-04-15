@@ -172,14 +172,17 @@ export default {
         justify-content: space-between;
         align-items: center;
         margin-bottom: 32px;
-        padding: 0 8px;
+        padding: 20px 24px;
+        background: var(--theme-bg-card);
+        border: 1px solid var(--theme-border);
+        border-radius: 12px;
 
         h1 {
             margin: 0;
             font-size: 28px;
             font-weight: 600;
-            color: var(--theme-text-primary);
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            color: var(--theme-accent);
+            text-shadow: 0 0 10px var(--theme-accent);
         }
 
         .el-button {
@@ -187,14 +190,14 @@ export default {
             font-size: 14px;
             font-weight: 500;
             border-radius: 8px;
-            background: var(--theme-accent);
+            background: var(--theme-secondary);
             border: none;
-            color: var(--theme-bg-dark);
-            box-shadow: 0 4px 12px var(--theme-accent);
+            color: var(--theme-text-primary);
+            box-shadow: 0 4px 12px var(--theme-secondary);
 
             &:hover {
                 filter: brightness(1.1);
-                box-shadow: 0 6px 16px var(--theme-accent);
+                box-shadow: 0 6px 16px var(--theme-secondary);
             }
 
             &:active {

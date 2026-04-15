@@ -26,6 +26,12 @@ export default {
         // 添加全局样式类
         document.body.classList.add('dnf-theme')
         document.documentElement.classList.add('dnf-theme')
+
+        // 读取页面动画设置
+        const pageAnimations = localStorage.getItem('pageAnimations')
+        if (pageAnimations === 'false') {
+            document.body.classList.add('no-animations')
+        }
     },
     beforeDestroy() {
         // 清理全局样式类

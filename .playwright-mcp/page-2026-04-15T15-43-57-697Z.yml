@@ -1,0 +1,171 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e6] [cursor=pointer]: 
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - generic [ref=e9]: D
+        - generic [ref=e10]: "N"
+        - generic [ref=e11]: F
+      - generic [ref=e12]: DNF管理
+    - navigation [ref=e13]:
+      - link " 首页" [ref=e14] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e15]: 
+        - generic [ref=e16]: 首页
+      - link " 角色管理" [active] [ref=e17] [cursor=pointer]:
+        - /url: /role
+        - generic [ref=e18]: 
+        - generic [ref=e19]: 角色管理
+      - link " 装备管理" [ref=e20] [cursor=pointer]:
+        - /url: /equipment
+        - generic [ref=e21]: 
+        - generic [ref=e22]: 装备管理
+      - link " 时装管理" [ref=e23] [cursor=pointer]:
+        - /url: /fashion
+        - generic [ref=e24]: 
+        - generic [ref=e25]: 时装管理
+      - link " 强化系统" [ref=e26] [cursor=pointer]:
+        - /url: /enhancement
+        - generic [ref=e27]: 
+        - generic [ref=e28]: 强化系统
+      - link " 附魔系统" [ref=e29] [cursor=pointer]:
+        - /url: /enchantment
+        - generic [ref=e30]: 
+        - generic [ref=e31]: 附魔系统
+      - link " 徽章系统" [ref=e32] [cursor=pointer]:
+        - /url: /badge
+        - generic [ref=e33]: 
+        - generic [ref=e34]: 徽章系统
+      - link " 称号系统" [ref=e35] [cursor=pointer]:
+        - /url: /title
+        - generic [ref=e36]: 
+        - generic [ref=e37]: 称号系统
+      - link " 宠物系统" [ref=e38] [cursor=pointer]:
+        - /url: /pet
+        - generic [ref=e39]: 
+        - generic [ref=e40]: 宠物系统
+      - link " 迷雾大陆" [ref=e41] [cursor=pointer]:
+        - /url: /mist
+        - generic [ref=e42]: 
+        - generic [ref=e43]: 迷雾大陆
+    - generic [ref=e45]:
+      - generic [ref=e47]: P
+      - generic [ref=e48]:
+        - generic [ref=e49]: playwright_test
+        - generic [ref=e50]: 普通用户
+  - generic [ref=e51]:
+    - banner [ref=e52]:
+      - heading "角色管理" [level=2] [ref=e194]
+      - generic [ref=e56]:
+        - generic [ref=e57]:
+          - generic [ref=e58]: 
+          - generic [ref=e59]: 23:43:57
+        - generic [ref=e60] [cursor=pointer]:
+          - button "P playwright_test " [ref=e61]:
+            - generic [ref=e63]: P
+            - generic [ref=e64]: playwright_test
+            - generic [ref=e65]: 
+          - text:   
+    - main [ref=e66]:
+      - generic [ref=e195]:
+        - generic [ref=e196]:
+          - heading "我的角色" [level=1] [ref=e197]
+          - generic [ref=e198]:
+            - button " 同步DNF" [ref=e199] [cursor=pointer]:
+              - generic [ref=e200]: 
+              - text: 同步DNF
+            - button " 创建角色" [ref=e201] [cursor=pointer]:
+              - generic [ref=e202]: 
+              - text: 创建角色
+        - generic [ref=e204]:
+          - generic [ref=e206] [cursor=pointer]:
+            - generic [ref=e207]:
+              - img "剑圣" [ref=e212]
+              - generic [ref=e213]:
+                - heading "剑圣" [level=3] [ref=e214]
+                - paragraph [ref=e215]: 男鬼剑士
+                - paragraph [ref=e216]: 剑魂
+              - generic [ref=e217]:
+                - generic [ref=e218]:
+                  - generic [ref=e219]: LV
+                  - generic [ref=e220]: "1"
+                - generic [ref=e221]:
+                  - generic [ref=e222]: 
+                  - generic [ref=e223]: 查看详情
+            - img "卡片背面" [ref=e228]
+          - generic [ref=e230] [cursor=pointer]:
+            - generic [ref=e231]:
+              - img "花花" [ref=e236]
+              - generic [ref=e237]:
+                - heading "花花" [level=3] [ref=e238]
+                - paragraph [ref=e239]: 女格斗家
+                - paragraph [ref=e240]: 花花
+              - generic [ref=e241]:
+                - generic [ref=e242]:
+                  - generic [ref=e243]: LV
+                  - generic [ref=e244]: "1"
+                - generic [ref=e245]:
+                  - generic [ref=e246]: 
+                  - generic [ref=e247]: 查看详情
+            - img "卡片背面" [ref=e252]
+          - generic [ref=e254] [cursor=pointer]:
+            - generic [ref=e255]:
+              - img "魔神" [ref=e260]
+              - generic [ref=e261]:
+                - heading "魔神" [level=3] [ref=e262]
+                - paragraph [ref=e263]: 男鬼剑士
+                - paragraph [ref=e264]: 红眼
+              - generic [ref=e265]:
+                - generic [ref=e266]:
+                  - generic [ref=e267]: LV
+                  - generic [ref=e268]: "1"
+                - generic [ref=e269]:
+                  - generic [ref=e270]: 
+                  - generic [ref=e271]: 查看详情
+            - img "卡片背面" [ref=e276]
+          - generic [ref=e278] [cursor=pointer]:
+            - generic [ref=e279]:
+              - img "刃影" [ref=e284]
+              - generic [ref=e285]:
+                - heading "刃影" [level=3] [ref=e286]
+                - paragraph [ref=e287]: 女鬼剑士
+                - paragraph [ref=e288]: 刃影
+              - generic [ref=e289]:
+                - generic [ref=e290]:
+                  - generic [ref=e291]: LV
+                  - generic [ref=e292]: "1"
+                - generic [ref=e293]:
+                  - generic [ref=e294]: 
+                  - generic [ref=e295]: 查看详情
+            - img "卡片背面" [ref=e300]
+          - generic [ref=e302] [cursor=pointer]:
+            - generic [ref=e303]:
+              - img "剑帝" [ref=e308]
+              - generic [ref=e309]:
+                - heading "剑帝" [level=3] [ref=e310]
+                - paragraph [ref=e311]: 女鬼剑士
+                - paragraph [ref=e312]: 剑帝
+              - generic [ref=e313]:
+                - generic [ref=e314]:
+                  - generic [ref=e315]: LV
+                  - generic [ref=e316]: "1"
+                - generic [ref=e317]:
+                  - generic [ref=e318]: 
+                  - generic [ref=e319]: 查看详情
+            - img "卡片背面" [ref=e324]
+          - generic [ref=e326] [cursor=pointer]:
+            - generic [ref=e327]:
+              - img "剑豪" [ref=e332]
+              - generic [ref=e333]:
+                - heading "剑豪" [level=3] [ref=e334]
+                - paragraph [ref=e335]: 女鬼剑士
+                - paragraph [ref=e336]: 剑帝
+              - generic [ref=e337]:
+                - generic [ref=e338]:
+                  - generic [ref=e339]: LV
+                  - generic [ref=e340]: "1"
+                - generic [ref=e341]:
+                  - generic [ref=e342]: 
+                  - generic [ref=e343]: 查看详情
+            - img "卡片背面" [ref=e348]
+        - text: 

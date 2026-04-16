@@ -1330,3 +1330,77 @@
         border: 2px solid var(--theme-border);
     }
 }
+
+// ============================================
+// 描述列表样式定制 - 跟随主题
+// ============================================
+
+.el-descriptions {
+    background: var(--theme-bg-card);
+    border: 1px solid var(--theme-border);
+    border-radius: @border-radius-lg;
+    color: var(--theme-text-primary);
+
+    &__header {
+        background: var(--theme-bg-hover);
+        border-bottom: 1px solid var(--theme-border);
+        padding: @spacing-md @spacing-lg;
+        border-radius: @border-radius-lg @border-radius-lg 0 0;
+
+        .el-descriptions__title {
+            color: var(--theme-text-primary);
+            font-weight: @font-weight-semibold;
+        }
+    }
+
+    &__body {
+        background: var(--theme-bg-card);
+        color: var(--theme-text-primary);
+    }
+
+    &__cell {
+        padding: @spacing-md @spacing-lg;
+    }
+
+    &__label {
+        background: var(--theme-bg-hover);
+        color: var(--theme-text-secondary);
+        font-weight: @font-weight-medium;
+        border-right: 1px solid var(--theme-border);
+
+        &::after {
+            display: none;
+        }
+    }
+
+    &__content {
+        background: var(--theme-bg-card);
+        color: var(--theme-text-primary);
+    }
+
+    th, td {
+        border-color: var(--theme-border);
+    }
+
+    // 边框模式
+    &.is-bordered {
+        border: 1px solid var(--theme-border);
+
+        th, td {
+            border: 1px solid var(--theme-border);
+        }
+    }
+
+    // 尺寸变化
+    &--large {
+        .el-descriptions__cell {
+            padding: @spacing-lg @spacing-xl;
+        }
+    }
+
+    &--small {
+        .el-descriptions__cell {
+            padding: @spacing-sm @spacing-md;
+        }
+    }
+}

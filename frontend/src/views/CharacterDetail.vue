@@ -84,14 +84,6 @@
                 />
             </template>
 
-            <!-- 徽章 -->
-            <template #emblem>
-                <emblem-page
-                    :character-id="characterId"
-                    :emblem-data="enhancementData.emblem || {}"
-                />
-            </template>
-
             <!-- 卡片 -->
             <template #cards>
                 <card-manager
@@ -112,7 +104,6 @@ import EnchantPage from '@/views/Enchant.vue'
 import TitlePage from '@/views/TitlePage.vue'
 import PetPage from '@/views/PetPage.vue'
 import EquipmentPage from '@/views/EquipmentPage.vue'
-import EmblemPage from '@/views/EmblemPage.vue'
 import CardManager from '@/views/CardManager.vue'
 
 export default {
@@ -124,7 +115,6 @@ export default {
         TitlePage,
         PetPage,
         EquipmentPage,
-        EmblemPage,
         CardManager
     },
     data() {
@@ -135,7 +125,20 @@ export default {
             enhancementData: {}
         }
     },
-    mounted() {
+    watch: {
+        '$route.params.id': {
+            handler(newId) {
+                if (newId) {
+                    this.characterId = parseInt(newId)
+                    this.loadCharacter()
+                    this.loadEnhancementData()
+                }
+            },
+            immediate: true
+        }
+    },
+    created() {
+        // 从路由参数获取角色ID
         this.characterId = parseInt(this.$route.params.id)
         this.loadCharacter()
         this.loadEnhancementData()

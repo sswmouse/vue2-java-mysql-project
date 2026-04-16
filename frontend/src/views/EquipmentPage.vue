@@ -85,8 +85,24 @@
                         @change="handleChange"
                     >
                         <el-option
-                            label="传世武器"
-                            value="传世武器"
+                            label="普通"
+                            value="普通"
+                        />
+                        <el-option
+                            label="稀有"
+                            value="稀有"
+                        />
+                        <el-option
+                            label="神器"
+                            value="神器"
+                        />
+                        <el-option
+                            label="传说"
+                            value="传说"
+                        />
+                        <el-option
+                            label="史诗"
+                            value="史诗"
                         />
                         <el-option
                             label="太初"

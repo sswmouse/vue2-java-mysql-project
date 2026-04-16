@@ -1,0 +1,154 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e6] [cursor=pointer]: 
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - generic [ref=e9]: D
+        - generic [ref=e10]: "N"
+        - generic [ref=e11]: F
+      - generic [ref=e12]: DNF管理
+    - navigation [ref=e13]:
+      - link " 首页" [ref=e14] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e15]: 
+        - generic [ref=e16]: 首页
+      - link " 角色管理" [ref=e17] [cursor=pointer]:
+        - /url: /role
+        - generic [ref=e18]: 
+        - generic [ref=e19]: 角色管理
+      - link " 装备管理" [ref=e20] [cursor=pointer]:
+        - /url: /equipment
+        - generic [ref=e21]: 
+        - generic [ref=e22]: 装备管理
+      - link " 时装管理" [ref=e23] [cursor=pointer]:
+        - /url: /fashion
+        - generic [ref=e24]: 
+        - generic [ref=e25]: 时装管理
+      - link " 强化系统" [ref=e26] [cursor=pointer]:
+        - /url: /enhancement
+        - generic [ref=e27]: 
+        - generic [ref=e28]: 强化系统
+      - link " 附魔系统" [ref=e29] [cursor=pointer]:
+        - /url: /enchantment
+        - generic [ref=e30]: 
+        - generic [ref=e31]: 附魔系统
+      - link " 徽章系统" [ref=e32] [cursor=pointer]:
+        - /url: /badge
+        - generic [ref=e33]: 
+        - generic [ref=e34]: 徽章系统
+      - link " 称号系统" [ref=e35] [cursor=pointer]:
+        - /url: /title
+        - generic [ref=e36]: 
+        - generic [ref=e37]: 称号系统
+      - link " 宠物系统" [ref=e38] [cursor=pointer]:
+        - /url: /pet
+        - generic [ref=e39]: 
+        - generic [ref=e40]: 宠物系统
+      - link " 迷雾大陆" [ref=e41] [cursor=pointer]:
+        - /url: /mist
+        - generic [ref=e42]: 
+        - generic [ref=e43]: 迷雾大陆
+    - generic [ref=e45]:
+      - generic [ref=e47]: P
+      - generic [ref=e48]:
+        - generic [ref=e49]: playwright_test
+        - generic [ref=e50]: 普通用户
+  - generic [ref=e51]:
+    - banner [ref=e52]:
+      - heading "DNF管理系统" [level=2] [ref=e55]
+      - generic [ref=e56]:
+        - generic [ref=e57]:
+          - generic [ref=e58]: 
+          - generic [ref=e59]: 23:47:56
+        - generic [ref=e60] [cursor=pointer]:
+          - button "P playwright_test " [ref=e61]:
+            - generic [ref=e63]: P
+            - generic [ref=e64]: playwright_test
+            - generic [ref=e65]: 
+          - text:   
+    - main [ref=e66]:
+      - generic [ref=e68]:
+        - generic [ref=e69]:
+          - generic [ref=e70]:
+            - generic [ref=e72]: 
+            - generic [ref=e73]:
+              - heading "剑圣测试" [level=2] [ref=e74]
+              - paragraph [ref=e75]: "Lv. | 名望:"
+              - paragraph [ref=e76]: 输出 | 物理
+          - button "返回角色列表" [ref=e77] [cursor=pointer]
+        - generic [ref=e78]:
+          - tablist [ref=e82]:
+            - tab "总览" [ref=e84]
+            - tab "增幅" [active] [selected] [ref=e85] [cursor=pointer]
+            - tab "附魔" [ref=e86]
+            - tab "称号" [ref=e87]
+            - tab "宠物" [ref=e88]
+            - tab "装备" [ref=e89]
+            - tab "徽章" [ref=e90]
+            - tab "卡片" [ref=e91]
+          - generic [ref=e92]:
+            - tabpanel "增幅" [ref=e117]:
+              - generic [ref=e118]:
+                - generic [ref=e119]:
+                  - heading "当前增幅状态" [level=3] [ref=e120]
+                  - paragraph [ref=e121]: "增幅等级: +0"
+                  - paragraph [ref=e122]: "武器: 增幅 +0"
+                - generic [ref=e123]:
+                  - heading "增幅等级" [level=4] [ref=e124]
+                  - radiogroup [ref=e126]:
+                    - radio "+10" [ref=e127]:
+                      - radio "+10" [ref=e128]
+                      - generic [ref=e129] [cursor=pointer]: "+10"
+                    - radio "+11" [ref=e130]:
+                      - radio "+11" [ref=e131]
+                      - generic [ref=e132] [cursor=pointer]: "+11"
+                    - radio "+12" [ref=e133]:
+                      - radio "+12" [ref=e134]
+                      - generic [ref=e135] [cursor=pointer]: "+12"
+                    - radio "+13" [ref=e136]:
+                      - radio "+13" [ref=e137]
+                      - generic [ref=e138] [cursor=pointer]: "+13"
+                    - radio "+14" [ref=e139]:
+                      - radio "+14" [ref=e140]
+                      - generic [ref=e141] [cursor=pointer]: "+14"
+                    - radio "+15" [ref=e142]:
+                      - radio "+15" [ref=e143]
+                      - generic [ref=e144] [cursor=pointer]: "+15"
+                    - radio "+16" [ref=e145]:
+                      - radio "+16" [ref=e146]
+                      - generic [ref=e147] [cursor=pointer]: "+16"
+                    - radio "+17" [ref=e148]:
+                      - radio "+17" [ref=e149]
+                      - generic [ref=e150] [cursor=pointer]: "+17"
+                - generic [ref=e151]:
+                  - heading "增幅属性" [level=4] [ref=e152]
+                  - radiogroup [ref=e153]:
+                    - radio "力量" [checked] [ref=e154] [cursor=pointer]:
+                      - radio [checked] [ref=e157]
+                      - generic [ref=e158]: 力量
+                    - radio "智力" [ref=e159] [cursor=pointer]:
+                      - radio [ref=e162]
+                      - generic [ref=e163]: 智力
+                    - radio "体力" [ref=e164] [cursor=pointer]:
+                      - radio [ref=e167]
+                      - generic [ref=e168]: 体力
+                    - radio "精神" [ref=e169] [cursor=pointer]:
+                      - radio [ref=e172]
+                      - generic [ref=e173]: 精神
+                - generic [ref=e174]:
+                  - heading "武器强化/增幅" [level=4] [ref=e175]
+                  - radiogroup [ref=e176]:
+                    - radio "强化" [checked] [ref=e177] [cursor=pointer]:
+                      - radio [checked] [ref=e180]
+                      - generic [ref=e181]: 强化
+                    - radio "增幅" [ref=e182] [cursor=pointer]:
+                      - radio [ref=e185]
+                      - generic [ref=e186]: 增幅
+                  - generic [ref=e187]:
+                    - button "" [ref=e188]:
+                      - generic [ref=e189]: 
+                    - button "" [ref=e190] [cursor=pointer]:
+                      - generic [ref=e191]: 
+                    - spinbutton [ref=e193]: "0"
+                - button "保存更改" [ref=e195] [cursor=pointer]
+            - text:                      

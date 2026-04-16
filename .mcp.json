@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "playwright-mcp",
+      "args": []
+    },
+    "puppeteer": {
+      "command": "puppeteer-mcp-server",
+      "args": []
+    }
+  }
+}

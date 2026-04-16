@@ -67,12 +67,6 @@
                 <slot name="equipment" />
             </el-tab-pane>
             <el-tab-pane
-                label="徽章"
-                name="emblem"
-            >
-                <slot name="emblem" />
-            </el-tab-pane>
-            <el-tab-pane
                 label="卡片"
                 name="cards"
             >

@@ -41,14 +41,16 @@ public interface StageConfigRepository extends JpaRepository<StageConfig, Long> 
 
     /**
      * 根据触发积分阈值查找最近达成的阶段
+     * 使用原生查询以支持LIMIT语法
      */
-    @Query("SELECT s FROM StageConfig s WHERE s.threshold <= :points ORDER BY s.stageOrder DESC LIMIT 1")
+    @Query(value = "SELECT * FROM stage_configs WHERE threshold <= :points ORDER BY stage_order DESC LIMIT 1", nativeQuery = true)
     Optional<StageConfig> findCurrentStageByPoints(Integer points);
 
     /**
      * 根据积分获取下一个阶段
+     * 使用原生查询以支持LIMIT语法
      */
-    @Query("SELECT s FROM StageConfig s WHERE s.threshold > :points ORDER BY s.stageOrder ASC LIMIT 1")
+    @Query(value = "SELECT * FROM stage_configs WHERE threshold > :points ORDER BY stage_order ASC LIMIT 1", nativeQuery = true)
     Optional<StageConfig> findNextStageByPoints(Integer points);
 
     /**

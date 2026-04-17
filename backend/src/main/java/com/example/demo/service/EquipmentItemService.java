@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.EquipmentItemDTO;
 import com.example.demo.model.EquipmentItem;
 
 import java.util.List;
@@ -91,4 +92,28 @@ public interface EquipmentItemService {
      * @return 总名望
      */
     Integer calculateTotalFame(Long setId, Map<String, String> itemRarities);
+
+    /**
+     * 获取指定品级的属性
+     * @param item 装备
+     * @param rarity 品级
+     * @return 属性Map
+     */
+    Map<String, Object> getStatsByRarity(EquipmentItem item, String rarity);
+
+    /**
+     * 根据装备ID和品级获取装备DTO
+     * @param itemId 装备ID
+     * @param rarity 品级
+     * @param setName 套装名称
+     * @return 装备DTO
+     */
+    EquipmentItemDTO getItemDTOById(Long itemId, String rarity, String setName);
+
+    /**
+     * 获取装备的可用品级列表
+     * @param item 装备
+     * @return 可用品级数组
+     */
+    String[] getAvailableRarities(EquipmentItem item);
 }

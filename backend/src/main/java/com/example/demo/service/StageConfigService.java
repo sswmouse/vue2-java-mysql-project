@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.StageDTO;
 import com.example.demo.model.StageConfig;
 
 import java.util.List;
@@ -89,4 +90,22 @@ public interface StageConfigService {
      * @return 是否为最后阶段
      */
     boolean isLastStage(String stageName);
+
+    /**
+     * 获取已激活的阶段列表
+     * @param points 当前积分
+     * @return 已激活的阶段列表
+     */
+    List<StageConfig> getActivatedStages(Integer points);
+
+    /**
+     * 初始化阶段配置数据
+     */
+    void initStageConfigs();
+
+    /**
+     * 获取所有阶段DTO列表
+     * @return 阶段DTO列表
+     */
+    List<StageDTO> getAllStageDTOs();
 }

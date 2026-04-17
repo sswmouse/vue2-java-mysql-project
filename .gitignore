@@ -29,3 +29,9 @@ frontend/node_modules/
 # 个人配置
 *.local
 *.bak
+
+# Playwright MCP 测试文件
+.playwright-mcp/
+
+# 测试截图
+test-screenshots/

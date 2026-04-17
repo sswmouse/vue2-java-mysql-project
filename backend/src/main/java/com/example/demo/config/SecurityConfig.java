@@ -56,6 +56,13 @@ public class SecurityConfig {
                 .antMatchers("/api/fogs/**").permitAll()
                 // 允许装备套装API公开访问
                 .antMatchers("/api/equipment-sets/**").permitAll()
+                // 允许装备详情API公开访问
+                .antMatchers("/api/equipment-items/**").permitAll()
+                // 允许装备套装配置API公开访问
+                .antMatchers("/api/character-equipment/**").permitAll()
+                // 允许阶段配置API公开访问
+                .antMatchers("/api/stage-configs/**").permitAll()
+                .antMatchers("/api/stages/**").permitAll()
                 // 允许誓约配置API公开访问
                 .antMatchers("/api/oath-configs/**").permitAll()
                 // 允许打造选项API公开访问（附魔/称号/宠物/增幅选项）

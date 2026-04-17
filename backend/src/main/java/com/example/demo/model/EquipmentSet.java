@@ -23,6 +23,12 @@ public class EquipmentSet {
     private Long id;
 
     /**
+     * 套装名称（用于数据库set_name列）
+     */
+    @Column(name = "set_name", nullable = false, length = 100)
+    private String setName;
+
+    /**
      * 套装名称
      */
     @Column(name = "name", nullable = false, length = 100)
@@ -33,6 +39,12 @@ public class EquipmentSet {
      */
     @Column(name = "index_num", nullable = false)
     private Integer indexNum;
+
+    /**
+     * 套装序号（用于数据库set_index列）
+     */
+    @Column(name = "set_index", nullable = false)
+    private Integer setIndex;
 
     /**
      * 套装类型：normal-普通/special-特殊

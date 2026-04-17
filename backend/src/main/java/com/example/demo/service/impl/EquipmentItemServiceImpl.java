@@ -1,7 +1,10 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.dto.EquipmentItemDTO;
 import com.example.demo.model.EquipmentItem;
+import com.example.demo.model.EquipmentSet;
 import com.example.demo.repository.EquipmentItemRepository;
+import com.example.demo.repository.EquipmentSetRepository;
 import com.example.demo.service.EquipmentItemService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,6 +30,7 @@ import java.util.*;
 public class EquipmentItemServiceImpl implements EquipmentItemService {
 
     private final EquipmentItemRepository equipmentItemRepository;
+    private final EquipmentSetRepository equipmentSetRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
@@ -130,26 +134,118 @@ public class EquipmentItemServiceImpl implements EquipmentItemService {
     }
 
     @Override
+    public Map<String, Object> getStatsByRarity(EquipmentItem item, String rarity) {
+        if (item.getRarityStats() != null) {
+            try {
+                Map<String, Map<String, Object>> statsMap = objectMapper.readValue(
+                        item.getRarityStats(),
+                        new TypeReference<Map<String, Map<String, Object>>>() {}
+                );
+                Map<String, Object> stats = statsMap.get(rarity);
+                if (stats != null) {
+                    return stats;
+                }
+            } catch (Exception e) {
+                log.error("解析rarityStats失败: {}", item.getRarityStats(), e);
+            }
+        }
+        // 返回默认属性
+        return getDefaultStats(rarity);
+    }
+
+    @Override
+    public EquipmentItemDTO getItemDTOById(Long itemId, String rarity, String setName) {
+        EquipmentItem item = getItemById(itemId);
+        if (item == null) {
+            return null;
+        }
+
+        String effectiveRarity = rarity != null ? rarity : "史诗";
+        Map<String, Object> stats = getStatsByRarity(item, effectiveRarity);
+        Integer points = getPointsByRarity(item, effectiveRarity);
+        Integer fame = getFameByRarity(item, effectiveRarity);
+        String[] availableRarities = getAvailableRarities(item);
+
+        // 转换积分和名望Map
+        Map<String, Integer> pointsMap = new LinkedHashMap<>();
+        Map<String, Integer> fameMap = new LinkedHashMap<>();
+        for (String r : availableRarities) {
+            pointsMap.put(r, getPointsByRarity(item, r));
+            fameMap.put(r, getFameByRarity(item, r));
+        }
+
+        return EquipmentItemDTO.builder()
+                .id(item.getId())
+                .setId(item.getSetId())
+                .setName(setName)
+                .slotType(item.getSlotType())
+                .slotName(item.getSlotName())
+                .itemName(item.getItemName())
+                .currentRarity(effectiveRarity)
+                .stats(stats)
+                .points(points)
+                .fame(fame)
+                .rarityDisplayName(effectiveRarity)
+                .sortOrder(item.getSortOrder())
+                .availableRarities(availableRarities)
+                .rarityPointsMap(pointsMap)
+                .rarityFameMap(fameMap)
+                .build();
+    }
+
+    @Override
+    public String[] getAvailableRarities(EquipmentItem item) {
+        // 根据部位类型返回可用的品级
+        if (EquipmentItem.SLOT_TYPE_JEWELRY.equals(item.getSlotType())) {
+            return new String[]{"稀有", "神器", "传说", "史诗", "太初", "黑牙史诗", "黑牙太初"};
+        } else {
+            // 防具和特殊装备最高为史诗
+            return new String[]{"稀有", "神器", "传说", "史诗"};
+        }
+    }
+
+    /**
+     * 获取默认属性
+     */
+    private Map<String, Object> getDefaultStats(String rarity) {
+        Map<String, Object> stats = new LinkedHashMap<>();
+        int multiplier = getRarityMultiplier(rarity);
+        stats.put("str", 50 * multiplier);
+        stats.put("int", 50 * multiplier);
+        stats.put("crit", 5 * multiplier);
+        stats.put("elementalBonus", 15 * multiplier);
+        return stats;
+    }
+
+    /**
+     * 获取品级倍率
+     */
+    private int getRarityMultiplier(String rarity) {
+        switch (rarity) {
+            case "神器": return 2;
+            case "传说": return 3;
+            case "史诗": return 4;
+            case "太初": return 5;
+            case "黑牙史诗": return 3;
+            case "黑牙太初": return 4;
+            default: return 1;
+        }
+    }
+
+    @Override
     public void initEquipmentItems() {
         log.info("开始初始化12套装备的装备详情数据...");
 
-        // 12套装备数据
-        String[][] setNames = {
-                {"潜影暗袭"}, {"精灵国度"}, {"理想之黄金乡"}, {"龙战八荒"}, {"混沌净化"},
-                {"天命者的气运"}, {"究极能量"}, {"造化自然"}, {"诸神黄昏之女武神"}, {"青丘灵珠"},
-                {"群猎美学"}, {"冥思者的魔力领域"}
-        };
+        // 从数据库获取所有套装，使用实际的setId
+        List<EquipmentSet> sets = equipmentSetRepository.findAllByOrderByIndexNumAsc();
+        if (sets.isEmpty()) {
+            log.warn("没有找到任何套装数据，请先初始化套装数据");
+            return;
+        }
 
-        // 11个部位的名称和类型
-        String[][] slotConfigs = {
-                // 防具（5件）
-                {"armor", "头肩", "裁决之冕", "永恒胸甲", "缚魂腰带", "冥想护腿", "疾风之靴"},
-                {"jewelry", "项链", "灵魂项链", "暗影手镯", "冥想戒指", "辅助装备", "虚空魔石", "深渊耳环"}
-        };
-
-        for (int i = 0; i < setNames.length; i++) {
-            Long setId = (long) (i + 1);
-            String setName = setNames[i][0];
+        for (EquipmentSet set : sets) {
+            Long setId = set.getId();
+            String setName = set.getName();
             List<EquipmentItem> items = new ArrayList<>();
 
             // 防具5件
@@ -186,15 +282,60 @@ public class EquipmentItemServiceImpl implements EquipmentItemService {
      */
     private EquipmentItem createItem(Long setId, String slotType, String slotName, String itemName, int sortOrder) {
         return EquipmentItem.builder()
-                .setId(null)
                 .setId(setId)
                 .slotType(slotType)
                 .slotName(slotName)
                 .itemName(itemName)
+                .rarityStats(createRarityStatsJson(slotType))
                 .rarityPoints(createRarityPointsJson(slotType))
                 .rarityFame(createRarityFameJson(slotType))
                 .sortOrder(sortOrder)
                 .build();
+    }
+
+    /**
+     * 创建品级属性JSON
+     */
+    private String createRarityStatsJson(String slotType) {
+        try {
+            Map<String, Map<String, Object>> stats = new LinkedHashMap<>();
+            stats.put("稀有", createStatsMap(1));
+            stats.put("神器", createStatsMap(2));
+            stats.put("传说", createStatsMap(3));
+            stats.put("史诗", createStatsMap(4));
+
+            if (EquipmentItem.SLOT_TYPE_JEWELRY.equals(slotType)) {
+                stats.put("太初", createStatsMap(5));
+                stats.put("黑牙史诗", createBlackStatsMap(3));
+                stats.put("黑牙太初", createBlackStatsMap(4));
+            }
+
+            return objectMapper.writeValueAsString(stats);
+        } catch (Exception e) {
+            log.error("创建rarityStats JSON失败", e);
+            return "{}";
+        }
+    }
+
+    /**
+     * 创建属性Map
+     */
+    private Map<String, Object> createStatsMap(int multiplier) {
+        Map<String, Object> stats = new LinkedHashMap<>();
+        stats.put("str", 50 * multiplier);
+        stats.put("int", 50 * multiplier);
+        stats.put("crit", 5 * multiplier);
+        stats.put("elementalBonus", 15 * multiplier);
+        return stats;
+    }
+
+    /**
+     * 创建黑牙属性Map
+     */
+    private Map<String, Object> createBlackStatsMap(int multiplier) {
+        Map<String, Object> stats = createStatsMap(multiplier);
+        stats.put("specialBonus", true);
+        return stats;
     }
 
     /**

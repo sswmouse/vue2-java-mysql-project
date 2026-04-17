@@ -15,6 +15,7 @@ import enchantOption from './enchantOption'
 import titleOption from './titleOption'
 import petOption from './petOption'
 import amplifyOption from './amplifyOption'
+import equipmentApi from './equipment'
 
 // 统一导出
 export default {
@@ -29,8 +30,9 @@ export default {
     enchantOption,
     titleOption,
     petOption,
-    amplifyOption
+    amplifyOption,
+    equipment: equipmentApi
 }
 
 // 单独导出各模块
-export { userApi, productApi, orderApi, characterApi, authApi, mistApi, enhancement, card, enchantOption, titleOption, petOption, amplifyOption }
+export { userApi, productApi, orderApi, characterApi, authApi, mistApi, enhancement, card, enchantOption, titleOption, petOption, amplifyOption, equipmentApi as equipment }

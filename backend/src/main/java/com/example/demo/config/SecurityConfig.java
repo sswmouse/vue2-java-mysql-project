@@ -58,6 +58,11 @@ public class SecurityConfig {
                 .antMatchers("/api/equipment-sets/**").permitAll()
                 // 允许誓约配置API公开访问
                 .antMatchers("/api/oath-configs/**").permitAll()
+                // 允许打造选项API公开访问（附魔/称号/宠物/增幅选项）
+                .antMatchers("/api/enchant-options/**").permitAll()
+                .antMatchers("/api/title-options/**").permitAll()
+                .antMatchers("/api/pet-options/**").permitAll()
+                .antMatchers("/api/amplify-options/**").permitAll()
                 // 允许角色API公开访问
                 .antMatchers("/api/characters/**").permitAll()
                 // 允许角色类型API公开访问

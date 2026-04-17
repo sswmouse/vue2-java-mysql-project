@@ -1,64 +1,166 @@
 <!--
- * @Description: 称号管理页面
+ * @Description: 称号管理页面 - 支持角色选择
  * @Author: Claude Code
- * @Date: 2026-04-10
- * @LastEditTime: 2026-04-10
- * @FilePath: /frontend/src/views/Title.vue
- -->
+ * @Date: 2026-04-17
+-->
 <template>
-    <div class="title-page">
-        <h1>称号管理</h1>
-        <div class="page-content">
-            <el-card class="empty-card">
-                <div class="empty-content">
-                    <i class="el-icon-crown" />
-                    <p>称号管理页面内容正在开发中...</p>
-                    <p>这里将展示称号列表、称号属性、称号获取等功能</p>
-                </div>
-            </el-card>
+    <div class="title-page-wrapper">
+        <div class="page-header">
+            <h1>称号管理</h1>
+        </div>
+
+        <!-- 角色选择器 -->
+        <div class="character-selector">
+            <el-select
+                v-model="selectedCharacterId"
+                placeholder="请选择角色"
+                filterable
+                @change="onCharacterChange"
+            >
+                <el-option
+                    v-for="char in characterList"
+                    :key="char.id"
+                    :label="char.characterName"
+                    :value="char.id"
+                >
+                    <span style="float: left">{{ char.characterName }}</span>
+                    <span style="float: right; color: #8492a6; font-size: 13px">{{ char.serverName }}</span>
+                </el-option>
+            </el-select>
+        </div>
+
+        <!-- 称号配置 -->
+        <div
+            v-if="selectedCharacterId"
+            class="config-section"
+        >
+            <title-config
+                :character-id="selectedCharacterId"
+                :title-data="titleData"
+                :options="titleOptions"
+                @saved="onSaved"
+            />
+        </div>
+
+        <!-- 未选择角色时的提示 -->
+        <div
+            v-else
+            class="empty-tip"
+        >
+            <el-empty description="请选择角色以查看和编辑称号配置">
+                <el-icon
+                    class="empty-icon"
+                    size="60"
+                >
+                    <el-icon-crown />
+                </el-icon>
+            </el-empty>
         </div>
     </div>
 </template>
 
 <script>
+import api from '@/api'
+import TitleConfig from '@/components/TitleConfig.vue'
+
 export default {
-    name: 'Title'
+    name: 'TitlePageWrapper',
+    components: {
+        TitleConfig
+    },
+    data() {
+        return {
+            characterList: [],
+            selectedCharacterId: null,
+            titleData: {},
+            titleOptions: {}
+        }
+    },
+    created() {
+        this.loadCharacters()
+        this.loadTitleOptions()
+    },
+    methods: {
+        async loadCharacters() {
+            try {
+                const data = await this.$request({
+                    url: api.character.list,
+                    method: 'get'
+                })
+                this.characterList = data || []
+            } catch (error) {
+                console.error('加载角色列表失败:', error)
+            }
+        },
+        async loadTitleOptions() {
+            try {
+                const data = await this.$request({
+                    url: api.titleOption.getGrouped,
+                    method: 'get'
+                })
+                this.titleOptions = data || {}
+            } catch (error) {
+                console.error('加载称号选项失败:', error)
+                this.titleOptions = {}
+            }
+        },
+        async onCharacterChange(characterId) {
+            if (!characterId) {
+                this.titleData = {}
+                return
+            }
+            try {
+                const data = await this.$request({
+                    url: api.enhancement.getEnhancementData(characterId),
+                    method: 'get'
+                })
+                this.titleData = data?.title || {}
+            } catch (error) {
+                console.error('加载称号数据失败:', error)
+                this.titleData = {}
+            }
+        },
+        onSaved() {
+            // 可选：刷新数据
+        }
+    }
 }
 </script>
 
 <style lang="less" scoped>
-.title-page {
+.title-page-wrapper {
     padding: 20px;
     min-height: 100%;
-    height: 100%;
-    overflow-y: auto;
+    background: var(--theme-bg-dark);
 
-    .page-content {
+    .page-header {
+        margin-bottom: 24px;
+
+        h1 {
+            margin: 0;
+            color: var(--theme-text-primary);
+            font-size: 24px;
+        }
+    }
+
+    .character-selector {
+        margin-bottom: 24px;
+
+        .el-select {
+            width: 300px;
+        }
+    }
+
+    .config-section {
         margin-top: 20px;
+    }
 
-        .empty-card {
-            text-align: center;
-            padding: 40px;
+    .empty-tip {
+        margin-top: 60px;
+        text-align: center;
 
-            .empty-content {
-                i {
-                    font-size: 60px;
-                    color: #909399;
-                    margin-bottom: 20px;
-                }
-
-                p {
-                    margin: 10px 0;
-                    color: #606266;
-                    font-size: 14px;
-
-                    &:first-of-type {
-                        font-size: 16px;
-                        font-weight: bold;
-                        color: #303133;
-                    }
-                }
-            }
+        .empty-icon {
+            color: var(--theme-text-secondary);
         }
     }
 }

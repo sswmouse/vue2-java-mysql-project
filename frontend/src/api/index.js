@@ -11,6 +11,10 @@ import authApi from './auth'
 import mistApi from './mist'
 import enhancement from './enhancement'
 import card from './card'
+import enchantOption from './enchantOption'
+import titleOption from './titleOption'
+import petOption from './petOption'
+import amplifyOption from './amplifyOption'
 
 // 统一导出
 export default {
@@ -21,8 +25,12 @@ export default {
     auth: authApi,
     mist: mistApi,
     enhancement,
-    card
+    card,
+    enchantOption,
+    titleOption,
+    petOption,
+    amplifyOption
 }
 
 // 单独导出各模块
-export { userApi, productApi, orderApi, characterApi, authApi, mistApi, enhancement, card }
+export { userApi, productApi, orderApi, characterApi, authApi, mistApi, enhancement, card, enchantOption, titleOption, petOption, amplifyOption }

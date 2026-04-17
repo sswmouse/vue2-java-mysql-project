@@ -42,8 +42,7 @@ export default {
 </script>
 
 <style lang="less">
-// Google Fonts
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap');
+// Google Fonts 已在 index.html 中引入
 
 // 导入全局样式
 @import '@/assets/styles/index.less';

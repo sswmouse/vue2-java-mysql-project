@@ -2,20 +2,42 @@
  * @Description: 装备管理页面 - 展示12套装备卡片
  * @Author: Claude Code
  * @Date: 2026-04-17
- * @LastEditTime: 2026-04-17
+ * @LastEditTime: 2026-04-18
  * @FilePath: /vue2-java-mysql-project/frontend/src/views/Equipment.vue
 -->
 <template>
     <div class="equipment-page">
         <!-- 页面标题 -->
         <div class="page-header">
-            <h2 class="page-title">
-                <i class="el-icon-suitcase-1" />
-                装备套装管理
-            </h2>
-            <p class="page-subtitle">
-                管理角色的115级重力之泉装备套装，查看积分和阶段进度
-            </p>
+            <div class="header-left">
+                <h2 class="page-title">
+                    <i class="el-icon-suitcase-1" />
+                    装备套装管理
+                </h2>
+                <p class="page-subtitle">
+                    管理角色的115级重力之泉装备套装，查看积分和阶段进度，支持多套装备独立保存进度
+                </p>
+            </div>
+            <div class="header-right">
+                <!-- 角色选择 -->
+                <el-select
+                    v-model="selectedCharacterId"
+                    placeholder="选择角色"
+                    class="character-select"
+                    size="small"
+                    @change="handleCharacterChange"
+                >
+                    <el-option
+                        v-for="char in characters"
+                        :key="char.id"
+                        :label="char.characterName"
+                        :value="char.id"
+                    >
+                        <span>{{ char.characterName }}</span>
+                        <span class="char-level">LV.{{ char.level }}</span>
+                    </el-option>
+                </el-select>
+            </div>
         </div>
 
         <!-- 加载状态 -->
@@ -30,8 +52,10 @@
                     :key="set.id"
                     :set-data="set"
                     :is-active="activeSetId === set.id"
+                    :is-equipped="set.isEquipped"
                     :loading="set.loading"
-                    @click="handleSetClick"
+                    @equip="handleEquip"
+                    @edit="handleEdit"
                 />
             </div>
 
@@ -51,26 +75,6 @@
             </div>
         </div>
 
-        <!-- 角色选择 -->
-        <div class="character-selector">
-            <el-select
-                v-model="selectedCharacterId"
-                placeholder="选择角色"
-                class="character-select"
-                @change="handleCharacterChange"
-            >
-                <el-option
-                    v-for="char in characters"
-                    :key="char.id"
-                    :label="char.characterName"
-                    :value="char.id"
-                >
-                    <span>{{ char.characterName }}</span>
-                    <span class="char-level">LV.{{ char.level }}</span>
-                </el-option>
-            </el-select>
-        </div>
-
         <!-- 装备详情弹窗 -->
         <equipment-detail-dialog
             :visible.sync="dialogVisible"
@@ -83,7 +87,7 @@
 </template>
 
 <script>
-import equipmentApi from '@/api/equipment'
+import equipmentApi, { RARITY_MAP } from '@/api/equipment'
 import EquipmentSetCard from '@/components/EquipmentSetCard.vue'
 import EquipmentDetailDialog from '@/components/EquipmentDetailDialog.vue'
 
@@ -118,12 +122,14 @@ export default {
                 setIndex: 0,
                 items: [],
                 currentPoints: 0,
-                currentStage: ''
+                currentStage: '',
+                isEquipped: false,
+                savedItems: []
             },
             // 当前激活的套装ID
             activeSetId: null,
-            // 角色装备配置
-            characterEquipmentConfig: {}
+            // 角色所有装备配置列表
+            characterEquipmentList: []
         }
     },
 
@@ -139,7 +145,7 @@ export default {
             await this.loadCharacters()
             await this.loadEquipmentSets()
             if (this.selectedCharacterId) {
-                await this.loadCharacterEquipmentConfig()
+                await this.loadAllCharacterEquipment()
             }
         },
 
@@ -148,8 +154,8 @@ export default {
          */
         async loadCharacters() {
             try {
-                // 获取当前用户ID
-                const userId = this.$store.getters.userId
+                // 获取当前用户ID (auth模块是命名空间模块)
+                const userId = this.$store.getters['auth/userId']
                 if (!userId) return
 
                 const res = await this.$request({
@@ -157,8 +163,10 @@ export default {
                     method: 'get'
                 })
 
-                if (res.data && Array.isArray(res.data)) {
-                    this.characters = res.data
+                // 处理响应：可能是数组，也可能是 { data: [...] } 格式
+                const characters = Array.isArray(res) ? res : (res.data || [])
+                if (Array.isArray(characters)) {
+                    this.characters = characters
                     // 默认选中第一个角色
                     if (this.characters.length > 0 && !this.selectedCharacterId) {
                         this.selectedCharacterId = this.characters[0].id
@@ -193,7 +201,7 @@ export default {
                 }
 
                 // 应用角色的装备配置
-                this.applyCharacterConfig()
+                this.applyCharacterConfigs()
             } catch (error) {
                 console.error('加载装备套装列表失败:', error)
                 // 使用默认数据作为兜底
@@ -204,40 +212,80 @@ export default {
         },
 
         /**
-         * 加载角色装备配置
+         * 加载角色所有装备配置
          */
-        async loadCharacterEquipmentConfig() {
+        async loadAllCharacterEquipment() {
             try {
                 const res = await this.$request({
-                    url: `/api/character-equipment/${this.selectedCharacterId}`,
+                    url: `/api/character-equipment/all/${this.selectedCharacterId}`,
                     method: 'get'
                 })
 
-                if (res.data) {
-                    this.characterEquipmentConfig = res.data
-                    this.applyCharacterConfig()
+                // res 是数组，包含角色所有套装配置
+                if (Array.isArray(res)) {
+                    this.characterEquipmentList = res
+                } else if (res.data && Array.isArray(res.data)) {
+                    this.characterEquipmentList = res.data
+                } else {
+                    this.characterEquipmentList = []
                 }
+                this.applyCharacterConfigs()
             } catch (error) {
                 console.error('加载角色装备配置失败:', error)
+                this.characterEquipmentList = []
             }
         },
 
         /**
-         * 应用角色装备配置到套装列表
+         * 加载单个套装配置
          */
-        applyCharacterConfig() {
-            if (!this.characterEquipmentConfig.setId) return
+        async loadSingleCharacterEquipment(setId) {
+            try {
+                const res = await this.$request({
+                    url: `/api/character-equipment/${this.selectedCharacterId}/${setId}`,
+                    method: 'get'
+                })
 
-            const configSetId = this.characterEquipmentConfig.setId
+                if (res && res.setId) {
+                    // 更新列表中的配置
+                    const index = this.characterEquipmentList.findIndex(c => c.setId === setId)
+                    if (index !== -1) {
+                        this.characterEquipmentList[index] = res
+                    } else {
+                        this.characterEquipmentList.push(res)
+                    }
+                    this.applyCharacterConfigs()
+                    return res
+                }
+                return null
+            } catch (error) {
+                console.error('加载套装配置失败:', error)
+                return null
+            }
+        },
+
+        /**
+         * 应用角色所有装备配置到套装列表
+         */
+        applyCharacterConfigs() {
             this.equipmentSets = this.equipmentSets.map(set => {
-                if (set.id === configSetId) {
+                const config = this.characterEquipmentList.find(c => c.setId === set.id)
+                if (config) {
                     return {
                         ...set,
-                        currentPoints: this.characterEquipmentConfig.currentPoints || 0,
-                        currentStage: this.characterEquipmentConfig.currentStage || ''
+                        currentPoints: config.currentPoints || 0,
+                        currentStage: config.currentStage || '',
+                        isEquipped: config.isEquipped || false,
+                        savedItems: config.items || []
                     }
                 }
-                return set
+                return {
+                    ...set,
+                    currentPoints: 0,
+                    currentStage: '',
+                    isEquipped: false,
+                    savedItems: []
+                }
             })
         },
 
@@ -263,16 +311,36 @@ export default {
         },
 
         /**
-         * 处理套装卡片点击
+         * 处理编辑套装 - 打开弹窗
          * @param {Object} setData 套装数据
          */
-        async handleSetClick(setData) {
+        async handleEdit(setData) {
             this.activeSetId = setData.id
-            this.selectedSetData = { ...setData }
+
+            // 加载角色的装备配置
+            await this.loadSingleCharacterEquipment(setData.id)
 
             // 如果还没有加载装备详情，尝试加载
             if (!setData.items || setData.items.length === 0) {
                 await this.loadSetDetail(setData.id)
+            }
+
+            // 从列表中找到最新的套装数据（包含所有items）
+            const latestSetData = this.equipmentSets.find(s => s.id === setData.id) || setData
+
+            // 从 characterEquipmentList 中获取该套装的配置
+            const setConfig = this.characterEquipmentList.find(c => c.setId === setData.id)
+
+            // 构建选中数据
+            this.selectedSetData = {
+                ...latestSetData,
+                savedItems: setConfig ? (setConfig.items || []) : [],
+                isEquipped: setConfig ? (setConfig.isEquipped || false) : false
+            }
+
+            // 确保 items 数组存在
+            if (!this.selectedSetData.items) {
+                this.selectedSetData.items = []
             }
 
             this.dialogVisible = true
@@ -314,11 +382,11 @@ export default {
                     // 更新套装数据
                     const setIndex = this.equipmentSets.findIndex(s => s.id === setId)
                     if (setIndex !== -1) {
-                        this.equipmentSets[setIndex] = {
+                        this.$set(this.equipmentSets, setIndex, {
                             ...this.equipmentSets[setIndex],
                             ...setDetailData,
                             loading: false
-                        }
+                        })
                     }
 
                     // 更新选中数据
@@ -341,7 +409,7 @@ export default {
          */
         async handleCharacterChange(characterId) {
             this.selectedCharacterId = characterId
-            await this.loadCharacterEquipmentConfig()
+            await this.loadAllCharacterEquipment()
         },
 
         /**
@@ -359,6 +427,10 @@ export default {
          */
         async handleSave(data) {
             try {
+                // 获取品级名称（如"稀有"），用于卡片颜色显示
+                const rarityKey = data.currentStage.key
+                const rarityName = RARITY_MAP[rarityKey] || ''
+
                 // 保存到后端
                 await this.$request({
                     url: `/api/character-equipment/${this.selectedCharacterId}`,
@@ -367,25 +439,54 @@ export default {
                         setId: data.setId,
                         setName: data.setName,
                         currentPoints: data.totalPoints,
-                        currentStage: data.currentStage.name,
+                        currentStage: rarityName,
                         items: data.items
                     }
                 })
 
-                // 更新本地数据
-                const setIndex = this.equipmentSets.findIndex(s => s.id === data.setId)
-                if (setIndex !== -1) {
-                    this.equipmentSets[setIndex] = {
-                        ...this.equipmentSets[setIndex],
-                        currentPoints: data.totalPoints,
-                        currentStage: data.currentStage.name
-                    }
-                }
+                // 重新加载角色所有装备配置以更新卡片显示
+                await this.loadAllCharacterEquipment()
 
                 this.$message.success('保存成功')
             } catch (error) {
                 console.error('保存失败:', error)
                 this.$message.error('保存失败')
+            }
+        },
+
+        /**
+         * 处理穿戴/卸下装备切换 - 通过卡片点击触发
+         * @param {Object} data 套装数据
+         */
+        async handleEquip(data) {
+            // 如果当前已穿戴，则卸下；否则穿戴
+            const isCurrentlyEquipped = data.isEquipped
+
+            try {
+                if (isCurrentlyEquipped) {
+                    // 卸下装备
+                    await this.$request({
+                        url: `/api/character-equipment/${this.selectedCharacterId}/unequip/${data.id}`,
+                        method: 'post'
+                    })
+                    this.$message.success('卸下成功')
+                } else {
+                    // 穿戴装备
+                    await this.$request({
+                        url: `/api/character-equipment/${this.selectedCharacterId}/equip/${data.id}`,
+                        method: 'post'
+                    })
+                    this.$message.success('穿戴成功')
+                }
+
+                // 重新加载角色所有装备配置以更新卡片显示
+                await this.loadAllCharacterEquipment()
+
+                // 更新选中数据的穿戴状态
+                this.selectedSetData.isEquipped = !isCurrentlyEquipped
+            } catch (error) {
+                console.error('操作失败:', error)
+                this.$message.error('操作失败')
             }
         },
 
@@ -409,7 +510,19 @@ export default {
 
     // 页面标题
     .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
         margin-bottom: @spacing-xl;
+
+        .header-left {
+            flex: 1;
+        }
+
+        .header-right {
+            flex-shrink: 0;
+            padding-top: @spacing-xs;
+        }
 
         .page-title {
             font-family: @font-heading, sans-serif;
@@ -430,6 +543,17 @@ export default {
             font-size: 14px;
             color: @dnf-text-muted;
             margin: 0;
+        }
+
+        // 角色选择器
+        .character-select {
+            min-width: 160px;
+
+            .char-level {
+                float: right;
+                color: @dnf-text-muted;
+                font-size: 12px;
+            }
         }
     }
 
@@ -478,21 +602,22 @@ export default {
             margin-bottom: @spacing-lg;
         }
     }
+}
 
-    // 角色选择器
-    .character-selector {
-        display: flex;
-        justify-content: flex-end;
-        margin-bottom: @spacing-lg;
+// 下拉框样式覆盖 - 需要全局作用域
+/deep/ .el-select-dropdown {
+    background: @dnf-bg-card;
+    border-color: @dnf-border-light;
 
-        .character-select {
-            width: 200px;
+    .el-select-dropdown__item {
+        color: @dnf-text-primary;
 
-            .char-level {
-                float: right;
-                color: @dnf-text-muted;
-                font-size: 12px;
-            }
+        &:hover {
+            background: @dnf-bg-hover;
+        }
+
+        &.selected {
+            color: @dnf-primary-gold;
         }
     }
 }

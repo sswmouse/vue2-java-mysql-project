@@ -9,6 +9,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.nio.charset.StandardCharsets;
@@ -31,6 +32,24 @@ public class WebConfig {
                 // 映射上传目录为静态资源 (classpath)
                 registry.addResourceHandler("/uploads/**")
                         .addResourceLocations("classpath:/static/uploads/");
+
+                // 映射前端静态资源 - Vue dist目录
+                String frontendDistPath = new java.io.File("../frontend/dist/").getAbsolutePath();
+                // 使用绝对路径，确保路径格式正确
+                String cssPath = "file:" + frontendDistPath + "/css/";
+                String jsPath = "file:" + frontendDistPath + "/js/";
+                String imgPath = "file:" + frontendDistPath + "/img/";
+                String fontsPath = "file:" + frontendDistPath + "/fonts/";
+                String faviconPath = "file:" + frontendDistPath + "/";
+                String indexPath = "file:" + frontendDistPath + "/";
+
+                registry.addResourceHandler("/css/**").addResourceLocations(cssPath);
+                registry.addResourceHandler("/js/**").addResourceLocations(jsPath);
+                registry.addResourceHandler("/img/**").addResourceLocations(imgPath);
+                registry.addResourceHandler("/fonts/**").addResourceLocations(fontsPath);
+                registry.addResourceHandler("/favicon.ico").addResourceLocations(faviconPath);
+                // index.html 作为默认文件
+                registry.addResourceHandler("/index.html").addResourceLocations(indexPath + "index.html");
             }
 
             @Override

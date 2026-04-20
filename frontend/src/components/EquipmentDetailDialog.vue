@@ -2,7 +2,7 @@
  * @Description: 装备详情弹窗组件
  * @Author: Claude Code
  * @Date: 2026-04-17
- * @LastEditTime: 2026-04-17
+ * @LastEditTime: 2026-04-18 00:15:34
  * @FilePath: /vue2-java-mysql-project/frontend/src/components/EquipmentDetailDialog.vue
 -->
 <template>
@@ -267,15 +267,17 @@
         />
 
         <div slot="footer">
-            <el-button
-                type="primary"
-                @click="handleSave"
-            >
-                保存配置
-            </el-button>
-            <el-button @click="handleClose">
-                关闭
-            </el-button>
+            <div class="save-actions">
+                <el-button
+                    type="primary"
+                    @click="handleSave"
+                >
+                    保存配置
+                </el-button>
+                <el-button @click="handleClose">
+                    关闭
+                </el-button>
+            </div>
         </div>
     </el-dialog>
 </template>
@@ -317,7 +319,9 @@ export default {
                 items: [],
                 currentPoints: 0,
                 currentStage: '',
-                stages: []
+                stages: [],
+                // 已保存的装备配置，包含每个部位的品级
+                savedItems: []
             })
         }
     },
@@ -418,6 +422,26 @@ export default {
         },
         dialogVisible(val) {
             this.$emit('update:visible', val)
+        },
+        // 监听 setData.items 的变化，当 items 加载完成后重新初始化品级
+        'setData.items': {
+            handler(newItems) {
+                if (newItems && newItems.length > 0) {
+                    // items 已加载，重新初始化
+                    this.initData()
+                }
+            },
+            deep: true
+        },
+        // 监听 savedItems 的变化，当保存的品级配置加载完成后重新初始化品级
+        'setData.savedItems': {
+            handler(newSavedItems) {
+                if (newSavedItems && newSavedItems.length > 0 && this.setData.items && this.setData.items.length > 0) {
+                    // savedItems 已加载且 items 已有数据，重新初始化
+                    this.initData()
+                }
+            },
+            deep: true
         }
     },
 
@@ -431,20 +455,26 @@ export default {
          * 初始化数据
          */
         initData() {
+            // 构建已保存品级的映射
+            const savedRarities = {}
+            if (this.setData.savedItems && Array.isArray(this.setData.savedItems)) {
+                this.setData.savedItems.forEach(saved => {
+                    savedRarities[saved.itemId] = saved.rarity
+                })
+            }
+
             // 初始化各装备的品级
             if (this.setData.items) {
                 this.setData.items.forEach(item => {
-                    // 根据部位类型设置默认品级
+                    // 优先使用已保存的品级，否则使用默认值
                     // 防具/特殊装备默认史诗('mythic')，首饰默认太初('primal')
                     let defaultRarity = 'mythic'
                     if (item.slotType === 'jewelry') {
                         defaultRarity = 'primal'
                     }
-                    this.$set(
-                        this.itemRarities,
-                        item.id,
-                        defaultRarity
-                    )
+                    // 如果有保存的配置，使用保存的值
+                    const rarity = savedRarities[item.id] || defaultRarity
+                    this.$set(this.itemRarities, item.id, rarity)
                 })
             }
             this.$emit('calculate', this.getCalculationData())
@@ -667,7 +697,7 @@ export default {
          */
         handleSave() {
             this.$emit('save', this.getCalculationData())
-            this.$message.success('保存成功')
+            // 不在这里显示成功消息，由父组件统一处理
             this.handleClose()
         }
     }
@@ -698,10 +728,8 @@ export default {
 
             .el-dialog__headerbtn {
                 position: absolute;
-                top: 10px;
+                top: 20px;
                 right: 10px;
-                width: 24px;
-                height: 24px;
                 line-height: 24px;
                 text-align: center;
 
@@ -744,6 +772,17 @@ export default {
         .el-dialog__footer {
             padding: @spacing-md @spacing-lg;
             border-top: 1px solid @dnf-border-dark;
+
+            .equip-actions {
+                margin-bottom: @spacing-sm;
+                text-align: center;
+            }
+
+            .save-actions {
+                display: flex;
+                justify-content: center;
+                gap: @spacing-sm;
+            }
         }
     }
 
@@ -816,11 +855,21 @@ export default {
                     font-size: 12px;
                     font-weight: @font-weight-medium;
 
-                    &.rare { color: #6b7280; }
-                    &.legendary { color: #3b82f6; }
+                    // 稀有 - 紫色
+                    &.rare { color: #a855f7; }
+                    // 神器 - 红色
+                    &.legendary { color: #ef4444; }
+                    // 传说 - 橙色
                     &.epic { color: #f97316; }
-                    &.mythic { color: #a855f7; }
-                    &.primal { color: #fbbf24; }
+                    // 史诗 - 金色
+                    &.mythic { color: #fbbf24; }
+                    // 太初 - 蓝色渐变
+                    &.primal {
+                        background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        background-clip: text;
+                    }
                 }
 
                 .progress-dots {
@@ -845,13 +894,47 @@ export default {
                             color: @dnf-text-muted;
                         }
 
-                        &.active {
-                            background: linear-gradient(135deg, @dnf-success 0%, @dnf-info 100%);
-                            border-color: @dnf-success;
-                            box-shadow: 0 0 10px rgba(0, 229, 160, 0.3);
+                        // 稀有激活 - 紫色
+                        &.active.rare {
+                            background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+                            border-color: #a855f7;
+                            box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
 
                             .dot-label {
                                 color: white;
+                            }
+                        }
+
+                        // 神器激活 - 红色
+                        &.active.legendary {
+                            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+                            border-color: #ef4444;
+                            box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+
+                            .dot-label {
+                                color: white;
+                            }
+                        }
+
+                        // 传说激活 - 橙色
+                        &.active.epic {
+                            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+                            border-color: #f97316;
+                            box-shadow: 0 0 10px rgba(249, 115, 22, 0.4);
+
+                            .dot-label {
+                                color: white;
+                            }
+                        }
+
+                        // 史诗激活 - 金色
+                        &.active.mythic {
+                            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+                            border-color: #fbbf24;
+                            box-shadow: 0 0 10px rgba(251, 191, 36, 0.4);
+
+                            .dot-label {
+                                color: #1a1a2e;
                             }
                         }
 
@@ -868,6 +951,21 @@ export default {
 
                     .primal-dot {
                         width: 80px;
+
+                        // 太初激活 - 蓝色渐变
+                        &.active {
+                            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #1d4ed8 100%);
+                            border-color: #60a5fa;
+                            box-shadow: 0 0 15px rgba(96, 165, 250, 0.5);
+
+                            .dot-label {
+                                color: white;
+                                background: linear-gradient(135deg, #60a5fa 0%, #ffffff 100%);
+                                -webkit-background-clip: text;
+                                -webkit-text-fill-color: transparent;
+                                background-clip: text;
+                            }
+                        }
                     }
                 }
             }

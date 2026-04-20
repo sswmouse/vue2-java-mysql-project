@@ -92,12 +92,15 @@ export default {
             characters: [],
             dialogVisible: false,
             editingCharacter: null,
-            // 默认绑定admin账户（userId = 1）
-            currentUserId: 1,
             // 拖拽相关状态
             isDragging: false,
             dragStartIndex: -1,
             dragEndIndex: -1
+        }
+    },
+    computed: {
+        currentUserId() {
+            return this.$store.getters.userId
         }
     },
     mounted() {
@@ -105,13 +108,19 @@ export default {
     },
     methods: {
         async loadCharacters() {
+            const userId = this.currentUserId
+            if (!userId) {
+                this.characters = []
+                return
+            }
             this.loading = true
             try {
-                const data = await this.$request({
-                    url: api.character.list(this.currentUserId),
+                const res = await this.$request({
+                    url: api.character.list(userId),
                     method: 'get'
                 })
-                this.characters = data || []
+                // 处理响应：可能是数组，也可能是 { data: [...] } 格式
+                this.characters = Array.isArray(res) ? res : (res.data || [])
             } catch (error) {
                 console.error('加载角色列表失败:', error)
                 this.$message.error('加载角色列表失败')

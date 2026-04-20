@@ -350,7 +350,7 @@ export default {
     data() {
         return {
             form: {
-                userId: 1, // 默认绑定admin账户
+                userId: null, // 从store获取
                 characterTypeId: null,
                 characterName: '',
                 jobNature: '',
@@ -543,7 +543,7 @@ export default {
             this.form = {
                 ...this.form,
                 ...characterData,
-                userId: this.character.userId || 1,
+                userId: this.character.userId || this.$store.getters.userId,
                 elementValue,
                 elementType,
                 lightElement: lightElement || 0,
@@ -560,8 +560,9 @@ export default {
         },
 
         resetForm() {
+            const userId = this.$store.getters.userId
             this.form = {
-                userId: 1,
+                userId: userId,
                 characterTypeId: null,
                 characterName: '',
                 jobNature: '',
@@ -632,6 +633,10 @@ export default {
                     this.submitting = true
                     try {
                         const submitData = this.prepareSubmitData()
+                        // 确保有 userId
+                        if (!submitData.userId) {
+                            submitData.userId = this.$store.getters.userId
+                        }
                         if (this.character) {
                             // 更新
                             await this.$request({

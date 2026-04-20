@@ -24,6 +24,8 @@ export default new Vuex.Store({
         }
     },
     getters: {
-        getUsers: state => state.users
+        getUsers: state => state.users,
+        // 用户ID - 代理到auth模块的userId getter
+        userId: (state, getters, rootState, rootGetters) => rootGetters['auth/userId']
     }
 })

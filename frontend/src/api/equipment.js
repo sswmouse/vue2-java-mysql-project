@@ -21,16 +21,22 @@ export const RARITY_MAP = {
 
 /**
  * 品级颜色映射
+ * 稀有-紫色，神器-红色，传说-橙色，史诗-金色，太初-蓝色
  */
 export const RARITY_COLORS = {
-    rare: '#6b7280',        // 灰色
-    legendary: '#3b82f6',  // 蓝色
+    rare: '#a855f7',        // 紫色
+    legendary: '#ef4444',   // 红色
     epic: '#f97316',        // 橙色
-    mythic: '#a855f7',      // 紫色
-    primal: '#fbbf24',       // 金色
-    blackEpic: '#ef4444',   // 红色
-    blackPrimal: '#dc2626'  // 深红色
+    mythic: '#fbbf24',      // 金色
+    primal: '#60a5fa',      // 太初 - 基础蓝色 (渐变在CSS中处理)
+    blackEpic: '#dc2626',  // 黑牙史诗 - 深红色
+    blackPrimal: '#1d4ed8' // 黑牙太初 - 深蓝色
 }
+
+/**
+ * 太初蓝色渐变
+ */
+export const PRIMAL_GRADIENT = 'linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #1d4ed8 100%)'
 
 /**
  * 品级中文名到Key的映射

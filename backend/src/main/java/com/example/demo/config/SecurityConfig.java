@@ -76,8 +76,32 @@ public class SecurityConfig {
                 .antMatchers("/api/character-types/**").permitAll()
                 // 允许角色同步API公开访问
                 .antMatchers("/api/character-sync/**").permitAll()
-                // 允许访问前端静态资源
-                .antMatchers("/*.html", "/css/**", "/js/**", "/images/**", "/favicon.ico").permitAll()
+                // 允许访问前端静态资源和SPA路由
+                .antMatchers(
+                    HttpMethod.GET,
+                    "/",
+                    "/index.html",
+                    "/css/**",
+                    "/js/**",
+                    "/img/**",
+                    "/fonts/**",
+                    "/favicon.ico",
+                    "/role",
+                    "/equipment",
+                    "/fashion",
+                    "/enhancement",
+                    "/enchantment",
+                    "/badge",
+                    "/title",
+                    "/pet",
+                    "/mist",
+                    "/login",
+                    "/register",
+                    "/settings",
+                    "/profile"
+                ).permitAll()
+                // 允许所有GET请求（由SpaRouteFilter处理）
+                .antMatchers(HttpMethod.GET, "/**").permitAll()
                 // 修改用户角色需要管理员权限
                 .antMatchers(HttpMethod.PUT, "/auth/users/*/role").hasRole("ADMIN")
                 // 其他请求需要认证

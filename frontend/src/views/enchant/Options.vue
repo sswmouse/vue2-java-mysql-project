@@ -2,7 +2,7 @@
  * @Description: 附魔选项管理页面
  * @Author: Claude Code
  * @Date: 2026-04-20
- * @LastEditTime: 2026-04-20
+ * @LastEditTime: 2026-04-20 17:09:01
  * @FilePath: /vue2-java-mysql-project/frontend/src/views/enchant/Options.vue
 -->
 <template>
@@ -206,14 +206,14 @@
                                 class="value-input"
                             />
                             <el-button
-                                type="text"
+                                circle
                                 icon="el-icon-plus"
                                 class="add-btn"
                                 @click="addAttributeValue"
                             />
                             <el-button
                                 v-if="attributeValues.length > 1"
-                                type="text"
+                                circle
                                 icon="el-icon-minus"
                                 class="remove-btn"
                                 @click="removeAttributeValue(idx)"
@@ -502,7 +502,7 @@ export default {
                     console.error('删除失败:', error)
                     this.$message.error('删除失败')
                 }
-            }).catch(() => {})
+            }).catch(() => { })
         }
     }
 }
@@ -572,7 +572,7 @@ export default {
             padding: 8px 16px;
             border-radius: @border-radius-md;
 
-.btn-prev,
+            .btn-prev,
             .btn-next,
             .el-pager li {
                 background: var(--theme-bg-hover);
@@ -581,7 +581,7 @@ export default {
                 height: 28px;
                 line-height: 26px;
 
-&:hover {
+                &:hover {
                     color: var(--theme-accent);
                     border-color: var(--theme-accent);
                 }
@@ -626,70 +626,77 @@ export default {
     }
 
     .multi-value-input {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: auto;
+        max-width: 320px;
+
         .value-row {
             display: flex;
             align-items: center;
-            margin-bottom: @spacing-sm;
-            gap: @spacing-sm;
+            gap: 8px;
             width: 100%;
-            max-width: 320px;
+            max-width: 280px;
 
             .value-input {
                 flex: 1;
                 min-width: 0;
+
+                /deep/ .el-input__inner {
+                    padding-right: 30px;
+                }
             }
 
             .add-btn,
             .remove-btn {
-                width: 32px;
-                height: 32px;
-                min-width: 32px;
+                width: 28px;
+                height: 28px;
+                min-width: 28px;
                 padding: 0;
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                border: 1px solid @dnf-border-light;
-                border-radius: @border-radius-md;
-                background: @dnf-bg-hover;
+                border: 1px solid var(--theme-border);
+                border-radius: 50%;
+                background: var(--theme-bg-hover);
                 transition: all @transition-fast;
                 flex-shrink: 0;
-                line-height: 1;
 
                 i {
-                    font-size: 14px;
+                    font-size: 12px;
+                }
+
+                &:hover {
+                    border-color: var(--theme-accent);
                 }
             }
 
             .add-btn {
-                color: @dnf-primary-gold;
+                color: var(--theme-accent);
 
                 &:hover {
-                    border-color: @dnf-primary-gold;
-                    background: fade(@dnf-primary-gold, 15%);
+                    background: rgba(255, 215, 0, 0.15);
                 }
             }
 
             .remove-btn {
-                color: @dnf-danger;
+                color: var(--theme-danger);
 
                 &:hover {
-                    border-color: @dnf-danger;
-                    background: fade(@dnf-danger, 15%);
+                    background: rgba(245, 108, 108, 0.15);
                 }
             }
         }
     }
+}
 
-    .edit-dialog {
-        /deep/ .el-form-item__content {
-            > .el-select,
-            > .el-input,
-            > .el-textarea,
-            > .multi-value-input {
-                width: 100%;
-                max-width: 320px;
-            }
-        }
+.edit-dialog {
+    .el-select,
+    .el-input,
+    .el-textarea {
+        width: 225px;
+        margin: 10px 10px 0 0;
     }
 }
 </style>

@@ -1,639 +1,261 @@
+<!--
+ * @Description: 附魔管理页面 - 卡片形式展示12个部位
+ * @Author: Claude Code
+ * @Date: 2026-04-20
+ * @LastEditTime: 2026-04-20
+ * @FilePath: /vue2-java-mysql-project/frontend/src/views/Enchant.vue
+-->
 <template>
     <div class="enchant-page">
-        <div class="current-status">
-            <h3>当前附魔状态</h3>
-            <p>主属性: {{ enchantData.elementType || '无' }} +{{ enchantData.elementValue || 0 }}</p>
+        <!-- 页面标题 -->
+        <div class="page-header">
+            <div class="header-left">
+                <h2 class="page-title">
+                    <i class="el-icon-magic-stick" />
+                    附魔管理
+                </h2>
+                <p class="page-subtitle">
+                    管理角色的装备附魔配置，点击卡片选择附魔宝珠
+                </p>
+            </div>
+            <div class="header-right">
+                <el-select
+                    v-model="selectedCharacterId"
+                    placeholder="选择角色"
+                    class="character-select"
+                    size="small"
+                    @change="handleCharacterChange"
+                >
+                    <el-option
+                        v-for="char in characters"
+                        :key="char.id"
+                        :label="char.characterName"
+                        :value="char.id"
+                    >
+                        <span>{{ char.characterName }}</span>
+                        <span class="char-level">LV.{{ char.level }}</span>
+                    </el-option>
+                </el-select>
+            </div>
         </div>
 
-        <!-- 属强类型和数值 -->
-        <div class="form-section">
-            <h4>属性强化</h4>
-            <el-select
-                v-model="form.elementType"
-                placeholder="选择属性"
-                @change="handleChange"
-            >
-                <el-option
-                    label="光属性"
-                    value="光"
+        <!-- 加载状态 -->
+        <div
+            v-loading="loading"
+            class="loading-container"
+        >
+            <!-- 卡片网格 -->
+            <div class="enchant-grid">
+                <enchant-card
+                    v-for="part in equipmentParts"
+                    :key="part"
+                    :part-name="part"
+                    :enchant-data="getEnchantData(part)"
+                    @click="handleCardClick"
                 />
-                <el-option
-                    label="火属性"
-                    value="火"
-                />
-                <el-option
-                    label="冰属性"
-                    value="冰"
-                />
-                <el-option
-                    label="暗属性"
-                    value="暗"
-                />
-                <el-option
-                    label="全属性"
-                    value="全"
-                />
-            </el-select>
-            <el-input-number
-                v-model="form.elementValue"
-                :min="0"
-                :max="999"
-                class="element-input"
-                @change="handleChange"
-            />
+            </div>
         </div>
 
-        <!-- 防具附魔 -->
-        <div class="form-section">
-            <h4>防具附魔</h4>
-            <el-form label-width="100px">
-                <el-form-item label="头肩">
-                    <el-select
-                        v-model="form.head"
-                        placeholder="选择宝珠"
-                        @change="handleChange"
-                    >
-                        <el-option-group label="金秋套">
-                            <el-option
-                                label="金秋宝珠(技攻+30)"
-                                value="金秋头肩宝珠(技攻+30)"
-                            />
-                            <el-option
-                                label="金秋宝珠(技攻+4%)"
-                                value="金秋头肩宝珠(技攻+4%)"
-                            />
-                            <el-option
-                                label="金秋宝珠(暴击+8%)"
-                                value="金秋头肩宝珠(暴击+8%)"
-                            />
-                            <el-option
-                                label="金秋宝珠(三速+10%)"
-                                value="金秋头肩宝珠(三速+10%)"
-                            />
-                        </el-option-group>
-                        <el-option-group label="春节套">
-                            <el-option
-                                label="春节宝珠(技攻+30)"
-                                value="春节头肩宝珠(技攻+30)"
-                            />
-                            <el-option
-                                label="春节宝珠(技攻+4%)"
-                                value="春节头肩宝珠(技攻+4%)"
-                            />
-                            <el-option
-                                label="春节宝珠(暴击+8%)"
-                                value="春节头肩宝珠(暴击+8%)"
-                            />
-                        </el-option-group>
-                        <el-option-group label="其他">
-                            <el-option
-                                label="使徒宝珠(暴击+5%)"
-                                value="使徒头肩宝珠(暴击+5%)"
-                            />
-                            <el-option
-                                label="代号希望宝珠"
-                                value="代号希望头肩宝珠"
-                            />
-                            <el-option
-                                label="未附魔"
-                                value=""
-                            />
-                        </el-option-group>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="上衣/下装">
-                    <el-select
-                        v-model="form.chest"
-                        placeholder="选择宝珠"
-                        @change="handleChange"
-                    >
-                        <el-option-group label="金秋套">
-                            <el-option
-                                label="金秋上衣(力量/智力+70)"
-                                value="金秋上衣宝珠(力智+70)"
-                            />
-                            <el-option
-                                label="金秋下装(力量/智力+70)"
-                                value="金秋下装宝珠(力智+70)"
-                            />
-                            <el-option
-                                label="金秋上衣(体力/精神+65)"
-                                value="金秋上衣宝珠(体精+65)"
-                            />
-                        </el-option-group>
-                        <el-option-group label="春节套">
-                            <el-option
-                                label="春节上衣(力量/智力+60)"
-                                value="春节上衣宝珠(力智+60)"
-                            />
-                            <el-option
-                                label="春节下装(力量/智力+60)"
-                                value="春节下装宝珠(力智+60)"
-                            />
-                        </el-option-group>
-                        <el-option-group label="CP武器">
-                            <el-option
-                                label="CP上衣(技攻+5%)"
-                                value="CP上衣宝珠(技攻+5%)"
-                            />
-                            <el-option
-                                label="CP下装(技攻+5%)"
-                                value="CP下装宝珠(技攻+5%)"
-                            />
-                        </el-option-group>
-                        <el-option-group label="其他">
-                            <el-option
-                                label="使徒希洛克宝珠"
-                                value="使徒希洛克宝珠"
-                            />
-                            <el-option
-                                label="未附魔"
-                                value=""
-                            />
-                        </el-option-group>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="鞋/腰带">
-                    <el-select
-                        v-model="form.shoes"
-                        placeholder="选择宝珠"
-                        @change="handleChange"
-                    >
-                        <el-option-group label="金秋套">
-                            <el-option
-                                label="金秋鞋/腰带(力量/智力+55)"
-                                value="金秋鞋/腰带宝珠(力智+55)"
-                            />
-                            <el-option
-                                label="金秋鞋/腰带(体力/精神+50)"
-                                value="金秋鞋/腰带宝珠(体精+50)"
-                            />
-                        </el-option-group>
-                        <el-option-group label="春节套">
-                            <el-option
-                                label="春节鞋/腰带(力量/智力+45)"
-                                value="春节鞋/腰带宝珠(力智+45)"
-                            />
-                            <el-option
-                                label="春节鞋/腰带(移动+10%)"
-                                value="春节鞋/腰带宝珠(移动+10%)"
-                            />
-                        </el-option-group>
-                        <el-option-group label="其他">
-                            <el-option
-                                label="格斗场冠军宝珠"
-                                value="格斗场冠军宝珠"
-                            />
-                            <el-option
-                                label="未附魔"
-                                value=""
-                            />
-                        </el-option-group>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="腰带">
-                    <el-select
-                        v-model="form.legs"
-                        placeholder="选择宝珠"
-                        @change="handleChange"
-                    >
-                        <el-option-group label="金秋套">
-                            <el-option
-                                label="金秋腰带(力量/智力+55)"
-                                value="金秋腰带宝珠(力智+55)"
-                            />
-                        </el-option-group>
-                        <el-option-group label="春节套">
-                            <el-option
-                                label="春节腰带(力量/智力+45)"
-                                value="春节腰带宝珠(力智+45)"
-                            />
-                        </el-option-group>
-                        <el-option-group label="其他">
-                            <el-option
-                                label="未附魔"
-                                value=""
-                            />
-                        </el-option-group>
-                    </el-select>
-                </el-form-item>
-            </el-form>
-        </div>
-
-        <!-- 首饰附魔 -->
-        <div class="form-section">
-            <h4>首饰附魔</h4>
-            <el-form label-width="100px">
-                <el-form-item label="项链">
-                    <el-select
-                        v-model="form.necklace"
-                        placeholder="选择宝珠"
-                        @change="handleChange"
-                    >
-                        <el-option-group label="单属强">
-                            <el-option
-                                label="光之主人宝珠(光强+25)"
-                                value="光之主人宝珠(光强+25)"
-                            />
-                            <el-option
-                                label="火之主人宝珠(火强+25)"
-                                value="火之主人宝珠(火强+25)"
-                            />
-                            <el-option
-                                label="冰之主人宝珠(冰强+25)"
-                                value="冰之主人宝珠(冰强+25)"
-                            />
-                            <el-option
-                                label="暗之主人宝珠(暗强+25)"
-                                value="暗之主人宝珠(暗强+25)"
-                            />
-                        </el-option-group>
-                        <el-option-group label="双属强">
-                            <el-option
-                                label="属性强化+20(光/火)"
-                                value="光火双属强+20"
-                            />
-                            <el-option
-                                label="属性强化+20(冰/暗)"
-                                value="冰暗双属强+20"
-                            />
-                            <el-option
-                                label="属性强化+22(光/火)"
-                                value="光火双属强+22"
-                            />
-                            <el-option
-                                label="属性强化+22(冰/暗)"
-                                value="冰暗双属强+22"
-                            />
-                        </el-option-group>
-                        <el-option-group label="全属强">
-                            <el-option
-                                label="全属性强化+18"
-                                value="全属强+18"
-                            />
-                            <el-option
-                                label="全属性强化+20"
-                                value="全属强+20"
-                            />
-                            <el-option
-                                label="全属性强化+23"
-                                value="全属强+23"
-                            />
-                        </el-option-group>
-                        <el-option-group label="金秋/春节">
-                            <el-option
-                                label="金秋首饰(属强+25)"
-                                value="金秋首饰宝珠(属强+25)"
-                            />
-                            <el-option
-                                label="金秋首饰(属强+30)"
-                                value="金秋首饰宝珠(属强+30)"
-                            />
-                            <el-option
-                                label="春节首饰(属强+23)"
-                                value="春节首饰宝珠(属强+23)"
-                            />
-                        </el-option-group>
-                        <el-option-group label="其他">
-                            <el-option
-                                label="未附魔"
-                                value=""
-                            />
-                        </el-option-group>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="手镯">
-                    <el-select
-                        v-model="form.bracelet"
-                        placeholder="选择宝珠"
-                        @change="handleChange"
-                    >
-                        <el-option-group label="单属强">
-                            <el-option
-                                label="光之主人宝珠(光强+25)"
-                                value="光之主人手镯宝珠(光强+25)"
-                            />
-                            <el-option
-                                label="火之主人宝珠(火强+25)"
-                                value="火之主人手镯宝珠(火强+25)"
-                            />
-                            <el-option
-                                label="冰之主人宝珠(冰强+25)"
-                                value="冰之主人手镯宝珠(冰强+25)"
-                            />
-                            <el-option
-                                label="暗之主人宝珠(暗强+25)"
-                                value="暗之主人手镯宝珠(暗强+25)"
-                            />
-                        </el-option-group>
-                        <el-option-group label="双属强">
-                            <el-option
-                                label="属性强化+22(光/火)"
-                                value="光火双属强手镯+22"
-                            />
-                            <el-option
-                                label="属性强化+22(冰/暗)"
-                                value="冰暗双属强手镯+22"
-                            />
-                        </el-option-group>
-                        <el-option-group label="全属强">
-                            <el-option
-                                label="全属性强化+18"
-                                value="全属强手镯+18"
-                            />
-                            <el-option
-                                label="全属性强化+20"
-                                value="全属强手镯+20"
-                            />
-                        </el-option-group>
-                        <el-option-group label="其他">
-                            <el-option
-                                label="未附魔"
-                                value=""
-                            />
-                        </el-option-group>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="戒指">
-                    <el-select
-                        v-model="form.ring"
-                        placeholder="选择宝珠"
-                        @change="handleChange"
-                    >
-                        <el-option-group label="单属强">
-                            <el-option
-                                label="光之主人宝珠(光强+25)"
-                                value="光之主人戒指宝珠(光强+25)"
-                            />
-                            <el-option
-                                label="火之主人宝珠(火强+25)"
-                                value="火之主人戒指宝珠(火强+25)"
-                            />
-                            <el-option
-                                label="冰之主人宝珠(冰强+25)"
-                                value="冰之主人戒指宝珠(冰强+25)"
-                            />
-                            <el-option
-                                label="暗之主人宝珠(暗强+25)"
-                                value="暗之主人戒指宝珠(暗强+25)"
-                            />
-                        </el-option-group>
-                        <el-option-group label="双属强">
-                            <el-option
-                                label="属性强化+22(光/火)"
-                                value="光火双属强戒指+22"
-                            />
-                            <el-option
-                                label="属性强化+22(冰/暗)"
-                                value="冰暗双属强戒指+22"
-                            />
-                        </el-option-group>
-                        <el-option-group label="全属强">
-                            <el-option
-                                label="全属性强化+18"
-                                value="全属强戒指+18"
-                            />
-                            <el-option
-                                label="全属性强化+20"
-                                value="全属强戒指+20"
-                            />
-                        </el-option-group>
-                        <el-option-group label="其他">
-                            <el-option
-                                label="未附魔"
-                                value=""
-                            />
-                        </el-option-group>
-                    </el-select>
-                </el-form-item>
-            </el-form>
-        </div>
-
-        <!-- 特殊装备附魔 -->
-        <div class="form-section">
-            <h4>特殊装备附魔</h4>
-            <el-form label-width="100px">
-                <el-form-item label="辅助装备">
-                    <el-select
-                        v-model="form.subEquip"
-                        placeholder="选择宝珠"
-                        @change="handleChange"
-                    >
-                        <el-option-group label="金秋套">
-                            <el-option
-                                label="金秋辅助(力量/智力+70)"
-                                value="金秋辅助装备宝珠(力智+70)"
-                            />
-                            <el-option
-                                label="金秋辅助(体力/精神+65)"
-                                value="金秋辅助装备宝珠(体精+65)"
-                            />
-                            <el-option
-                                label="金秋辅助(徽章栏)"
-                                value="金秋辅助装备宝珠(徽章栏)"
-                            />
-                        </el-option-group>
-                        <el-option-group label="春节套">
-                            <el-option
-                                label="春节辅助(力量/智力+60)"
-                                value="春节辅助装备宝珠(力智+60)"
-                            />
-                            <el-option
-                                label="春节辅助(体力/精神+55)"
-                                value="春节辅助装备宝珠(体精+55)"
-                            />
-                        </el-option-group>
-                        <el-option-group label="其他">
-                            <el-option
-                                label="时空石宝珠"
-                                value="时空石辅助装备宝珠"
-                            />
-                            <el-option
-                                label="未附魔"
-                                value=""
-                            />
-                        </el-option-group>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="魔法石">
-                    <el-select
-                        v-model="form.magicStone"
-                        placeholder="选择宝珠"
-                        @change="handleChange"
-                    >
-                        <el-option-group label="属强">
-                            <el-option
-                                label="光属性强化+20"
-                                value="光强魔法石+20"
-                            />
-                            <el-option
-                                label="火属性强化+20"
-                                value="火强魔法石+20"
-                            />
-                            <el-option
-                                label="冰属性强化+20"
-                                value="冰强魔法石+20"
-                            />
-                            <el-option
-                                label="暗属性强化+20"
-                                value="暗强魔法石+20"
-                            />
-                            <el-option
-                                label="全属性强化+18"
-                                value="全属强魔法石+18"
-                            />
-                            <el-option
-                                label="全属性强化+20"
-                                value="全属强魔法石+20"
-                            />
-                        </el-option-group>
-                        <el-option-group label="金秋/春节">
-                            <el-option
-                                label="金秋魔法石(属强+25)"
-                                value="金秋魔法石宝珠(属强+25)"
-                            />
-                            <el-option
-                                label="春节魔法石(属强+23)"
-                                value="春节魔法石宝珠(属强+23)"
-                            />
-                        </el-option-group>
-                        <el-option-group label="其他">
-                            <el-option
-                                label="使徒安图恩宝珠"
-                                value="使徒安图恩魔法石宝珠"
-                            />
-                            <el-option
-                                label="未附魔"
-                                value=""
-                            />
-                        </el-option-group>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="耳环">
-                    <el-select
-                        v-model="form.auxiliary"
-                        placeholder="选择宝珠"
-                        @change="handleChange"
-                    >
-                        <el-option-group label="金秋套">
-                            <el-option
-                                label="金秋耳环(力量/智力+70)"
-                                value="金秋耳环宝珠(力智+70)"
-                            />
-                            <el-option
-                                label="金秋耳环(体力/精神+65)"
-                                value="金秋耳环宝珠(体精+65)"
-                            />
-                        </el-option-group>
-                        <el-option-group label="春节套">
-                            <el-option
-                                label="春节耳环(力量/智力+60)"
-                                value="春节耳环宝珠(力智+60)"
-                            />
-                            <el-option
-                                label="春节耳环(体力/精神+55)"
-                                value="春节耳环宝珠(体精+55)"
-                            />
-                        </el-option-group>
-                        <el-option-group label="其他">
-                            <el-option
-                                label="四维+100宝珠"
-                                value="四维+100耳环宝珠"
-                            />
-                            <el-option
-                                label="四维+125宝珠"
-                                value="四维+125耳环宝珠"
-                            />
-                            <el-option
-                                label="使徒罗特斯宝珠"
-                                value="使徒罗特斯耳环宝珠"
-                            />
-                            <el-option
-                                label="未附魔"
-                                value=""
-                            />
-                        </el-option-group>
-                    </el-select>
-                </el-form-item>
-            </el-form>
-        </div>
-
-        <div class="actions">
-            <el-button
-                type="primary"
-                :loading="saving"
-                @click="handleSave"
-            >
-                保存更改
-            </el-button>
-        </div>
+        <!-- 选择弹窗 -->
+        <enchant-select-dialog
+            :visible.sync="dialogVisible"
+            :part-name="selectedPart"
+            :options="enchantOptions"
+            :current-option-id="currentOptionId"
+            @select="handleSelect"
+        />
     </div>
 </template>
 
 <script>
-import apiEnhancement from '@/api/enhancement'
+import enchantApi, { EQUIPMENT_PARTS } from '@/api/enchant'
+import EnchantCard from '@/components/EnchantCard.vue'
+import EnchantSelectDialog from '@/components/EnchantSelectDialog.vue'
 
+/**
+ * 附魔管理页面
+ * 展示12个装备部位卡片，支持查看和配置附魔
+ */
 export default {
-    name: 'EnchantPage',
-    props: {
-        characterId: {
-            type: Number,
-            required: true
-        },
-        enchantData: {
-            type: Object,
-            default: () => ({})
-        }
+    name: 'Enchant',
+
+    components: {
+        EnchantCard,
+        EnchantSelectDialog
     },
+
     data() {
         return {
-            saving: false,
-            form: {
-                weapon: '',
-                head: '',
-                chest: '',
-                legs: '',
-                shoes: '',
-                necklace: '',
-                bracelet: '',
-                ring: '',
-                subEquip: '',
-                magicStone: '',
-                auxiliary: '',
-                elementType: '全',
-                elementValue: 0
-            }
+            // 加载状态
+            loading: false,
+            // 角色列表
+            characters: [],
+            // 选中的角色ID
+            selectedCharacterId: null,
+            // 角色附魔配置
+            characterEnchants: [],
+            // 所有附魔选项
+            allEnchantOptions: [],
+            // 弹窗状态
+            dialogVisible: false,
+            // 选中的部位
+            selectedPart: '',
+            // 当前选项ID
+            currentOptionId: null
         }
     },
-    watch: {
-        enchantData: {
-            handler(newData) {
-                if (newData) {
-                    this.form = { ...this.form, ...newData }
-                }
-            },
-            immediate: true,
-            deep: true
-        }
-    },
-    methods: {
-        handleChange() {
-            this.$emit('update', this.form)
+
+    computed: {
+        // 12个装备部位
+        equipmentParts() {
+            return EQUIPMENT_PARTS
         },
-        async handleSave() {
-            this.saving = true
+
+        // 当前选中部位的附魔选项
+        enchantOptions() {
+            return this.allEnchantOptions.filter(
+                opt => opt.equipmentPart === this.selectedPart
+            )
+        }
+    },
+
+    mounted() {
+        this.init()
+    },
+
+    methods: {
+        /**
+         * 初始化页面
+         */
+        async init() {
+            await this.loadCharacters()
+            await this.loadAllEnchantOptions()
+            if (this.selectedCharacterId) {
+                await this.loadCharacterEnchants()
+            }
+        },
+
+        /**
+         * 加载角色列表
+         */
+        async loadCharacters() {
             try {
-                await this.$request({
-                    url: apiEnhancement.updateEnchant(this.characterId),
-                    method: 'put',
-                    data: this.form
+                const userId = this.$store.getters['auth/userId']
+                if (!userId) return
+
+                const res = await this.$request({
+                    url: `/api/characters/user/${userId}`,
+                    method: 'get'
                 })
-                this.$message.success('保存成功')
-                this.$emit('saved', this.form)
+
+                const characters = Array.isArray(res) ? res : (res.data || [])
+                if (Array.isArray(characters)) {
+                    this.characters = characters
+                    if (this.characters.length > 0 && !this.selectedCharacterId) {
+                        this.selectedCharacterId = this.characters[0].id
+                    }
+                }
             } catch (error) {
-                this.$message.error('保存失败')
+                console.error('加载角色列表失败:', error)
+            }
+        },
+
+        /**
+         * 加载所有附魔选项
+         */
+        async loadAllEnchantOptions() {
+            try {
+                const res = await this.$request({
+                    url: enchantApi.enchantOptions,
+                    method: 'get'
+                })
+
+                this.allEnchantOptions = Array.isArray(res) ? res : (res.data || [])
+            } catch (error) {
+                console.error('加载附魔选项失败:', error)
+                this.allEnchantOptions = []
+            }
+        },
+
+        /**
+         * 加载角色附魔配置
+         */
+        async loadCharacterEnchants() {
+            if (!this.selectedCharacterId) return
+
+            this.loading = true
+            try {
+                const res = await this.$request({
+                    url: enchantApi.characterEnchant(this.selectedCharacterId),
+                    method: 'get'
+                })
+
+                this.characterEnchants = Array.isArray(res) ? res : (res.data || [])
+            } catch (error) {
+                console.error('加载角色附魔配置失败:', error)
+                this.characterEnchants = []
             } finally {
-                this.saving = false
+                this.loading = false
+            }
+        },
+
+        /**
+         * 获取部位的附魔数据
+         */
+        getEnchantData(partName) {
+            return this.characterEnchants.find(e => e.equipmentPart === partName)
+        },
+
+        /**
+         * 处理角色切换
+         */
+        async handleCharacterChange(characterId) {
+            this.selectedCharacterId = characterId
+            await this.loadCharacterEnchants()
+        },
+
+        /**
+         * 处理卡片点击
+         */
+        handleCardClick({ partName, enchantData }) {
+            this.selectedPart = partName
+            this.currentOptionId = enchantData ? enchantData.enchantOptionId : null
+            this.dialogVisible = true
+        },
+
+        /**
+         * 处理附魔选择
+         */
+        async handleSelect({ partName, enchantData }) {
+            try {
+                if (enchantData) {
+                    // 保存附魔配置
+                    await this.$request({
+                        url: enchantApi.characterEnchant(this.selectedCharacterId),
+                        method: 'post',
+                        data: {
+                            equipmentPart: partName,
+                            enchantOptionId: enchantData.id,
+                            enchantName: enchantData.name,
+                            attributeType: enchantData.attributeType,
+                            attributeValue: enchantData.attributeValue,
+                            packageType: enchantData.packageType
+                        }
+                    })
+                } else {
+                    // 删除附魔配置
+                    await this.$request({
+                        url: enchantApi.characterEnchantByPart(this.selectedCharacterId, partName),
+                        method: 'delete'
+                    })
+                }
+
+                // 重新加载配置
+                await this.loadCharacterEnchants()
+                this.$message.success('保存成功')
+            } catch (error) {
+                console.error('保存失败:', error)
+                this.$message.error('保存失败')
             }
         }
     }
@@ -641,47 +263,97 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '@/assets/styles/variables.less';
+
 .enchant-page {
-    padding: 20px;
+    padding: @spacing-xl;
+    min-height: 100%;
+    background: linear-gradient(180deg, @dnf-bg-dark 0%, @dnf-primary-dark 100%);
 
-    .current-status {
-        background: var(--theme-bg-card);
-        border-radius: 8px;
-        padding: 16px 20px;
-        margin-bottom: 24px;
-        border: 1px solid var(--theme-border);
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: @spacing-xl;
 
-        h3 {
-            margin: 0 0 8px 0;
-            color: var(--theme-text-primary);
+        .header-left {
+            flex: 1;
         }
 
-        p {
+        .header-right {
+            flex-shrink: 0;
+            padding-top: @spacing-xs;
+        }
+
+        .page-title {
+            font-family: @font-heading, sans-serif;
+            font-size: 24px;
+            font-weight: @font-weight-bold;
+            color: @dnf-primary-gold;
+            margin: 0 0 @spacing-xs 0;
+            display: flex;
+            align-items: center;
+            gap: @spacing-sm;
+
+            i {
+                font-size: 28px;
+            }
+        }
+
+        .page-subtitle {
+            font-size: 14px;
+            color: @dnf-text-muted;
             margin: 0;
-            color: var(--theme-text-secondary);
+        }
+
+        .character-select {
+            min-width: 160px;
+
+            .char-level {
+                float: right;
+                color: @dnf-text-muted;
+                font-size: 12px;
+            }
         }
     }
 
-    .form-section {
-        margin-bottom: 24px;
-
-        h4 {
-            margin-bottom: 12px;
-            color: var(--theme-text-primary);
-            font-weight: 600;
-        }
-
-        .element-input {
-            margin-left: 12px;
-        }
-
-        .el-select {
-            width: 300px;
-        }
+    .loading-container {
+        min-height: 400px;
     }
 
-    .actions {
-        margin-top: 32px;
+    .enchant-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: @spacing-lg;
+
+        @media (max-width: @breakpoint-xl) {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        @media (max-width: @breakpoint-lg) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (max-width: @breakpoint-sm) {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+/deep/ .el-select-dropdown {
+    background: @dnf-bg-card;
+    border-color: @dnf-border-light;
+
+    .el-select-dropdown__item {
+        color: @dnf-text-primary;
+
+        &:hover {
+            background: @dnf-bg-hover;
+        }
+
+        &.selected {
+            color: @dnf-primary-gold;
+        }
     }
 }
 </style>

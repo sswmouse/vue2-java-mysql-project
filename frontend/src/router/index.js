@@ -7,7 +7,7 @@ import Role from '../views/Role.vue'
 import Equipment from '../views/Equipment.vue'
 import Fashion from '../views/Fashion.vue'
 import Enhancement from '../views/Enhancement.vue'
-import Enchantment from '../views/Enchantment.vue'
+import Enchant from '../views/Enchant.vue'
 import Badge from '../views/Badge.vue'
 import Title from '../views/Title.vue'
 import Pet from '../views/Pet.vue'
@@ -18,6 +18,7 @@ import Register from '../views/Register.vue'
 import NoPermission from '../views/NoPermission.vue'
 import Profile from '../views/Profile.vue'
 import Setting from '../views/Setting.vue'
+import EnchantOptions from '../views/enchant/Options.vue'
 
 Vue.use(VueRouter)
 
@@ -98,8 +99,14 @@ const routes = [
             {
                 path: 'enchantment',
                 name: 'Enchantment',
-                component: Enchantment,
+                component: Enchant,
                 meta: { requiresAuth: true, permission: 'menu:enchantment' }
+            },
+            {
+                path: 'enchantment/options',
+                name: 'EnchantOptions',
+                component: EnchantOptions,
+                meta: { requiresAuth: true, requiresAdmin: true, permission: 'menu:enchantment' }
             },
             {
                 path: 'badge',

@@ -147,16 +147,17 @@ export default {
             // 默认菜单配置（权限树加载前使用）
             defaultMenuItems: [
                 { path: '/', title: '首页', icon: 'el-icon-s-home', roles: ['admin', 'user'] },
-                { path: '/setting', title: '系统设置', icon: 'el-icon-setting', roles: ['admin', 'user'] },
                 { path: '/role', title: '角色管理', icon: 'el-icon-s-custom', roles: ['admin', 'user'] },
                 { path: '/equipment', title: '装备管理', icon: 'el-icon-suitcase', roles: ['admin', 'user'] },
                 { path: '/fashion', title: '时装管理', icon: 'el-icon-shopping-bag-2', roles: ['admin', 'user'] },
                 { path: '/enhancement', title: '强化系统', icon: 'el-icon-data-line', roles: ['admin', 'user'] },
                 { path: '/enchantment', title: '附魔系统', icon: 'el-icon-magic-stick', roles: ['admin', 'user'] },
+                { path: '/enchantment/options', title: '附魔配置', icon: 'el-icon-setting', roles: ['admin'] },
                 { path: '/badge', title: '徽章系统', icon: 'el-icon-medal', roles: ['admin', 'user'] },
                 { path: '/title', title: '称号系统', icon: 'el-icon-postcard', roles: ['admin', 'user'] },
                 { path: '/pet', title: '宠物系统', icon: 'el-icon-cpu', roles: ['admin', 'user'] },
-                { path: '/mist', title: '迷雾大陆', icon: 'el-icon-cloudy', roles: ['admin', 'user'] }
+                { path: '/mist', title: '迷雾系统', icon: 'el-icon-cloudy', roles: ['admin', 'user'] },
+                { path: '/setting', title: '系统设置', icon: 'el-icon-setting', roles: ['admin', 'user'] }
             ]
         }
     },
@@ -192,19 +193,23 @@ export default {
         },
         // 根据权限树或角色过滤可见菜单
         visibleMenuItems() {
-            let items = []
+            const currentRole = this.userRole
 
-            // 优先使用权限树
+            // 优先使用默认菜单
+            const items = this.defaultMenuItems.filter(item => item.roles.includes(currentRole))
+
+            // 补充权限树中默认菜单未包含的项目
             if (this.menuTree && this.menuTree.length > 0) {
-                items = this.menuTree
-            } else {
-                // 降级方案：根据角色过滤
-                const currentRole = this.userRole
-                items = this.defaultMenuItems.filter(item => item.roles.includes(currentRole))
+                this.menuTree.forEach(menu => {
+                    if (!items.some(i => i.path === menu.path)) {
+                        items.push(menu)
+                    }
+                })
             }
 
-            // 始终排除个人中心（通过下拉菜单访问）
-            return items.filter(item => item.path !== '/profile')
+            // 排除用户管理（仅通过右上角下拉菜单访问）
+            const hiddenPaths = ['/users', '/profile']
+            return items.filter(item => !hiddenPaths.includes(item.path))
         }
     },
     mounted() {
@@ -311,6 +316,21 @@ export default {
             padding: 10px;
 
             .nav-text {
+                display: none;
+            }
+        }
+
+        .nav-group {
+            .nav-group-header {
+                justify-content: center;
+                padding: 10px;
+
+                .nav-text {
+                    display: none;
+                }
+            }
+
+            .nav-group-children {
                 display: none;
             }
         }

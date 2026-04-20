@@ -16,7 +16,7 @@ export const EQUIPMENT_PARTS = [
 /**
  * 礼包类型列表
  */
-export const PACKAGE_TYPES = ['金秋套', '春节套', '金秋', '春节', '其他']
+export const PACKAGE_TYPES = ['春节宝珠', '国庆宝珠', '其他附魔']
 
 /**
  * API接口定义
@@ -29,6 +29,7 @@ export default {
 
     // 附魔选项（复用已有接口）
     enchantOptions: '/api/enchant-options',
+    enchantOptionsPage: '/api/enchant-options/paged',
     enchantOptionsById: (id) => `/api/enchant-options/${id}`,
     enchantOptionsByPart: (part) => `/api/enchant-options/part/${encodeURIComponent(part)}`,
     enchantOptionsGrouped: '/api/enchant-options/grouped',

@@ -20,21 +20,193 @@
             <div class="card-corner top-left" />
             <div class="card-corner top-right" />
 
-            <!-- 部位图标 -->
+    <!-- 部位图标 -->
             <div class="part-icon">
-                <i :class="partIcon" />
+                <!-- 武器 - 剑 -->
+                <svg
+                    v-if="partName === '武器'"
+                    class="part-svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <path d="M14.5 17.5L3 6V3h3l11.5 11.5M12 12L6.5 6.5M5 14l-2 2 5 5 2-2M18 3l3 3-9 9-3-3 9-9z"/>
+                </svg>
+                <!-- 头肩 - 头盔 -->
+                <svg
+                    v-else-if="partName === '头肩'"
+                    class="part-svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <path d="M12 2C6.48 2 2 6.48 2 12v2c0 1.1.9 2 2 2h1v-6H4v-1c0-4.42 3.58-8 8-8s8 3.58 8 8v1h-1v6h1c1.1 0 2-.9 2-2v-2c0-5.52-4.48-10-10-10z"/>
+                    <path d="M9 14v2c0 1.66 1.34 3 3 3s3-1.34 3-3v-2"/>
+                </svg>
+                <!-- 上衣 - 衣服 -->
+                <svg
+                    v-else-if="partName === '上衣'"
+                    class="part-svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <path d="M6 2L2 6v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6l-4-4H6zM6 4h12l2 2H4l2-2zM4 8h16v10H4V8z"/>
+                </svg>
+                <!-- 下装 - 裤子 -->
+                <svg
+                    v-else-if="partName === '下装'"
+                    class="part-svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <path d="M5 4h14v4l-2 14h-4l-1-8-1 8H7L5 8V4z"/>
+                </svg>
+                <!-- 鞋 - 鞋子 -->
+                <svg
+                    v-else-if="partName === '鞋'"
+                    class="part-svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <path d="M4 18h16c1.1 0 2-.9 2-2v-2c0-2.21-1.79-4-4-4h-2l-2-3H6c-2.21 0-4 1.79-4 4v5c0 1.1.9 2 2 2z"/>
+                    <path d="M6 13h4l2 3h2c1.1 0 2 .9 2 2"/>
+                </svg>
+                <!-- 腰带 - 腰带 -->
+                <svg
+                    v-else-if="partName === '腰带'"
+                    class="part-svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <rect x="2" y="8" width="20" height="8" rx="2"/>
+                    <circle cx="12" cy="12" r="2"/>
+                    <path d="M2 10h2M2 14h2M20 10h2M20 14h2"/>
+                </svg>
+                <!-- 项链 - 项链 -->
+                <svg
+                    v-else-if="partName === '项链'"
+                    class="part-svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <circle cx="12" cy="14" r="4"/>
+                    <path d="M12 2v4M6 6l2 2M18 6l-2 2M8 10c0-2.21 1.79-4 4-4s4 1.79 4 4"/>
+                </svg>
+                <!-- 手镯 - 手镯 -->
+                <svg
+                    v-else-if="partName === '手镯'"
+                    class="part-svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <circle cx="12" cy="12" r="8"/>
+                    <circle cx="12" cy="12" r="5"/>
+                    <path d="M12 4v2M12 18v2M4 12h2M18 12h2"/>
+                </svg>
+                <!-- 戒指 - 戒指 -->
+                <svg
+                    v-else-if="partName === '戒指'"
+                    class="part-svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <circle cx="12" cy="12" r="6"/>
+                    <path d="M12 6v2M12 16v2M6 12h2M16 12h2"/>
+                    <path d="M12 8l1 1-1 1-1-1z" fill="currentColor"/>
+                </svg>
+                <!-- 辅助装备 - 魔法棒 -->
+                <svg
+                    v-else-if="partName === '辅助装备'"
+                    class="part-svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <path d="M15 4l6 6-9 9-6-6 9-9z"/>
+                    <path d="M6 13l4 4"/>
+                    <path d="M2 22l3-3"/>
+                    <circle cx="15" cy="9" r="1" fill="currentColor"/>
+                </svg>
+                <!-- 魔法石 - 宝石 -->
+                <svg
+                    v-else-if="partName === '魔法石'"
+                    class="part-svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <path d="M12 2l8 6-8 14-8-14 8-6z"/>
+                    <path d="M4 8h16"/>
+                    <path d="M8 8l4 10 4-10"/>
+                </svg>
+                <!-- 耳环 - 耳环 -->
+                <svg
+                    v-else-if="partName === '耳环'"
+                    class="part-svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <circle cx="12" cy="5" r="2"/>
+                    <path d="M12 7v3"/>
+                    <circle cx="12" cy="14" r="5"/>
+                    <circle cx="12" cy="14" r="2"/>
+                </svg>
+                <!-- 默认图标 -->
+                <svg
+                    v-else
+                    class="part-svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <path d="M9 9h6v6H9z"/>
+                </svg>
             </div>
 
             <!-- 部位名称 -->
-            <h3 class="part-name">{{ partName }}</h3>
+            <h3 class="part-name">
+                {{ partName }}
+            </h3>
 
             <!-- 附魔信息 -->
             <div
                 v-if="enchantData && enchantData.enchantName"
                 class="enchant-info"
             >
-                <div class="enchant-name">{{ enchantData.enchantName }}</div>
-                <div class="enchant-attr">{{ enchantData.attributeValue }}</div>
+                <div class="enchant-name">
+                    {{ enchantData.enchantName }}
+                </div>
+                <div class="enchant-attr">
+                    {{ enchantData.attributeValue }}
+                </div>
+                <div
+                    v-if="enchantData.fame"
+                    class="enchant-fame"
+                >
+                    名望+{{ enchantData.fame }}
+                </div>
             </div>
             <div
                 v-else
@@ -68,27 +240,6 @@ export default {
         enchantData: {
             type: Object,
             default: null
-        }
-    },
-
-    computed: {
-        // 根据部位名称返回对应图标
-        partIcon() {
-            const iconMap = {
-                '武器': 'el-icon-suitcase-1',
-                '头肩': 'el-icon-user',
-                '上衣': 'el-icon-suitcase',
-                '下装': 'el-icon-document',
-                '鞋': 'el-icon-shoes',
-                '腰带': 'el-icon-bangzhu',
-                '项链': 'el-icon-star-on',
-                '手镯': 'el-icon-circle-check',
-                '戒指': 'el-icon-circle-close',
-                '辅助装备': 'el-icon-magic-stick',
-                '魔法石': 'el-icon-gem',
-                '耳环': 'el-icon-headset'
-            }
-            return iconMap[this.partName] || 'el-icon-box'
         }
     },
 
@@ -217,8 +368,9 @@ export default {
             justify-content: center;
             margin-bottom: @spacing-sm;
 
-            i {
-                font-size: 24px;
+            .part-svg {
+                width: 28px;
+                height: 28px;
                 color: @dnf-secondary-gold;
             }
         }
@@ -243,6 +395,12 @@ export default {
             .enchant-attr {
                 font-size: 12px;
                 color: @dnf-info;
+            }
+
+            .enchant-fame {
+                font-size: 11px;
+                color: @dnf-secondary-gold;
+                margin-top: 4px;
             }
         }
 

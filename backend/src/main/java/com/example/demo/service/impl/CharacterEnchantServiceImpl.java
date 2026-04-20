@@ -48,9 +48,9 @@ public class CharacterEnchantServiceImpl implements CharacterEnchantService {
         entity.setEquipmentPart(dto.getEquipmentPart());
         entity.setEnchantOptionId(dto.getEnchantOptionId());
         entity.setEnchantName(dto.getEnchantName());
-        entity.setAttributeType(dto.getAttributeType());
         entity.setAttributeValue(dto.getAttributeValue());
         entity.setPackageType(dto.getPackageType());
+        entity.setFame(dto.getFame());
 
         return toDTO(repository.save(entity));
     }
@@ -82,9 +82,9 @@ public class CharacterEnchantServiceImpl implements CharacterEnchantService {
                 .equipmentPart(entity.getEquipmentPart())
                 .enchantOptionId(entity.getEnchantOptionId())
                 .enchantName(entity.getEnchantName())
-                .attributeType(entity.getAttributeType())
                 .attributeValue(entity.getAttributeValue())
                 .packageType(entity.getPackageType())
+                .fame(entity.getFame())
                 .build();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.PageResult;
 import com.example.demo.model.EnchantOption;
 import com.example.demo.service.EnchantOptionService;
 import org.springframework.http.ResponseEntity;
@@ -30,15 +31,19 @@ public class EnchantOptionController {
     }
 
     /**
-     * 根据ID获取附魔选项
+     * 分页获取附魔选项
+     * @param current 当前页码（从1开始）
+     * @param size 每页大小
+     * @param equipmentPart 装备部位筛选（可选）
+     * @param packageType 礼包类型筛选（可选）
      */
-    @GetMapping("/{id}")
-    public ResponseEntity<EnchantOption> getOptionById(@PathVariable Long id) {
-        EnchantOption option = service.getOptionById(id);
-        if (option == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(option);
+    @GetMapping("/paged")
+    public ResponseEntity<PageResult<EnchantOption>> getOptionsPage(
+            @RequestParam(defaultValue = "1") int current,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String equipmentPart,
+            @RequestParam(required = false) String packageType) {
+        return ResponseEntity.ok(service.getOptionsPage(current, size, equipmentPart, packageType));
     }
 
     /**
@@ -55,14 +60,6 @@ public class EnchantOptionController {
     @GetMapping("/package/{packageType}")
     public ResponseEntity<List<EnchantOption>> getOptionsByPackage(@PathVariable String packageType) {
         return ResponseEntity.ok(service.getOptionsByPackage(packageType));
-    }
-
-    /**
-     * 获取最新赛季的附魔选项
-     */
-    @GetMapping("/latest")
-    public ResponseEntity<List<EnchantOption>> getLatestOptions() {
-        return ResponseEntity.ok(service.getLatestOptions());
     }
 
     /**
@@ -87,6 +84,18 @@ public class EnchantOptionController {
     @GetMapping("/grouped")
     public ResponseEntity<Map<String, List<EnchantOption>>> getOptionsGroupedByPart() {
         return ResponseEntity.ok(service.getOptionsGroupedByPart());
+    }
+
+    /**
+     * 根据ID获取附魔选项
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<EnchantOption> getOptionById(@PathVariable Long id) {
+        EnchantOption option = service.getOptionById(id);
+        if (option == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(option);
     }
 
     /**

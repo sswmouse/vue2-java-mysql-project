@@ -35,21 +35,15 @@ public class EnchantOption {
     private String name;
 
     /**
-     * 所属礼包：金秋套/春节套/金秋/春节/其他
+     * 所属礼包类型：春节宝珠/国庆宝珠/其他附魔
      */
     @Column(name = "package_type", length = 50)
     private String packageType;
 
     /**
-     * 属性类型：技攻/力智/体精/暴击/三速/属强/四维
+     * 属性值（如 +30, +25, +8% 等，支持多条，用逗号分隔）
      */
-    @Column(name = "attribute_type", length = 50)
-    private String attributeType;
-
-    /**
-     * 属性值（如 +30, +25, +8% 等）
-     */
-    @Column(name = "attribute_value", length = 100)
+    @Column(name = "attribute_value", length = 200)
     private String attributeValue;
 
     /**
@@ -59,10 +53,10 @@ public class EnchantOption {
     private Integer sortOrder;
 
     /**
-     * 是否为最新赛季
+     * 名望值
      */
-    @Column(name = "is_latest")
-    private Boolean isLatest;
+    @Column(name = "fame")
+    private Integer fame;
 
     /**
      * 备注说明
@@ -81,7 +75,6 @@ public class EnchantOption {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
         if (sortOrder == null) sortOrder = 0;
-        if (isLatest == null) isLatest = false;
     }
 
     @PreUpdate

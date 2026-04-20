@@ -21,7 +21,9 @@
                     :key="group.packageType"
                     class="option-group"
                 >
-                    <div class="group-title">{{ group.packageType }}</div>
+                    <div class="group-title">
+                        {{ group.packageType }}
+                    </div>
                     <div class="group-options">
                         <el-radio
                             v-for="option in group.options"
@@ -31,13 +33,19 @@
                         >
                             <span class="option-name">{{ option.name }}</span>
                             <span class="option-attr">{{ option.attributeValue }}</span>
+                            <span
+                                v-if="option.fame"
+                                class="option-fame"
+                            >名望+{{ option.fame }}</span>
                         </el-radio>
                     </div>
                 </div>
 
                 <!-- 未附魔选项 -->
                 <div class="option-group">
-                    <div class="group-title">无附魔</div>
+                    <div class="group-title">
+                        无附魔
+                    </div>
                     <div class="group-options">
                         <el-radio
                             :label="0"
@@ -51,11 +59,15 @@
         </div>
 
         <div slot="footer">
-            <el-button @click="handleCancel">取消</el-button>
+            <el-button @click="handleCancel">
+                取消
+            </el-button>
             <el-button
                 type="primary"
                 @click="handleConfirm"
-            >确定</el-button>
+            >
+                确定
+            </el-button>
         </div>
     </el-dialog>
 </template>
@@ -227,6 +239,12 @@ export default {
                     .option-attr {
                         color: @dnf-info;
                         font-size: 13px;
+                    }
+
+                    .option-fame {
+                        color: @dnf-secondary-gold;
+                        font-size: 12px;
+                        margin-left: @spacing-sm;
                     }
 
                     /deep/ .el-radio__label {

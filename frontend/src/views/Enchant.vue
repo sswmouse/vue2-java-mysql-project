@@ -237,9 +237,9 @@ export default {
                             equipmentPart: partName,
                             enchantOptionId: enchantData.id,
                             enchantName: enchantData.name,
-                            attributeType: enchantData.attributeType,
                             attributeValue: enchantData.attributeValue,
-                            packageType: enchantData.packageType
+                            packageType: enchantData.packageType,
+                            fame: enchantData.fame
                         }
                     })
                 } else {

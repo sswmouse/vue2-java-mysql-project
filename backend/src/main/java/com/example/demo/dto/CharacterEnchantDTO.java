@@ -38,11 +38,6 @@ public class CharacterEnchantDTO {
     private String enchantName;
 
     /**
-     * 属性类型
-     */
-    private String attributeType;
-
-    /**
      * 属性值
      */
     private String attributeValue;
@@ -51,4 +46,9 @@ public class CharacterEnchantDTO {
      * 礼包类型
      */
     private String packageType;
+
+    /**
+     * 名望值
+     */
+    private Integer fame;
 }

@@ -24,6 +24,7 @@
                     clearable
                     class="filter-select"
                     size="small"
+                    @change="handleFilterChange"
                 >
                     <el-option
                         v-for="part in equipmentParts"
@@ -38,6 +39,7 @@
                     clearable
                     class="filter-select"
                     size="small"
+                    @change="handleFilterChange"
                 >
                     <el-option
                         v-for="pkg in packageTypes"
@@ -49,7 +51,7 @@
                 <el-button
                     type="text"
                     icon="el-icon-refresh"
-                    @click="loadOptions"
+                    @click="handleFilterChange"
                 />
             </div>
             <div class="filter-right">
@@ -66,58 +68,41 @@
 
         <!-- 数据表格 -->
         <el-table
-            :data="filteredOptions"
-            border
-            stripe
+            :data="options"
             class="options-table"
             size="small"
         >
             <el-table-column
                 prop="equipmentPart"
                 label="部位"
-                width="100"
+                min-width="60"
             />
             <el-table-column
                 prop="name"
                 label="名称"
-                min-width="180"
+                min-width="120"
+                show-overflow-tooltip
             />
             <el-table-column
                 prop="packageType"
                 label="礼包类型"
-                width="100"
-            />
-            <el-table-column
-                prop="attributeType"
-                label="属性类型"
-                width="90"
+                min-width="90"
             />
             <el-table-column
                 prop="attributeValue"
                 label="属性值"
-                width="100"
+                min-width="170"
+                show-overflow-tooltip
             />
             <el-table-column
-                prop="isLatest"
-                label="最新赛季"
-                width="90"
+                prop="fame"
+                label="名望"
+                min-width="55"
                 align="center"
-            >
-                <template slot-scope="{ row }">
-                    <el-tag
-                        v-if="row.isLatest"
-                        type="success"
-                        size="small"
-                    >是</el-tag>
-                    <span
-                        v-else
-                        class="text-muted"
-                    >否</span>
-                </template>
-            </el-table-column>
+            />
             <el-table-column
                 label="操作"
-                width="120"
+                min-width="100"
                 fixed="right"
             >
                 <template slot-scope="{ row }">
@@ -125,16 +110,34 @@
                         type="text"
                         size="small"
                         @click="handleEdit(row)"
-                    >编辑</el-button>
+                    >
+                        编辑
+                    </el-button>
                     <el-button
                         type="text"
                         size="small"
                         class="text-danger"
                         @click="handleDelete(row)"
-                    >删除</el-button>
+                    >
+                        删除
+                    </el-button>
                 </template>
             </el-table-column>
         </el-table>
+
+        <!-- 分页器 -->
+        <div class="pagination-wrapper">
+            <el-pagination
+                :current-page="pagination.current"
+                :page-sizes="[10, 20, 50, 100]"
+                :page-size="pagination.size"
+                :total="pagination.total"
+                layout="total, sizes, prev, pager, next, jumper"
+                background
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+            />
+        </div>
 
         <!-- 编辑弹窗 -->
         <el-dialog
@@ -190,49 +193,40 @@
                         />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="属性类型">
-                    <el-select
-                        v-model="form.attributeType"
-                        placeholder="选择属性类型"
-                    >
-                        <el-option
-                            label="技攻"
-                            value="技攻"
-                        />
-                        <el-option
-                            label="力智"
-                            value="力智"
-                        />
-                        <el-option
-                            label="体精"
-                            value="体精"
-                        />
-                        <el-option
-                            label="暴击"
-                            value="暴击"
-                        />
-                        <el-option
-                            label="属强"
-                            value="属强"
-                        />
-                        <el-option
-                            label="四维"
-                            value="四维"
-                        />
-                        <el-option
-                            label="三速"
-                            value="三速"
-                        />
-                    </el-select>
-                </el-form-item>
                 <el-form-item label="属性值">
-                    <el-input
-                        v-model="form.attributeValue"
-                        placeholder="如：+30 或 +8%"
-                    />
+                    <div class="multi-value-input">
+                        <div
+                            v-for="(val, idx) in attributeValues"
+                            :key="idx"
+                            class="value-row"
+                        >
+                            <el-input
+                                v-model="attributeValues[idx]"
+                                placeholder="如：+30 或 +8%"
+                                class="value-input"
+                            />
+                            <el-button
+                                type="text"
+                                icon="el-icon-plus"
+                                class="add-btn"
+                                @click="addAttributeValue"
+                            />
+                            <el-button
+                                v-if="attributeValues.length > 1"
+                                type="text"
+                                icon="el-icon-minus"
+                                class="remove-btn"
+                                @click="removeAttributeValue(idx)"
+                            />
+                        </div>
+                    </div>
                 </el-form-item>
-                <el-form-item label="最新赛季">
-                    <el-switch v-model="form.isLatest" />
+                <el-form-item label="名望">
+                    <el-input
+                        v-model.number="form.fame"
+                        type="number"
+                        placeholder="输入名望值"
+                    />
                 </el-form-item>
                 <el-form-item label="备注">
                     <el-input
@@ -246,13 +240,17 @@
                 <el-button
                     size="small"
                     @click="dialogVisible = false"
-                >取消</el-button>
+                >
+                    取消
+                </el-button>
                 <el-button
                     type="primary"
                     size="small"
                     :loading="saving"
                     @click="handleSave"
-                >保存</el-button>
+                >
+                    保存
+                </el-button>
             </div>
         </el-dialog>
     </div>
@@ -278,15 +276,22 @@ export default {
             dialogVisible: false,
             isEdit: false,
             saving: false,
+            // 分页配置
+            pagination: {
+                current: 1,
+                size: 10,
+                total: 0
+            },
+            // 多值属性输入
+            attributeValues: [''],
             // 表单数据
             form: {
                 id: null,
                 equipmentPart: '',
                 name: '',
                 packageType: '',
-                attributeType: '',
                 attributeValue: '',
-                isLatest: false,
+                fame: null,
                 remark: ''
             }
         }
@@ -301,19 +306,6 @@ export default {
         // 礼包类型列表
         packageTypes() {
             return PACKAGE_TYPES
-        },
-
-        // 筛选后的选项
-        filteredOptions() {
-            return this.options.filter(opt => {
-                if (this.filterPart && opt.equipmentPart !== this.filterPart) {
-                    return false
-                }
-                if (this.filterPackage && opt.packageType !== this.filterPackage) {
-                    return false
-                }
-                return true
-            })
         }
     },
 
@@ -323,15 +315,91 @@ export default {
 
     methods: {
         /**
-         * 加载选项列表
+         * 筛选条件变化时重置页码并重新加载
+         */
+        handleFilterChange() {
+            this.pagination.current = 1
+            this.loadOptions()
+        },
+
+        /**
+         * 每页条数变化
+         */
+        handleSizeChange(size) {
+            this.pagination.size = size
+            this.pagination.current = 1
+            this.loadOptions()
+        },
+
+        /**
+         * 页码变化
+         */
+        handleCurrentChange(current) {
+            this.pagination.current = current
+            this.loadOptions()
+        },
+
+        /**
+         * 添加属性值输入框
+         */
+        addAttributeValue() {
+            this.attributeValues.push('')
+        },
+
+        /**
+         * 移除属性值输入框
+         */
+        removeAttributeValue(index) {
+            this.attributeValues.splice(index, 1)
+        },
+
+        /**
+         * 校验属性值
+         */
+        validateAttributeValues() {
+            const values = this.attributeValues.filter(v => v.trim() !== '')
+            if (values.length === 0) {
+                this.$message.error('请至少输入一个属性值')
+                return false
+            }
+            // 检查重复
+            const uniqueValues = [...new Set(values)]
+            if (uniqueValues.length !== values.length) {
+                this.$message.error('属性值不能重复')
+                return false
+            }
+            return true
+        },
+
+        /**
+         * 加载选项列表（分页）
          */
         async loadOptions() {
             try {
                 const res = await this.$request({
-                    url: enchantApi.enchantOptions,
-                    method: 'get'
+                    url: enchantApi.enchantOptionsPage,
+                    method: 'get',
+                    params: {
+                        current: this.pagination.current,
+                        size: this.pagination.size,
+                        equipmentPart: this.filterPart || null,
+                        packageType: this.filterPackage || null
+                    }
                 })
-                this.options = Array.isArray(res) ? res : (res.data || [])
+                // 解析分页响应
+                if (res && res.records) {
+                    this.options = res.records
+                    this.pagination.total = res.total || 0
+                    this.pagination.current = res.current || 1
+                    this.pagination.size = res.size || 10
+                } else if (Array.isArray(res)) {
+                    // 兼容非分页响应
+                    this.options = res
+                    this.pagination.total = res.length
+                } else {
+                    this.options = []
+                    this.pagination.total = 0
+                }
             } catch (error) {
                 console.error('加载失败:', error)
                 this.$message.error('加载失败')
@@ -343,14 +411,14 @@ export default {
          */
         handleAdd() {
             this.isEdit = false
+            this.attributeValues = ['']
             this.form = {
                 id: null,
                 equipmentPart: '',
                 name: '',
                 packageType: '',
-                attributeType: '',
                 attributeValue: '',
-                isLatest: false,
+                fame: null,
                 remark: ''
             }
             this.dialogVisible = true
@@ -362,6 +430,12 @@ export default {
         handleEdit(row) {
             this.isEdit = true
             this.form = { ...row }
+            // 解析属性值为数组
+            if (row.attributeValue) {
+                this.attributeValues = row.attributeValue.split(',').map(v => v.trim())
+            } else {
+                this.attributeValues = ['']
+            }
             this.dialogVisible = true
         },
 
@@ -371,19 +445,29 @@ export default {
         async handleSave() {
             try {
                 await this.$refs.form.validate()
+                // 校验属性值
+                if (!this.validateAttributeValues()) {
+                    return
+                }
                 this.saving = true
+
+                // 将多值属性合并为逗号分隔字符串
+                const submitData = {
+                    ...this.form,
+                    attributeValue: this.attributeValues.filter(v => v.trim() !== '').join(',')
+                }
 
                 if (this.isEdit) {
                     await this.$request({
                         url: enchantApi.enchantOptionsById(this.form.id),
                         method: 'put',
-                        data: this.form
+                        data: submitData
                     })
                 } else {
                     await this.$request({
                         url: enchantApi.enchantOptions,
                         method: 'post',
-                        data: this.form
+                        data: submitData
                     })
                 }
 
@@ -467,8 +551,6 @@ export default {
     }
 
     .options-table {
-        background: @dnf-bg-card;
-
         .text-muted {
             color: @dnf-text-muted;
         }
@@ -477,14 +559,136 @@ export default {
             color: @dnf-danger;
         }
     }
-}
 
-.edit-dialog {
-    /deep/ .el-dialog {
-        background: linear-gradient(145deg, @dnf-bg-card 0%, @dnf-primary-dark 100%);
+    // 分页器样式
+    .pagination-wrapper {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: @spacing-lg;
+        padding: @spacing-md 0;
 
-        .el-dialog__title {
-            color: @dnf-primary-gold;
+        /deep/ .el-pagination {
+            background: var(--theme-bg-card);
+            padding: 8px 16px;
+            border-radius: @border-radius-md;
+
+.btn-prev,
+            .btn-next,
+            .el-pager li {
+                background: var(--theme-bg-hover);
+                color: var(--theme-text-secondary);
+                border: 1px solid var(--theme-border);
+                height: 28px;
+                line-height: 26px;
+
+&:hover {
+                    color: var(--theme-accent);
+                    border-color: var(--theme-accent);
+                }
+            }
+
+            .el-pager li.is-active {
+                background: var(--theme-secondary);
+                color: var(--theme-text-primary);
+                border-color: var(--theme-secondary);
+            }
+
+            .el-pagination__total {
+                color: var(--theme-text-secondary);
+            }
+
+            .el-pagination__sizes {
+                .el-input__inner {
+                    background: var(--theme-bg-hover);
+                    color: var(--theme-text-secondary);
+                    border-color: var(--theme-border);
+
+                    &:hover {
+                        border-color: var(--theme-accent);
+                    }
+                }
+            }
+
+            .el-pagination__jump {
+                color: var(--theme-text-secondary);
+
+                .el-pagination__editor {
+                    background: var(--theme-bg-hover);
+                    color: var(--theme-text-primary);
+                    border-color: var(--theme-border);
+
+                    &:focus {
+                        border-color: var(--theme-accent);
+                    }
+                }
+            }
+        }
+    }
+
+    .multi-value-input {
+        .value-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: @spacing-sm;
+            gap: @spacing-sm;
+            width: 100%;
+            max-width: 320px;
+
+            .value-input {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .add-btn,
+            .remove-btn {
+                width: 32px;
+                height: 32px;
+                min-width: 32px;
+                padding: 0;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                border: 1px solid @dnf-border-light;
+                border-radius: @border-radius-md;
+                background: @dnf-bg-hover;
+                transition: all @transition-fast;
+                flex-shrink: 0;
+                line-height: 1;
+
+                i {
+                    font-size: 14px;
+                }
+            }
+
+            .add-btn {
+                color: @dnf-primary-gold;
+
+                &:hover {
+                    border-color: @dnf-primary-gold;
+                    background: fade(@dnf-primary-gold, 15%);
+                }
+            }
+
+            .remove-btn {
+                color: @dnf-danger;
+
+                &:hover {
+                    border-color: @dnf-danger;
+                    background: fade(@dnf-danger, 15%);
+                }
+            }
+        }
+    }
+
+    .edit-dialog {
+        /deep/ .el-form-item__content {
+            > .el-select,
+            > .el-input,
+            > .el-textarea,
+            > .multi-value-input {
+                width: 100%;
+                max-width: 320px;
+            }
         }
     }
 }

@@ -1,6 +1,8 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.EnchantOption;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -24,9 +26,24 @@ public interface EnchantOptionRepository extends JpaRepository<EnchantOption, Lo
     List<EnchantOption> findByPackageTypeOrderBySortOrderAsc(String packageType);
 
     /**
-     * 查询最新赛季的附魔选项
+     * 分页查询所有附魔选项
      */
-    List<EnchantOption> findByIsLatestTrueOrderBySortOrderAsc();
+    Page<EnchantOption> findAll(Pageable pageable);
+
+    /**
+     * 分页查询，按部位筛选
+     */
+    Page<EnchantOption> findByEquipmentPart(String equipmentPart, Pageable pageable);
+
+    /**
+     * 分页查询，按礼包类型筛选
+     */
+    Page<EnchantOption> findByPackageType(String packageType, Pageable pageable);
+
+    /**
+     * 分页查询，按部位和礼包类型筛选
+     */
+    Page<EnchantOption> findByEquipmentPartAndPackageType(String equipmentPart, String packageType, Pageable pageable);
 
     /**
      * 查询所有选项，按部位和排序顺序分组

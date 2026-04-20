@@ -243,7 +243,7 @@
 
 .el-table {
     background: var(--theme-bg-card);
-    border: 1px solid var(--theme-border);
+    border: 1px solid var(--theme-border) !important;
     border-radius: @border-radius-xl;
     overflow: hidden;
     color: var(--theme-text-primary);
@@ -252,42 +252,77 @@
         display: none;
     }
 
+    // 强制覆盖 Element UI 的 border 样式
+    &.el-table--border,
+    &[border] {
+        border: 1px solid var(--theme-border) !important;
+
+        th.el-table__cell,
+        td.el-table__cell {
+            border-right: 1px solid var(--theme-border) !important;
+        }
+    }
+
+    // 移除单元格竖线边框 - 使用深度选择器
+    ::v-deep .el-table--border,
+    ::v-deep th.el-table__cell,
+    ::v-deep td.el-table__cell {
+        border-right: none !important;
+    }
+
     // 表格头部
-    th {
-        background: var(--theme-bg-hover);
-        color: var(--theme-text-primary);
+    th.el-table__cell {
+        background: var(--theme-bg-hover) !important;
+        color: var(--theme-text-primary) !important;
         font-weight: @font-weight-semibold;
         font-size: @font-size-sm;
         letter-spacing: 0.05em;
         text-transform: uppercase;
-        border-bottom: 1px solid var(--theme-border);
+        border-bottom: 1px solid var(--theme-border) !important;
         padding: @spacing-md @spacing-lg;
     }
 
     // 表格单元格
-    td {
-        border-bottom: 1px solid var(--theme-border);
-        color: var(--theme-text-secondary);
+    td.el-table__cell {
+        background: var(--theme-bg-card) !important;
+        border-bottom: 1px solid var(--theme-border) !important;
+        color: var(--theme-text-secondary) !important;
         padding: @spacing-md @spacing-lg;
-        transition: all @transition-fast;
     }
 
-    tr {
-        background: transparent;
-        transition: all @transition-fast;
+    // 表格行背景 - 统一深色背景，hover效果
+    tr.el-table__row {
+        background: var(--theme-bg-card) !important;
 
-        &:hover > td {
-            background: var(--theme-bg-hover);
-            color: var(--theme-text-primary);
+        > td.el-table__cell {
+            background: @dnf-bg-card !important;
+            border-bottom: 1px solid var(--theme-border) !important;
+        }
+
+        &:hover > td.el-table__cell {
+            background: var(--theme-bg-hover) !important;
+            color: var(--theme-text-primary) !important;
         }
     }
 
-    // 斑马纹
-    .el-table__row--striped > td {
-        background: var(--theme-bg-dark);
+    // 斑马纹 - 强制使用主题色覆盖默认白色
+    &.el-table--striped,
+    .el-table__body-wrapper {
+        tr.el-table__row--striped {
+            > td.el-table__cell {
+                background: var(--theme-bg-card) !important;
+            }
 
-        &:hover {
-            background: var(--theme-bg-hover) !important;
+            &:hover > td.el-table__cell {
+                background: var(--theme-bg-hover) !important;
+            }
+        }
+    }
+
+    // 禁用边框条纹表格的stripe样式
+    &.el-table--striped {
+        .el-table__body tr.el-table__row--striped td {
+            background: var(--theme-bg-card) !important;
         }
     }
 
@@ -464,7 +499,8 @@
     &__header {
         background: var(--theme-bg-hover) !important;
         border-bottom: 1px solid var(--theme-border) !important;
-        padding: @spacing-xl !important;
+        padding: @spacing-xl @spacing-2xl !important;
+        padding-right: @spacing-3xl !important;
         position: relative;
 
         &::before {
@@ -486,17 +522,31 @@
         }
 
         .el-dialog__headerbtn {
-            top: @spacing-lg;
-            right: @spacing-lg;
+            position: absolute !important;
+            top: 50% !important;
+            right: @spacing-xl !important;
+            transform: translateY(-50%) !important;
+            width: 24px !important;
+            height: 24px !important;
+            padding: 0 !important;
+
+            &:hover {
+                background: transparent !important;
+            }
 
             .el-dialog__close {
-                color: var(--theme-text-secondary);
-                font-size: 18px;
-                transition: all @transition-fast;
+                color: var(--theme-text-secondary) !important;
+                font-size: 16px !important;
+                transition: all @transition-fast !important;
+                width: 24px !important;
+                height: 24px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
 
                 &:hover {
-                    color: var(--theme-danger);
-                    transform: rotate(90deg);
+                    color: var(--theme-danger) !important;
+                    transform: rotate(90deg) !important;
                 }
             }
         }
@@ -1398,9 +1448,71 @@
         }
     }
 
-    &--small {
+&--small {
         .el-descriptions__cell {
             padding: @spacing-sm @spacing-md;
         }
+    }
+}
+
+// ============================================
+// 空状态样式定制 - 适配项目背景色
+// ============================================
+
+// 表格空数据状态
+.el-table__empty-text {
+    color: var(--theme-text-secondary);
+    padding: @spacing-3xl !important;
+    width: 100%;
+}
+
+// 表格空数据时的自定义插槽容器
+.el-table__empty-block {
+    background: var(--theme-bg-card);
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+// el-empty 组件样式
+.el-empty {
+    background: var(--theme-bg-card);
+    border-radius: @border-radius-lg;
+    padding: @spacing-3xl;
+
+    &__image {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto @spacing-xl;
+
+        svg {
+            width: 100%;
+            height: 100%;
+            fill: var(--theme-text-secondary);
+            opacity: 0.6;
+        }
+    }
+
+    &__description {
+        text-align: center;
+
+        .el-empty__title {
+            color: var(--theme-text-primary);
+            font-size: @font-size-lg;
+            font-weight: @font-weight-semibold;
+            margin-bottom: @spacing-sm;
+        }
+
+        p {
+            color: var(--theme-text-secondary);
+            font-size: @font-size-sm;
+            margin: 0;
+        }
+    }
+
+    &__footer {
+        margin-top: @spacing-xl;
+        text-align: center;
     }
 }

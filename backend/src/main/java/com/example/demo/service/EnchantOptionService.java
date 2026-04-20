@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.PageResult;
 import com.example.demo.model.EnchantOption;
 
 import java.util.List;
@@ -16,6 +17,16 @@ public interface EnchantOptionService {
     List<EnchantOption> getAllOptions();
 
     /**
+     * 分页获取附魔选项
+     * @param current 当前页码（从1开始）
+     * @param size 每页大小
+     * @param equipmentPart 装备部位筛选（可选）
+     * @param packageType 礼包类型筛选（可选）
+     * @return 分页结果
+     */
+    PageResult<EnchantOption> getOptionsPage(int current, int size, String equipmentPart, String packageType);
+
+    /**
      * 根据ID获取附魔选项
      */
     EnchantOption getOptionById(Long id);
@@ -29,11 +40,6 @@ public interface EnchantOptionService {
      * 根据礼包类型获取附魔选项
      */
     List<EnchantOption> getOptionsByPackage(String packageType);
-
-    /**
-     * 获取最新赛季的附魔选项
-     */
-    List<EnchantOption> getLatestOptions();
 
     /**
      * 获取所有装备部位

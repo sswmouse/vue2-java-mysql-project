@@ -55,15 +55,9 @@ public class CharacterEnchant {
     private String enchantName;
 
     /**
-     * 属性类型
-     */
-    @Column(name = "attribute_type", length = 50)
-    private String attributeType;
-
-    /**
      * 属性值
      */
-    @Column(name = "attribute_value", length = 100)
+    @Column(name = "attribute_value", length = 200)
     private String attributeValue;
 
     /**
@@ -71,6 +65,12 @@ public class CharacterEnchant {
      */
     @Column(name = "package_type", length = 50)
     private String packageType;
+
+    /**
+     * 名望值
+     */
+    @Column(name = "fame")
+    private Integer fame;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

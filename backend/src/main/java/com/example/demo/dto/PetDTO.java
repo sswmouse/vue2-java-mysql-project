@@ -1,18 +1,30 @@
 package com.example.demo.dto;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 /**
- * 宠物数据DTO
+ * 宠物DTO
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class PetDTO {
-    private String pet;
-    private String petEquipRed;
-    private String petEquipBlue;
-    private String petEquipGreen;
+    private Long id;
+    private String name;
+    private Integer year;
+    private String type;
+    private String fourStats;
+    private String fourStatsAlt;
+    private Double critRate;
+    private Integer elementalBonus;
+    private Double attackSpeed;
+    private Double mpBonus;
+    private String skillLevelRange;
+    private Double gainBonus;
+    private Double attackStrength;
+    private Double whiteDamage;
+    private Double extraYellow;
+    private Double threeAttack;
+    private Double cdReduction;
+    private Integer fame;
+    private String description;
+    private Boolean isActive;
 }

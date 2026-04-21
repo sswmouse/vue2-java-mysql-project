@@ -7,15 +7,12 @@
  -->
 <template>
     <div class="fashion-page">
-        <h1>时装管理</h1>
-        <div class="page-content">
-            <el-card class="empty-card">
-                <div class="empty-content">
-                    <i class="el-icon-star-off" />
-                    <p>时装管理页面内容正在开发中...</p>
-                    <p>这里将展示时装列表、时装搭配、时装合成等功能</p>
-                </div>
-            </el-card>
+        <div class="iframe-container">
+            <iframe
+                src="https://dnf.qq.com/act/a20260114cloth/index.html"
+                frameborder="0"
+                allowfullscreen
+            />
         </div>
     </div>
 </template>
@@ -24,41 +21,20 @@
 export default {
     name: 'Fashion'
 }
-</script>
-
-<style lang="less" scoped>
+</script><style lang="less" scoped>
 .fashion-page {
-    padding: 20px;
-    min-height: 100%;
-    height: 100%;
-    overflow-y: auto;
+    height: calc(100vh - 50px);
+    padding: 0;
 
-    .page-content {
-        margin-top: 20px;
+    .iframe-container {
+        width: 100%;
+        height: 100%;
 
-        .empty-card {
-            text-align: center;
-            padding: 40px;
-
-            .empty-content {
-                i {
-                    font-size: 60px;
-                    color: #909399;
-                    margin-bottom: 20px;
-                }
-
-                p {
-                    margin: 10px 0;
-                    color: #606266;
-                    font-size: 14px;
-
-                    &:first-of-type {
-                        font-size: 16px;
-                        font-weight: bold;
-                        color: #303133;
-                    }
-                }
-            }
+        iframe {
+            width: 100%;
+            height: 100%;
+            display: block;
+            border: none;
         }
     }
 }

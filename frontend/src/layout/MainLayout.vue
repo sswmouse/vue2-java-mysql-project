@@ -150,7 +150,7 @@ export default {
                 { path: '/role', title: '角色管理', icon: 'el-icon-s-custom', roles: ['admin', 'user'] },
                 { path: '/equipment', title: '装备管理', icon: 'el-icon-suitcase', roles: ['admin', 'user'] },
                 { path: '/fashion', title: '时装管理', icon: 'el-icon-shopping-bag-2', roles: ['admin', 'user'] },
-                { path: '/enhancement', title: '强化系统', icon: 'el-icon-data-line', roles: ['admin', 'user'] },
+                { path: '/enhancement', title: '增幅系统', icon: 'el-icon-data-line', roles: ['admin', 'user'] },
                 { path: '/enchantment', title: '附魔系统', icon: 'el-icon-magic-stick', roles: ['admin', 'user'] },
                 { path: '/enchantment/options', title: '附魔配置', icon: 'el-icon-setting', roles: ['admin'] },
                 { path: '/badge', title: '徽章系统', icon: 'el-icon-medal', roles: ['admin', 'user'] },

@@ -8,7 +8,9 @@
 <template>
     <div class="role-page">
         <div class="page-header">
-            <h1 class="page-title">我的角色</h1>
+            <h1 class="page-title">
+                我的角色
+            </h1>
             <div class="header-actions">
                 <el-button
                     type="primary"

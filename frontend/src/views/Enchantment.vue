@@ -6,7 +6,9 @@
 <template>
     <div class="enchantment-page">
         <div class="page-header">
-            <h1 class="page-title">附魔管理</h1>
+            <h1 class="page-title">
+                附魔管理
+            </h1>
         </div>
 
         <!-- 角色选择器 -->

@@ -8,7 +8,9 @@
         <div class="setting-container">
             <!-- 页面标题 -->
             <div class="page-header">
-                <h1 class="page-title"><i class="el-icon-setting" /> 系统设置</h1>
+                <h1 class="page-title">
+                    <i class="el-icon-setting" /> 系统设置
+                </h1>
             </div>
 
             <!-- 主题设置 -->

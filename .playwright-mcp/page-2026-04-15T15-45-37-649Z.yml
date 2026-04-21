@@ -1,9 +1,0 @@
-- generic [ref=e3]:
-  - generic [ref=e4]:
-    - generic [ref=e5]: "404"
-    - heading "页面不存在" [level=1] [ref=e6]
-    - paragraph [ref=e7]: 你访问的页面可能已被删除或地址错误
-    - generic [ref=e8]:
-      - button "返回首页" [ref=e9] [cursor=pointer]
-      - button "返回登录" [ref=e10] [cursor=pointer]
-  - paragraph [ref=e12]: DNF管理系统 - 地下城与勇士

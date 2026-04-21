@@ -16,5 +16,17 @@ export default {
     // 获取所有年份
     getYears: '/api/pets/years',
     // 搜索
-    search: '/api/pets/search'
+    search: '/api/pets/search',
+    // 穿戴宠物
+    equip: (petId, characterId) => `/api/pets/${petId}/equip/${characterId}`,
+    // 卸下宠物
+    unequip: (petId, characterId) => `/api/pets/${petId}/unequip/${characterId}`,
+    // 获取角色已穿戴的宠物
+    getEquipped: (characterId) => `/api/pets/equipped/${characterId}`,
+    // 创建宠物
+    create: '/api/pets',
+    // 更新宠物
+    update: (id) => `/api/pets/${id}`,
+    // 删除宠物
+    delete: (id) => `/api/pets/${id}`
 }

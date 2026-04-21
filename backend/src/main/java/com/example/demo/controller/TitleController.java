@@ -76,4 +76,64 @@ public class TitleController {
         List<TitleDTO> titles = titleService.searchTitles(name);
         return ResponseEntity.ok(titles);
     }
+
+    /**
+     * 穿戴称号
+     */
+    @PostMapping("/{titleId}/equip/{characterId}")
+    public ResponseEntity<Void> equipTitle(
+            @PathVariable Long titleId,
+            @PathVariable Long characterId) {
+        titleService.equipTitle(characterId, titleId);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 卸下称号
+     */
+    @DeleteMapping("/{titleId}/unequip/{characterId}")
+    public ResponseEntity<Void> unequipTitle(
+            @PathVariable Long titleId,
+            @PathVariable Long characterId) {
+        titleService.unequipTitle(characterId, titleId);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 获取角色已穿戴的称号ID列表
+     */
+    @GetMapping("/equipped/{characterId}")
+    public ResponseEntity<List<Long>> getEquippedTitleIds(@PathVariable Long characterId) {
+        List<Long> equippedIds = titleService.getEquippedTitleIds(characterId);
+        return ResponseEntity.ok(equippedIds);
+    }
+
+    /**
+     * 创建称号
+     */
+    @PostMapping
+    public ResponseEntity<TitleDTO> createTitle(@RequestBody TitleDTO titleDTO) {
+        TitleDTO created = titleService.createTitle(titleDTO);
+        return ResponseEntity.ok(created);
+    }
+
+    /**
+     * 更新称号
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<TitleDTO> updateTitle(
+            @PathVariable Long id,
+            @RequestBody TitleDTO titleDTO) {
+        TitleDTO updated = titleService.updateTitle(id, titleDTO);
+        return ResponseEntity.ok(updated);
+    }
+
+    /**
+     * 删除称号
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTitle(@PathVariable Long id) {
+        titleService.deleteTitle(id);
+        return ResponseEntity.ok().build();
+    }
 }

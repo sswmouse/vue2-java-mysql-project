@@ -2,7 +2,7 @@
  * @Description: 角色添加/编辑弹窗组件
  * @Author: Claude Code
  * @Date: 2026-04-10
- * @LastEditTime: 2026-04-20 17:30:46
+ * @LastEditTime: 2026-04-21
  * @FilePath: /vue2-java-mysql-project/frontend/src/components/CharacterDialog.vue
  -->
 <template>
@@ -10,14 +10,14 @@
         :title="dialogTitle"
         :visible.sync="visible"
         :close-on-click-modal="false"
-        width="600px"
+        width="500px"
         @close="handleClose"
     >
         <el-form
             ref="characterForm"
             :model="form"
             :rules="rules"
-            label-width="120px"
+            label-width="100px"
             class="character-form"
         >
             <!-- 角色名称 -->
@@ -48,239 +48,19 @@
                 />
             </el-form-item>
 
-            <!-- 职业性质 -->
-            <el-form-item
-                label="职业性质"
-                prop="jobNature"
-            >
-                <el-select
-                    v-model="form.jobNature"
-                    placeholder="请选择职业性质"
+            <!-- 角色等级 -->
+            <el-form-item label="角色等级">
+                <el-input-number
+                    v-model="form.level"
+                    :min="1"
+                    :max="115"
                     style="width: 100%"
-                >
-                    <el-option
-                        label="输出"
-                        value="输出"
-                    />
-                    <el-option
-                        label="奶系"
-                        value="奶系"
-                    />
-                </el-select>
+                />
             </el-form-item>
-
-            <!-- 职业属性 -->
-            <el-form-item
-                label="职业属性"
-                prop="jobAttribute"
-            >
-                <el-select
-                    v-model="form.jobAttribute"
-                    placeholder="请选择职业属性"
-                    style="width: 100%"
-                >
-                    <el-option
-                        v-for="attr in jobAttributeOptions"
-                        :key="attr"
-                        :label="attr"
-                        :value="attr"
-                    />
-                </el-select>
-            </el-form-item>
-
-            <el-row :gutter="16">
-                <el-col
-                    v-if="showStrength"
-                    :span="12"
-                >
-                    <el-form-item
-                        label="力量"
-                        prop="strength"
-                    >
-                        <el-input
-                            v-model="form.strength"
-                            type="number"
-                            :min="0"
-                            :max="99999"
-                            placeholder="请输入力量值"
-                            :disabled="!canEditAttributes"
-                            style="width: 100%"
-                        />
-                    </el-form-item>
-                </el-col>
-                <el-col
-                    v-if="showIntelligence"
-                    :span="12"
-                >
-                    <el-form-item
-                        label="智力"
-                        prop="intelligence"
-                    >
-                        <el-input
-                            v-model="form.intelligence"
-                            type="number"
-                            :min="0"
-                            :max="99999"
-                            placeholder="请输入智力值"
-                            :disabled="!canEditAttributes"
-                            style="width: 100%"
-                        />
-                    </el-form-item>
-                </el-col>
-                <el-col
-                    v-if="showSpirit"
-                    :span="12"
-                >
-                    <el-form-item
-                        label="精神"
-                        prop="spirit"
-                    >
-                        <el-input
-                            v-model="form.spirit"
-                            type="number"
-                            :min="0"
-                            :max="99999"
-                            placeholder="请输入精神值"
-                            :disabled="!canEditAttributes"
-                            style="width: 100%"
-                        />
-                    </el-form-item>
-                </el-col>
-                <el-col
-                    v-if="showVitality"
-                    :span="12"
-                >
-                    <el-form-item
-                        label="体力"
-                        prop="vitality"
-                    >
-                        <el-input
-                            v-model="form.vitality"
-                            type="number"
-                            :min="0"
-                            :max="99999"
-                            placeholder="请输入体力值"
-                            :disabled="!canEditAttributes"
-                            style="width: 100%"
-                        />
-                    </el-form-item>
-                </el-col>
-                <el-col
-                    v-if="showPhysicalAttack"
-                    :span="12"
-                >
-                    <el-form-item
-                        label="物攻"
-                        prop="physicalAttack"
-                    >
-                        <el-input
-                            v-model="form.physicalAttack"
-                            type="number"
-                            :min="0"
-                            :max="99999"
-                            placeholder="请输入物攻值"
-                            :disabled="!canEditAttributes"
-                            style="width: 100%"
-                        />
-                    </el-form-item>
-                </el-col>
-                <el-col
-                    v-if="showMagicalAttack"
-                    :span="12"
-                >
-                    <el-form-item
-                        label="魔攻"
-                        prop="magicalAttack"
-                    >
-                        <el-input
-                            v-model="form.magicalAttack"
-                            type="number"
-                            :min="0"
-                            :max="99999"
-                            placeholder="请输入魔攻值"
-                            :disabled="!canEditAttributes"
-                            style="width: 100%"
-                        />
-                    </el-form-item>
-                </el-col>
-                <el-col
-                    v-if="showIndependentAttack"
-                    :span="12"
-                >
-                    <el-form-item
-                        label="独立"
-                        prop="independentAttack"
-                    >
-                        <el-input
-                            v-model="form.independentAttack"
-                            type="number"
-                            :min="0"
-                            :max="99999"
-                            placeholder="请输入独立攻击值"
-                            :disabled="!canEditAttributes"
-                            style="width: 100%"
-                        />
-                    </el-form-item>
-                </el-col>
-            </el-row>
-
-            <!-- 属强 -->
-            <el-row
-                v-if="showElementSection"
-                :gutter="16"
-            >
-                <el-col :span="12">
-                    <el-form-item
-                        label="属强值"
-                        prop="elementValue"
-                    >
-                        <el-input
-                            v-model="form.elementValue"
-                            type="number"
-                            :min="0"
-                            :max="999"
-                            placeholder="请输入属强值"
-                            :disabled="!canEditAttributes"
-                            style="width: 100%"
-                        />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item
-                        label="属强属性"
-                        prop="elementType"
-                    >
-                        <el-select
-                            v-model="form.elementType"
-                            placeholder="请选择属强属性"
-                            :disabled="!canEditAttributes"
-                            style="width: 100%"
-                        >
-                            <el-option
-                                label="光"
-                                value="light"
-                            />
-                            <el-option
-                                label="火"
-                                value="fire"
-                            />
-                            <el-option
-                                label="冰"
-                                value="ice"
-                            />
-                            <el-option
-                                label="暗"
-                                value="dark"
-                            />
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-            </el-row>
 
             <!-- 角色外观 -->
             <el-form-item
                 label="角色外观"
-                prop="avatarUrl"
             >
                 <div class="avatar-url-container">
                     <el-input
@@ -336,12 +116,10 @@ import api from '@/api'
 export default {
     name: 'CharacterDialog',
     props: {
-        // 是否显示弹窗
         visible: {
             type: Boolean,
             default: false
         },
-        // 编辑的角色数据（新增时为null）
         character: {
             type: Object,
             default: null
@@ -350,24 +128,10 @@ export default {
     data() {
         return {
             form: {
-                userId: null, // 从store获取
+                userId: null,
                 characterTypeId: null,
                 characterName: '',
-                jobNature: '',
-                jobAttribute: '',
-                strength: 0,
-                intelligence: 0,
-                spirit: 0,
-                vitality: 0,
-                physicalAttack: 0,
-                magicalAttack: 0,
-                independentAttack: 0,
-                elementValue: 300,
-                elementType: 'light',
-                lightElement: 0,
-                fireElement: 0,
-                iceElement: 0,
-                darkElement: 0,
+                level: 115,
                 avatarUrl: ''
             },
             selectedCharacterType: [],
@@ -378,7 +142,6 @@ export default {
                 children: 'children',
                 emitPath: false
             },
-            isSpecialJob: false,
             submitting: false,
             rules: {
                 characterName: [
@@ -387,12 +150,6 @@ export default {
                 ],
                 characterTypeId: [
                     { required: true, message: '请选择角色类型', trigger: 'change' }
-                ],
-                jobNature: [
-                    { required: true, message: '请选择职业性质', trigger: 'change' }
-                ],
-                jobAttribute: [
-                    { required: true, message: '请选择职业属性', trigger: 'change' }
                 ]
             }
         }
@@ -400,71 +157,6 @@ export default {
     computed: {
         dialogTitle() {
             return this.character ? '编辑角色' : '创建角色'
-        },
-        isHealer() {
-            return this.form.jobNature === '奶系'
-        },
-        jobAttributeOptions() {
-            if (this.form.jobNature === '输出') {
-                return ['物理百分比', '魔法百分比', '物理固伤', '魔法固伤']
-            } else if (this.form.jobNature === '奶系') {
-                return ['智力', '精神', '体力']
-            }
-            return []
-        },
-        // 职业属性类型判断
-        isPhysical() {
-            return this.form.jobAttribute && this.form.jobAttribute.includes('物理')
-        },
-        isMagical() {
-            return this.form.jobAttribute && this.form.jobAttribute.includes('魔法')
-        },
-        isPercent() {
-            return this.form.jobAttribute && this.form.jobAttribute.includes('百分比')
-        },
-        isFixedDamage() {
-            return this.form.jobAttribute && this.form.jobAttribute.includes('固伤')
-        },
-        // 字段显示控制
-        showStrength() {
-            // 奶系职业显示力量，输出职业根据物理/魔法判断
-            return this.isHealer || this.isPhysical
-        },
-        showIntelligence() {
-            // 奶系职业显示智力，输出职业根据物理/魔法判断
-            return this.isHealer || this.isMagical
-        },
-        showSpirit() {
-            // 奶系职业显示精神
-            return this.isHealer
-        },
-        showVitality() {
-            // 奶系职业显示体力
-            return this.isHealer
-        },
-        showPhysicalAttack() {
-            return this.isPhysical && this.isPercent
-        },
-        showMagicalAttack() {
-            return this.isMagical && this.isPercent
-        },
-        showIndependentAttack() {
-            return this.isFixedDamage
-        },
-        // 部分显示控制
-        showFourDimensionalSection() {
-            return this.showStrength || this.showIntelligence || this.showSpirit || this.showVitality
-        },
-        showThreeAttackSection() {
-            return this.showPhysicalAttack || this.showMagicalAttack || this.showIndependentAttack
-        },
-        canEditAttributes() {
-            return this.form.jobAttribute && this.form.jobAttribute.length > 0
-        },
-        // 属强部分显示控制
-        showElementSection() {
-            // 奶系职业不显示属强
-            return this.selectedCharacterType.length > 0 && !this.isHealer
         }
     },
     watch: {
@@ -495,95 +187,30 @@ export default {
 
         handleCharacterTypeChange(value) {
             this.form.characterTypeId = value
-
-            // 查找选中的角色类型信息
-            const findCharacterType = (options, typeId) => {
-                for (const option of options) {
-                    if (option.children) {
-                        const found = option.children.find(child => child.value === typeId)
-                        if (found) return found
-                    }
-                }
-                return null
-            }
-
-            const characterType = findCharacterType(this.characterTypeOptions, value)
-            if (characterType) {
-                this.isSpecialJob = characterType.specialCase
-                if (!this.isSpecialJob) {
-                    this.form.jobNature = characterType.jobNature
-                    this.form.jobAttribute = characterType.jobAttribute
-                }
-            }
         },
 
         initForm() {
-            // 将后端的属强字段映射到前端的elementValue和elementType
-            const { lightElement, fireElement, iceElement, darkElement, ...characterData } = this.character
-
-            // 确定当前属强类型和值
-            let elementValue = 0
-            let elementType = 'light'
-
-            // 找到值最大的属强字段
-            const elementMap = [
-                { type: 'light', value: lightElement || 0 },
-                { type: 'fire', value: fireElement || 0 },
-                { type: 'ice', value: iceElement || 0 },
-                { type: 'dark', value: darkElement || 0 }
-            ]
-
-            const maxElement = elementMap.reduce((max, curr) =>
-                curr.value > max.value ? curr : max
-            )
-
-            elementValue = maxElement.value
-            elementType = maxElement.type
-
             this.form = {
-                ...this.form,
-                ...characterData,
                 userId: this.character.userId || this.$store.getters.userId,
-                elementValue,
-                elementType,
-                lightElement: lightElement || 0,
-                fireElement: fireElement || 0,
-                iceElement: iceElement || 0,
-                darkElement: darkElement || 0
+                characterTypeId: this.character.characterTypeId,
+                characterName: this.character.characterName,
+                level: this.character.level || 115,
+                avatarUrl: this.character.avatarUrl || ''
             }
-
-            // 设置联级选择器的值
             if (this.character.characterTypeId) {
                 this.selectedCharacterType = [this.character.characterTypeId]
-                this.handleCharacterTypeChange(this.character.characterTypeId)
             }
         },
 
         resetForm() {
-            const userId = this.$store.getters.userId
             this.form = {
-                userId: userId,
+                userId: this.$store.getters.userId,
                 characterTypeId: null,
                 characterName: '',
-                jobNature: '',
-                jobAttribute: '',
-                strength: 0,
-                intelligence: 0,
-                spirit: 0,
-                vitality: 0,
-                physicalAttack: 0,
-                magicalAttack: 0,
-                independentAttack: 0,
-                elementValue: 300,
-                elementType: 'light',
-                lightElement: 0,
-                fireElement: 0,
-                iceElement: 0,
-                darkElement: 0,
+                level: 115,
                 avatarUrl: ''
             }
             this.selectedCharacterType = []
-            this.isSpecialJob = false
             if (this.$refs.characterForm) {
                 this.$refs.characterForm.clearValidate()
             }
@@ -592,65 +219,27 @@ export default {
         handleImageError() {
             this.$message.warning('图片加载失败，请检查URL地址')
         },
-        prepareSubmitData() {
-            const submitData = { ...this.form }
 
-            // 根据选择的属强类型设置对应的属强字段
-            const elementValue = parseInt(this.form.elementValue) || 0
-            const elementType = this.form.elementType || 'light'
-
-            // 重置所有属强字段为0
-            submitData.lightElement = 0
-            submitData.fireElement = 0
-            submitData.iceElement = 0
-            submitData.darkElement = 0
-
-            // 设置对应类型的属强值
-            switch (elementType) {
-                case 'light':
-                    submitData.lightElement = elementValue
-                    break
-                case 'fire':
-                    submitData.fireElement = elementValue
-                    break
-                case 'ice':
-                    submitData.iceElement = elementValue
-                    break
-                case 'dark':
-                    submitData.darkElement = elementValue
-                    break
-            }
-
-            // 移除前端自定义的字段，避免后端接收不到
-            delete submitData.elementValue
-            delete submitData.elementType
-
-            return submitData
-        },
         handleSubmit() {
             this.$refs.characterForm.validate(async (valid) => {
                 if (valid) {
                     this.submitting = true
                     try {
-                        const submitData = this.prepareSubmitData()
-                        // 确保有 userId
-                        if (!submitData.userId) {
-                            submitData.userId = this.$store.getters.userId
+                        if (!this.form.userId) {
+                            this.form.userId = this.$store.getters.userId
                         }
                         if (this.character) {
-                            // 更新
                             await this.$request({
                                 url: api.character.update(this.character.id),
                                 method: 'put',
-                                data: submitData
+                                data: this.form
                             })
                             this.$message.success('更新角色成功')
                         } else {
-                            // 创建
                             await this.$request({
                                 url: api.character.create,
                                 method: 'post',
-                                data: submitData
+                                data: this.form
                             })
                             this.$message.success('创建角色成功')
                         }
@@ -676,25 +265,8 @@ export default {
 
 <style lang="less" scoped>
 .character-form {
-    .form-section-title {
-        margin: 24px 0 12px 0;
-        padding: 10px 12px;
-        border-left: 4px solid var(--theme-primary);
-        background-color: var(--theme-bg-hover);
-        color: var(--theme-text-primary);
-        font-size: 15px;
-        font-weight: 600;
-        border-radius: 4px;
-    }
-
-    .form-tip {
-        margin-top: 4px;
-        font-size: 12px;
-        color: var(--theme-text-secondary);
-    }
-
     /deep/ .el-form-item {
-        margin-bottom: 18px;
+        margin-bottom: 20px;
         position: relative;
 
         &__error {
@@ -724,35 +296,19 @@ export default {
         }
     }
 
-    /deep/ .el-form-item:last-child {
-        margin-bottom: 0;
-    }
+    /deep/ .el-input__inner {
+        border-color: var(--theme-border) !important;
+        background: var(--theme-bg-hover) !important;
+        color: var(--theme-text-primary) !important;
 
-    /* 隐藏数字输入框的上下箭头 */
-    /deep/ input[type="number"]::-webkit-inner-spin-button,
-    /deep/ input[type="number"]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        appearance: none;
-        margin: 0;
-    }
-
-    /deep/ input[type="number"] {
-        -moz-appearance: textfield;
-        appearance: textfield;
+        &:focus {
+            border-color: var(--theme-primary) !important;
+        }
     }
 
     /deep/ .el-input .el-input__count .el-input__count-inner {
         background-color: transparent !important;
         color: var(--theme-text-secondary);
-    }
-
-
-    /deep/ .el-row {
-        margin-bottom: 10px;
-    }
-
-    /deep/.el-input__inner {
-        border-color: var(--theme-border) !important;
     }
 }
 
@@ -765,7 +321,6 @@ export default {
         transition: all 0.3s ease;
 
         &:first-child {
-            // 取消按钮
             background: var(--theme-bg-hover);
             border-color: var(--theme-border);
             color: var(--theme-text-primary);
@@ -774,26 +329,12 @@ export default {
                 background: var(--theme-bg-hover);
                 border-color: var(--theme-primary);
                 color: var(--theme-text-primary);
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-            }
-
-            &:active {
-                transform: translateY(0);
             }
         }
 
-        &:last-child {
-
-            // 确定按钮
-            &:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px var(--theme-primary);
-            }
-
-            &:active {
-                transform: translateY(0);
-            }
+        &:last-child:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--theme-primary);
         }
     }
 }
@@ -807,13 +348,13 @@ export default {
     &__header {
         background: var(--theme-bg-hover);
         border-bottom: 1px solid var(--theme-border);
-        padding: 24px;
+        padding: 20px;
         border-radius: 12px 12px 0 0;
 
         .el-dialog__title {
             color: var(--theme-text-primary);
             font-weight: 700;
-            font-size: 20px;
+            font-size: 18px;
         }
 
         .el-dialog__headerbtn {
@@ -831,84 +372,21 @@ export default {
     }
 
     &__body {
-        padding: 32px;
+        padding: 24px;
         color: var(--theme-text-secondary);
     }
 
     &__footer {
         background: var(--theme-bg-hover);
         border-top: 1px solid var(--theme-border);
-        padding: 24px;
+        padding: 16px 24px;
         border-radius: 0 0 12px 12px;
-    }
-}
-
-// 角色外观样式
-.avatar-input-mode {
-    margin-bottom: 16px;
-
-    .el-radio-group {
-        width: 100%;
-    }
-
-    .el-radio-button {
-        flex: 1;
-        text-align: center;
-
-        &__inner {
-            width: 100%;
-        }
-    }
-}
-
-.avatar-upload-container {
-    .avatar-uploader {
-        /deep/ .el-upload {
-            border: 1px dashed var(--theme-border);
-            border-radius: 8px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            width: 120px;
-            height: 120px;
-            transition: all 0.3s ease;
-
-            &:hover {
-                border-color: var(--theme-primary);
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px var(--theme-primary);
-            }
-        }
-
-        .avatar-uploader-icon {
-            font-size: 32px;
-            color: var(--theme-text-secondary);
-            width: 120px;
-            height: 120px;
-            line-height: 120px;
-            text-align: center;
-        }
-
-        .avatar {
-            width: 120px;
-            height: 120px;
-            display: block;
-            object-fit: cover;
-            border-radius: 6px;
-        }
-    }
-
-    .upload-tip {
-        margin-top: 8px;
-        font-size: 12px;
-        color: var(--theme-text-secondary);
-        line-height: 1.5;
     }
 }
 
 .avatar-url-container {
     .el-input {
-        margin-bottom: 12px;
+        margin-bottom: 8px;
 
         /deep/ .el-input-group__prepend {
             background: var(--theme-bg-hover);
@@ -920,21 +398,20 @@ export default {
     .url-tip {
         font-size: 12px;
         color: var(--theme-text-secondary);
-        margin-bottom: 16px;
+        margin-bottom: 12px;
         line-height: 1.5;
     }
 
     .avatar-preview {
         .preview-label {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--theme-text-secondary);
             margin-bottom: 8px;
-            font-weight: 500;
         }
 
         .avatar-preview-image {
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             border-radius: 8px;
             object-fit: cover;
             border: 1px solid var(--theme-border);
@@ -942,26 +419,10 @@ export default {
         }
     }
 }
-
-// 级联选择器面板样式
-/deep/ .el-cascader-panel,
-/deep/ .el-cascader__dropdown {
-    background: var(--theme-bg-card) !important;
-    border: 1px solid var(--theme-border) !important;
-
-    .el-cascader-menu {
-        background: var(--theme-bg-card) !important;
-        border-right: 1px solid var(--theme-border) !important;
-
-        &:last-child {
-            border-right: none !important;
-        }
-    }
-}
-
-// 下拉选择器输入框样式
-/deep/ .el-select,
-/deep/ .el-cascader {
+</style>
+<style lang="less">
+/deep/ .el-cascader,
+/deep/ .el-select {
     .el-input__inner {
         background: var(--theme-bg-hover) !important;
         border-color: var(--theme-border) !important;
@@ -979,8 +440,23 @@ export default {
         }
     }
 }
-</style>
-<style lang="less">
+
+// 级联选择器面板样式
+.el-cascader-panel,
+.el-cascader__dropdown {
+    background: var(--theme-bg-card) !important;
+    border: 1px solid var(--theme-border) !important;
+
+    .el-cascader-menu {
+        background: var(--theme-bg-card) !important;
+        border-right: 1px solid var(--theme-border) !important;
+
+        &:last-child {
+            border-right: none !important;
+        }
+    }
+}
+
 // 下拉选择器和级联选择器弹窗样式
 .el-cascader__dropdown,
 .el-select-dropdown {

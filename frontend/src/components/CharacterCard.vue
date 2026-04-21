@@ -12,7 +12,6 @@
         @click="handleCardClick"
         @mouseenter="handleMouseEnter"
         @mouseleave="handleMouseLeave"
-        @dblclick="handleDoubleClick"
     >
         <!-- 卡牌光晕 -->
         <div class="card-glow" />
@@ -22,6 +21,14 @@
         <div class="character-card">
             <!-- 卡片正面 - 角色外观 -->
             <div class="card-face card-front">
+                <!-- 右上角删除按钮 -->
+                <div
+                    class="card-delete-btn"
+                    @click.stop="handleDelete"
+                >
+                    <i class="el-icon-close" />
+                </div>
+
                 <!-- 顶部装饰线 -->
                 <div class="card-corner top-left" />
                 <div class="card-corner top-right" />
@@ -52,10 +59,6 @@
                     <h3 class="character-name">
                         {{ character.characterName }}
                     </h3>
-                    <p class="character-type">
-                        {{ character.characterType ? character.characterType.gender + character.characterType.className
-                            : '' }}
-                    </p>
                     <p class="character-job">
                         {{ character.characterType ? character.characterType.jobName : '' }}
                     </p>
@@ -67,9 +70,16 @@
                         <span class="level-label">LV</span>
                         <span class="level-value">{{ character.level || 1 }}</span>
                     </div>
-                    <div class="card-hint">
-                        <i class="el-icon-refresh-right" />
-                        <span>查看详情</span>
+                    <div class="card-fame">
+                        <span class="fame-diamond" />
+                        <span class="fame-value">{{ formatFame(character.fameValue) }}</span>
+                    </div>
+                    <div
+                        class="card-edit-btn"
+                        @click.stop="handleEdit"
+                    >
+                        <i class="el-icon-edit-outline" />
+                        <span>编辑</span>
                     </div>
                 </div>
 
@@ -80,7 +90,10 @@
 
             <!-- 卡片背面 - 炉石传说风格 -->
             <div class="card-face card-back">
-                <character-card-back :character="character" />
+                <character-card-back
+                    :character="character"
+                    @edit="$emit('edit', character)"
+                />
             </div>
         </div>
     </div>
@@ -116,9 +129,15 @@ export default {
         handleMouseLeave() {
             this.isHovering = false
         },
-        handleDoubleClick() {
-            // 双击跳转到角色详情页
-            this.$router.push(`/character/${this.character.id}`)
+        handleEdit() {
+            this.$emit('edit', this.character)
+        },
+        handleDelete() {
+            this.$emit('delete', this.character)
+        },
+        formatFame(value) {
+            if (!value) return '0'
+            return value.toString()
         }
     }
 }
@@ -140,70 +159,6 @@ export default {
 // ============================================
 // 卡牌光晕效果
 // ============================================
-
-.card-glow {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 120%;
-    height: 120%;
-    background: radial-gradient(ellipse at center,
-            fade(@dnf-secondary-purple, 0.25) 0%,
-            fade(@dnf-primary-gold, 0.1) 30%,
-            transparent 70%);
-    border-radius: 50%;
-    filter: blur(30px);
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    pointer-events: none;
-    z-index: -1;
-
-    .character-card-container:hover & {
-        opacity: 1;
-        background: radial-gradient(ellipse at center,
-                var(--theme-secondary) 0%,
-                var(--theme-accent) 30%,
-                transparent 70%);
-    }
-}
-
-.card-glow-inner {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(ellipse at center,
-            var(--theme-info) 0%,
-            transparent 60%);
-    border-radius: 50%;
-    filter: blur(20px);
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    pointer-events: none;
-    z-index: -1;
-
-    .character-card-container:hover & {
-        opacity: 1;
-        background: radial-gradient(ellipse at center,
-                var(--theme-info) 0%,
-                transparent 60%);
-    }
-}
-
-.character-card-container:hover,
-.character-card-container.flipped {
-    .card-glow {
-        animation: glow-pulse 3s ease-in-out infinite;
-    }
-
-    .card-glow-inner {
-        animation: glow-pulse 4s ease-in-out infinite;
-        animation-delay: 1s;
-    }
-}
 
 // ============================================
 // 卡牌主体
@@ -427,17 +382,61 @@ export default {
             }
         }
 
-        .card-hint {
+        .card-fame {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+
+            .fame-diamond {
+                width: 12px;
+                height: 12px;
+                background: linear-gradient(135deg, #ffd700 0%, #ff8c00 50%, #ffd700 100%);
+                transform: rotate(45deg);
+                box-shadow:
+                    0 0 6px rgba(255, 215, 0, 0.8),
+                    0 0 12px rgba(255, 140, 0, 0.5),
+                    inset 0 0 4px rgba(255, 255, 255, 0.5);
+                animation: fame-glow 2s ease-in-out infinite;
+            }
+
+            .fame-value {
+                font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+                font-size: 14px;
+                font-weight: 600;
+                color: #ffd700;
+                text-shadow:
+                    0 0 4px rgba(255, 140, 0, 0.8),
+                    0 1px 2px rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        @keyframes fame-glow {
+            0%, 100% {
+                box-shadow:
+                    0 0 6px rgba(255, 215, 0, 0.8),
+                    0 0 12px rgba(255, 140, 0, 0.5),
+                    inset 0 0 4px rgba(255, 255, 255, 0.5);
+            }
+            50% {
+                box-shadow:
+                    0 0 10px rgba(255, 215, 0, 1),
+                    0 0 20px rgba(255, 140, 0, 0.8),
+                    inset 0 0 4px rgba(255, 255, 255, 0.5);
+            }
+        }
+
+        .card-edit-btn {
             display: flex;
             align-items: center;
             gap: 4px;
             font-size: 11px;
             color: var(--theme-accent);
             opacity: 0.7;
+            cursor: pointer;
             transition: opacity 0.3s ease;
 
             i {
-                animation: pulse-dots 2s infinite;
+                font-size: 14px;
             }
 
             &:hover {
@@ -456,6 +455,49 @@ export default {
 }
 
 // ============================================
+// 删除按钮
+// ============================================
+
+.card-delete-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+    z-index: 10;
+
+    i {
+        font-size: 16px;
+        color: var(--theme-text-secondary);
+        transition: color 0.3s ease;
+    }
+
+    &:hover {
+        background: rgba(245, 108, 108, 0.8);
+        transform: scale(1.1);
+
+        i {
+            color: #fff;
+        }
+    }
+
+    .character-card-container:hover:not(.flipped) & {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+// ============================================
 // 翻转状态
 // ============================================
 
@@ -467,11 +509,10 @@ export default {
 }
 
 .character-card-container:hover:not(.flipped) .character-card {
-    transform: translateY(-15px) scale(1.02);
+    // transform: scale(1.03);
     box-shadow:
-        0 30px 60px rgba(0, 0, 0, 0.5),
-        0 15px 30px rgba(0, 0, 0, 0.3);
-    animation: card-hover 0.4s ease-out forwards;
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 .character-card-container.flipped:hover .character-card {

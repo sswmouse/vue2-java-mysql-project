@@ -4,9 +4,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
 /**
  * 角色DTO
  */
@@ -17,10 +14,8 @@ public class CharacterDTO {
 
     private Long id;
 
-    @NotNull(message = "用户ID不能为空")
     private Long userId;
 
-    @NotNull(message = "角色类型ID不能为空")
     private Long characterTypeId;
 
     /**
@@ -28,75 +23,59 @@ public class CharacterDTO {
      */
     private CharacterTypeDTO characterType;
 
-    @NotBlank(message = "角色名称不能为空")
     private String characterName;
 
-    @NotBlank(message = "职业性质不能为空")
-    private String jobNature;
+    private String avatarUrl;
 
-    @NotBlank(message = "职业属性不能为空")
-    private String jobAttribute;
-
-    private Integer strength;
-    private Integer intelligence;
-    private Integer spirit;
-    private Integer vitality;
-
-    private Integer physicalAttack;
-    private Integer magicalAttack;
-    private Integer independentAttack;
-
-    private Integer lightElement;
-    private Integer fireElement;
-    private Integer iceElement;
-    private Integer darkElement;
+    // ============================================
+    // 名望和基础信息（可选）
+    // ============================================
+    private Integer fameValue;
+    private String serverName;
+    private Integer level;
+    private String adventureName;
 
     /**
      * 最高属强（用于展示）
      */
     private Integer maxElement;
 
-    /**
-     * 名望值
-     */
-    private Integer fameValue;
+    // ============================================
+    // 四维属性（可选）
+    // ============================================
+    private Integer strength;
+    private Integer intelligence;
+    private Integer spirit;
+    private Integer vitality;
 
-    /**
-     * 区服名称
-     */
-    private String serverName;
+    // ============================================
+    // 攻击属性（可选）
+    // ============================================
+    private Integer physicalAttack;
+    private Integer magicalAttack;
+    private Integer independentAttack;
 
-    /**
-     * 角色等级
-     */
-    private Integer level;
+    // ============================================
+    // 属强（可选）
+    // ============================================
+    private Integer lightElement;
+    private Integer fireElement;
+    private Integer iceElement;
+    private Integer darkElement;
 
-    /**
-     * 冒险团名称
-     */
-    private String adventureName;
+    // ============================================
+    // 职业信息（可选）
+    // ============================================
+    private String jobNature;
+    private String jobAttribute;
 
-    /**
-     * 装备概要JSON
-     */
+    // ============================================
+    // 装备概要
+    // ============================================
     private String equipmentSummary;
-
-    /**
-     * 最后同步时间
-     */
     private String lastSyncTime;
-
-    /**
-     * 同步状态
-     */
     private String syncStatus;
-
-    /**
-     * 同步错误信息
-     */
     private String syncErrorMsg;
-
-    private String avatarUrl;
 
     // ============================================
     // 核心输出属性（技攻/攻击强化）

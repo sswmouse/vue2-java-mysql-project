@@ -25,4 +25,17 @@ public interface FogSystemService {
      * 批量初始化用户的所有跨区迷雾数据（默认30级）
      */
     List<FogSystem> initAllRegions(Long userId);
+
+    /**
+     * 获取用户在指定跨区的迷雾名望
+     * @param userId 用户ID
+     * @param region 跨区名称（如"跨六"）
+     * @return 迷雾名望值
+     */
+    Integer getFameByRegion(Long userId, String region);
+
+    /**
+     * 获取用户所有跨区的迷雾总名望
+     */
+    Integer getTotalFame(Long userId);
 }

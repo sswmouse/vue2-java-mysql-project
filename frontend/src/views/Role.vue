@@ -54,6 +54,8 @@
                     v-for="character in characters"
                     :key="character.id"
                     :character="character"
+                    @edit="handleEdit"
+                    @delete="handleDelete"
                 />
             </draggable>
         </div>
@@ -128,6 +130,33 @@ export default {
         handleCreate() {
             this.editingCharacter = null
             this.dialogVisible = true
+        },
+
+        handleEdit(character) {
+            this.editingCharacter = character
+            this.dialogVisible = true
+        },
+
+        handleDelete(character) {
+            this.$confirm(`确定要删除角色「${character.characterName}」吗？`, '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(async () => {
+                try {
+                    await this.$request({
+                        url: api.character.delete(character.id),
+                        method: 'delete'
+                    })
+                    this.$message.success('删除成功')
+                    this.loadCharacters()
+                } catch (error) {
+                    console.error('删除角色失败:', error)
+                    this.$message.error('删除失败')
+                }
+            }).catch(() => {
+                // 取消删除
+            })
         },
 
         onDragStart(event) {
@@ -268,6 +297,9 @@ export default {
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             gap: 24px;
             padding: 8px;
+            overflow: visible;
+            transform-style: preserve-3d;
+            perspective: 1000px;
 
             @media (min-width: 1200px) {
                 grid-template-columns: repeat(4, 1fr);
@@ -290,6 +322,7 @@ export default {
     /* 拖拽排序样式 */
     .draggable-grid {
         position: relative;
+        overflow: visible;
     }
 
     .draggable-ghost {

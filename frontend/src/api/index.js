@@ -9,7 +9,6 @@ import orderApi from './order'
 import characterApi from './character'
 import authApi from './auth'
 import mistApi from './mist'
-import enhancement from './enhancement'
 import card from './card'
 import enchantOption from './enchantOption'
 import titleOption from './titleOption'
@@ -25,7 +24,6 @@ export default {
     character: characterApi,
     auth: authApi,
     mist: mistApi,
-    enhancement,
     card,
     enchantOption,
     titleOption,
@@ -35,4 +33,4 @@ export default {
 }
 
 // 单独导出各模块
-export { userApi, productApi, orderApi, characterApi, authApi, mistApi, enhancement, card, enchantOption, titleOption, petOption, amplifyOption, equipmentApi as equipment }
+export { userApi, productApi, orderApi, characterApi, authApi, mistApi, card, enchantOption, titleOption, petOption, amplifyOption, equipmentApi as equipment }

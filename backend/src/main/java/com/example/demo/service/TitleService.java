@@ -41,6 +41,36 @@ public interface TitleService {
     List<TitleDTO> searchTitles(String name);
 
     /**
+     * 穿戴称号到角色
+     */
+    void equipTitle(Long characterId, Long titleId);
+
+    /**
+     * 卸下角色称号
+     */
+    void unequipTitle(Long characterId, Long titleId);
+
+    /**
+     * 获取角色已穿戴的称号ID列表
+     */
+    List<Long> getEquippedTitleIds(Long characterId);
+
+    /**
+     * 创建称号
+     */
+    TitleDTO createTitle(TitleDTO titleDTO);
+
+    /**
+     * 更新称号
+     */
+    TitleDTO updateTitle(Long id, TitleDTO titleDTO);
+
+    /**
+     * 删除称号
+     */
+    void deleteTitle(Long id);
+
+    /**
      * 转换为DTO
      */
     TitleDTO convertToDTO(Title title);

@@ -41,6 +41,36 @@ public interface PetService {
     List<PetDTO> searchPets(String name);
 
     /**
+     * 穿戴宠物到角色
+     */
+    void equipPet(Long characterId, Long petId);
+
+    /**
+     * 卸下角色宠物
+     */
+    void unequipPet(Long characterId, Long petId);
+
+    /**
+     * 获取角色已穿戴的宠物ID列表
+     */
+    List<Long> getEquippedPetIds(Long characterId);
+
+    /**
+     * 创建宠物
+     */
+    PetDTO createPet(PetDTO petDTO);
+
+    /**
+     * 更新宠物
+     */
+    PetDTO updatePet(Long id, PetDTO petDTO);
+
+    /**
+     * 删除宠物
+     */
+    void deletePet(Long id);
+
+    /**
      * 转换为DTO
      */
     PetDTO convertToDTO(Pet pet);

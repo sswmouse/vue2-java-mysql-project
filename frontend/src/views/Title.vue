@@ -15,6 +15,13 @@
                 </h2>
             </div>
             <div class="header-right">
+                <el-button
+                    type="primary"
+                    size="small"
+                    @click="handleAdd"
+                >
+                    <i class="el-icon-plus" />添加
+                </el-button>
                 <el-select
                     v-model="selectedYear"
                     placeholder="选择年份"
@@ -64,7 +71,7 @@
                 <el-table-column
                     prop="name"
                     label="称号名称"
-                    width="180"
+                    min-width="180"
                     fixed
                     show-overflow-tooltip
                 >
@@ -82,15 +89,13 @@
                 <el-table-column
                     prop="year"
                     label="年份"
-                    width="80"
-                    align="center"
+                    min-width="80"
                     show-overflow-tooltip
                 />
                 <el-table-column
                     prop="type"
                     label="类型"
-                    width="80"
-                    align="center"
+                    min-width="80"
                     show-overflow-tooltip
                 >
                     <template slot-scope="scope">
@@ -141,24 +146,38 @@
                 <el-table-column
                     prop="fame"
                     label="名望"
-                    width="80"
-                    align="center"
+                    min-width="80"
                     show-overflow-tooltip
                 />
                 <el-table-column
                     label="操作"
-                    width="80"
+                    min-width="180"
                     fixed="right"
                     align="center"
                 >
                     <template slot-scope="scope">
                         <el-button
-                            v-if="isEquipped(scope.row.id)"
-                            type="success"
-                            size="mini"
-                            disabled
+                            type="text"
+                            size="small"
+                            @click="handleEdit(scope.row)"
                         >
-                            已穿戴
+                            编辑
+                        </el-button>
+                        <el-button
+                            type="text"
+                            size="small"
+                            class="text-danger"
+                            @click="handleDelete(scope.row)"
+                        >
+                            删除
+                        </el-button>
+                        <el-button
+                            v-if="isEquipped(scope.row.id)"
+                            type="warning"
+                            size="mini"
+                            @click="unequipTitle(scope.row)"
+                        >
+                            卸下
                         </el-button>
                         <el-button
                             v-else
@@ -185,6 +204,152 @@
                 />
             </div>
         </div>
+
+        <!-- 编辑对话框 -->
+        <el-dialog
+            :title="dialogTitle"
+            :visible.sync="dialogVisible"
+            width="600px"
+            @close="resetForm"
+        >
+            <el-form
+                ref="form"
+                :model="form"
+                label-width="100px"
+            >
+                <el-form-item
+                    label="称号名称"
+                    prop="name"
+                >
+                    <el-input
+                        v-model="form.name"
+                        placeholder="请输入称号名称"
+                    />
+                </el-form-item>
+                <el-form-item
+                    label="年份"
+                    prop="year"
+                >
+                    <el-input-number
+                        v-model="form.year"
+                        :min="2000"
+                        :max="2100"
+                        placeholder="年份"
+                    />
+                </el-form-item>
+                <el-form-item
+                    label="类型"
+                    prop="type"
+                >
+                    <el-select
+                        v-model="form.type"
+                        placeholder="选择类型"
+                    >
+                        <el-option
+                            label="春节"
+                            value="春节"
+                        />
+                        <el-option
+                            label="五一"
+                            value="五一"
+                        />
+                        <el-option
+                            label="金秋"
+                            value="金秋"
+                        />
+                        <el-option
+                            label="至尊"
+                            value="至尊"
+                        />
+                        <el-option
+                            label="耕耘"
+                            value="耕耘"
+                        />
+                    </el-select>
+                </el-form-item>
+                <el-form-item
+                    label="四维"
+                    prop="fourStats"
+                >
+                    <el-input-number
+                        v-model="form.fourStats"
+                        :min="0"
+                        placeholder="四维属性"
+                    />
+                </el-form-item>
+                <el-form-item
+                    label="三攻"
+                    prop="threeAttack"
+                >
+                    <el-input-number
+                        v-model="form.threeAttack"
+                        :min="0"
+                        placeholder="三攻属性"
+                    />
+                </el-form-item>
+                <el-form-item
+                    label="暴击"
+                    prop="critRate"
+                >
+                    <el-input-number
+                        v-model="form.critRate"
+                        :min="0"
+                        placeholder="暴击率%"
+                    />
+                </el-form-item>
+                <el-form-item
+                    label="属强"
+                    prop="elementalBonus"
+                >
+                    <el-input-number
+                        v-model="form.elementalBonus"
+                        :min="0"
+                        placeholder="属强"
+                    />
+                </el-form-item>
+                <el-form-item
+                    label="三速"
+                    prop="attackSpeed"
+                >
+                    <el-input-number
+                        v-model="form.attackSpeed"
+                        :min="0"
+                        placeholder="三速%"
+                    />
+                </el-form-item>
+                <el-form-item
+                    label="攻强"
+                    prop="attackStrength"
+                >
+                    <el-input-number
+                        v-model="form.attackStrength"
+                        :min="0"
+                        placeholder="攻强%"
+                    />
+                </el-form-item>
+                <el-form-item
+                    label="名望"
+                    prop="fame"
+                >
+                    <el-input-number
+                        v-model="form.fame"
+                        :min="0"
+                        placeholder="名望值"
+                    />
+                </el-form-item>
+            </el-form>
+            <span
+                slot="footer"
+                class="dialog-footer"
+            >
+                <el-button @click="dialogVisible = false">取消</el-button>
+                <el-button
+                    type="primary"
+                    :loading="saving"
+                    @click="handleSave"
+                >保存</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -200,6 +365,7 @@ export default {
     data() {
         return {
             loading: false,
+            saving: false,
             titles: [],
             years: [],
             selectedYear: null,
@@ -207,7 +373,23 @@ export default {
             selectedCharacterId: null,
             equippedTitleIds: [],
             currentPage: 1,
-            pageSize: 10
+            pageSize: 10,
+            dialogVisible: false,
+            dialogTitle: '添加称号',
+            isEdit: false,
+            editingId: null,
+            form: {
+                name: '',
+                year: new Date().getFullYear(),
+                type: '',
+                fourStats: 0,
+                threeAttack: 0,
+                critRate: 0,
+                elementalBonus: 0,
+                attackSpeed: 0,
+                attackStrength: 0,
+                fame: 0
+            }
         }
     },
 
@@ -314,7 +496,25 @@ export default {
          * 处理角色切换
          */
         async handleCharacterChange() {
-            // 加载角色已穿戴称号
+            if (this.selectedCharacterId) {
+                this.loadEquippedTitles()
+            }
+        },
+
+        /**
+         * 加载角色已穿戴的称号
+         */
+        async loadEquippedTitles() {
+            try {
+                const res = await this.$request({
+                    url: titleApi.getEquipped(this.selectedCharacterId),
+                    method: 'get'
+                })
+                this.equippedTitleIds = Array.isArray(res) ? res : (res.data || [])
+            } catch (error) {
+                console.error('加载已穿戴称号失败:', error)
+                this.equippedTitleIds = []
+            }
         },
 
         /**
@@ -337,10 +537,154 @@ export default {
         },
 
         /**
+         * 添加称号
+         */
+        handleAdd() {
+            this.dialogTitle = '添加称号'
+            this.isEdit = false
+            this.editingId = null
+            this.resetForm()
+            this.dialogVisible = true
+        },
+
+        /**
+         * 编辑称号
+         */
+        handleEdit(row) {
+            this.dialogTitle = '编辑称号'
+            this.isEdit = true
+            this.editingId = row.id
+            this.form = {
+                name: row.name,
+                year: row.year,
+                type: row.type,
+                fourStats: row.fourStats || 0,
+                threeAttack: row.threeAttack || 0,
+                critRate: row.critRate || 0,
+                elementalBonus: row.elementalBonus || 0,
+                attackSpeed: row.attackSpeed || 0,
+                attackStrength: row.attackStrength || 0,
+                fame: row.fame || 0
+            }
+            this.dialogVisible = true
+        },
+
+        /**
+         * 删除称号
+         */
+        handleDelete(row) {
+            this.$confirm(`确定要删除称号「${row.name}」吗？`, '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(async () => {
+                try {
+                    await this.$request({
+                        url: titleApi.delete(row.id),
+                        method: 'delete'
+                    })
+                    this.$message.success('删除成功')
+                    this.loadTitles()
+                } catch (error) {
+                    console.error('删除称号失败:', error)
+                    this.$message.error('删除失败')
+                }
+            }).catch(() => {})
+        },
+
+        /**
+         * 保存称号
+         */
+        async handleSave() {
+            if (!this.form.name) {
+                this.$message.warning('请输入称号名称')
+                return
+            }
+            this.saving = true
+            try {
+                if (this.isEdit) {
+                    await this.$request({
+                        url: titleApi.update(this.editingId),
+                        method: 'put',
+                        data: this.form
+                    })
+                    this.$message.success('更新成功')
+                } else {
+                    await this.$request({
+                        url: titleApi.create,
+                        method: 'post',
+                        data: this.form
+                    })
+                    this.$message.success('添加成功')
+                }
+                this.dialogVisible = false
+                this.loadTitles()
+            } catch (error) {
+                console.error('保存称号失败:', error)
+                this.$message.error('保存失败')
+            } finally {
+                this.saving = false
+            }
+        },
+
+        /**
+         * 重置表单
+         */
+        resetForm() {
+            this.form = {
+                name: '',
+                year: new Date().getFullYear(),
+                type: '',
+                fourStats: 0,
+                threeAttack: 0,
+                critRate: 0,
+                elementalBonus: 0,
+                attackSpeed: 0,
+                attackStrength: 0,
+                fame: 0
+            }
+        },
+
+        /**
          * 穿戴称号
          */
-        async equipTitle() {
-            this.$message.info('穿戴功能开发中')
+        async equipTitle(row) {
+            if (!this.selectedCharacterId) {
+                this.$message.warning('请先选择角色')
+                return
+            }
+            try {
+                await this.$request({
+                    url: titleApi.equip(row.id, this.selectedCharacterId),
+                    method: 'post'
+                })
+                this.$message.success(`已穿戴称号「${row.name}」`)
+                this.loadEquippedTitles()
+            } catch (error) {
+                console.error('穿戴称号失败:', error)
+                this.$message.error('穿戴称号失败')
+            }
+        },
+
+        /**
+         * 卸下称号
+         */
+        async unequipTitle(row) {
+            if (!this.selectedCharacterId) {
+                this.$message.warning('请先选择角色')
+                return
+            }
+            try {
+                await this.$request({
+                    url: titleApi.unequip(row.id, this.selectedCharacterId),
+                    method: 'delete'
+                })
+                this.$message.success(`已卸下称号「${row.name}」`)
+                this.loadEquippedTitles()
+            } catch (error) {
+                console.error('卸下称号失败:', error)
+                this.$message.error('卸下称号失败')
+            }
         }
     }
 }

@@ -7,7 +7,7 @@
 <template>
     <div
         class="amplify-card"
-        :class="{ 'not-amplified': !amplifyData || !amplifyData.level }"
+        :class="{ 'not-amplified': !amplifyData || !amplifyData.amplifyLevel }"
         @click="handleClick"
     >
         <!-- 卡片光晕 -->
@@ -449,19 +449,20 @@ export default {
 
             .amplify-type {
                 font-size: 12px;
-                color: var(--theme-text-secondary);
+                color: var(--theme-text-primary);
                 margin-bottom: 2px;
             }
 
             .amplify-level {
                 font-size: 20px;
                 font-weight: @font-weight-bold;
-                color: var(--theme-accent);
+                color: var(--theme-info);
+                text-shadow: 0 0 10px var(--theme-info);
             }
 
             .amplify-fame {
                 font-size: 11px;
-                color: var(--theme-info);
+                color: var(--theme-accent);
                 margin-top: 4px;
             }
         }

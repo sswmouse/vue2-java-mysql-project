@@ -75,4 +75,64 @@ public class PetController {
         List<PetDTO> pets = petService.searchPets(name);
         return ResponseEntity.ok(pets);
     }
+
+    /**
+     * 穿戴宠物
+     */
+    @PostMapping("/{petId}/equip/{characterId}")
+    public ResponseEntity<Void> equipPet(
+            @PathVariable Long petId,
+            @PathVariable Long characterId) {
+        petService.equipPet(characterId, petId);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 卸下宠物
+     */
+    @DeleteMapping("/{petId}/unequip/{characterId}")
+    public ResponseEntity<Void> unequipPet(
+            @PathVariable Long petId,
+            @PathVariable Long characterId) {
+        petService.unequipPet(characterId, petId);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 获取角色已穿戴的宠物ID列表
+     */
+    @GetMapping("/equipped/{characterId}")
+    public ResponseEntity<List<Long>> getEquippedPetIds(@PathVariable Long characterId) {
+        List<Long> equippedIds = petService.getEquippedPetIds(characterId);
+        return ResponseEntity.ok(equippedIds);
+    }
+
+    /**
+     * 创建宠物
+     */
+    @PostMapping
+    public ResponseEntity<PetDTO> createPet(@RequestBody PetDTO petDTO) {
+        PetDTO created = petService.createPet(petDTO);
+        return ResponseEntity.ok(created);
+    }
+
+    /**
+     * 更新宠物
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<PetDTO> updatePet(
+            @PathVariable Long id,
+            @RequestBody PetDTO petDTO) {
+        PetDTO updated = petService.updatePet(id, petDTO);
+        return ResponseEntity.ok(updated);
+    }
+
+    /**
+     * 删除宠物
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePet(@PathVariable Long id) {
+        petService.deletePet(id);
+        return ResponseEntity.ok().build();
+    }
 }

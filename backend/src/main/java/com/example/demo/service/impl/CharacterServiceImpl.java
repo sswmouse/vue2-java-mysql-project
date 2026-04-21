@@ -2,17 +2,22 @@ package com.example.demo.service.impl;
 
 import com.example.demo.dto.CharacterDTO;
 import com.example.demo.dto.CharacterTypeDTO;
-import com.example.demo.model.Character;
-import com.example.demo.model.CharacterType;
-import com.example.demo.repository.CharacterRepository;
-import com.example.demo.repository.CharacterTypeRepository;
+import com.example.demo.model.CharacterTitle;
+import com.example.demo.model.CharacterPet;
+import com.example.demo.model.CharacterEnchant;
+import com.example.demo.model.CharacterAmplify;
+import com.example.demo.model.Title;
+import com.example.demo.model.Pet;
+import com.example.demo.repository.*;
 import com.example.demo.service.CharacterService;
 import com.example.demo.service.CharacterTypeService;
+import com.example.demo.service.FogSystemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -25,11 +30,18 @@ public class CharacterServiceImpl implements CharacterService {
     private final CharacterRepository characterRepository;
     private final CharacterTypeRepository characterTypeRepository;
     private final CharacterTypeService characterTypeService;
+    private final CharacterTitleRepository characterTitleRepository;
+    private final CharacterPetRepository characterPetRepository;
+    private final CharacterEnchantRepository characterEnchantRepository;
+    private final CharacterAmplifyRepository characterAmplifyRepository;
+    private final TitleRepository titleRepository;
+    private final PetRepository petRepository;
+    private final FogSystemService fogSystemService;
 
     @Override
     @Transactional(readOnly = true)
     public List<CharacterDTO> getCharactersByUserId(Long userId) {
-        List<Character> characters = characterRepository.findByUserId(userId);
+        List<com.example.demo.model.Character> characters = characterRepository.findByUserId(userId);
         return characters.stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
@@ -38,7 +50,7 @@ public class CharacterServiceImpl implements CharacterService {
     @Override
     @Transactional(readOnly = true)
     public CharacterDTO getCharacterById(Long id) {
-        Character character = characterRepository.findById(id)
+        com.example.demo.model.Character character = characterRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("角色不存在"));
         return convertToDTO(character);
     }
@@ -47,40 +59,60 @@ public class CharacterServiceImpl implements CharacterService {
     @Transactional
     public CharacterDTO createCharacter(CharacterDTO characterDTO) {
         // 验证角色类型是否存在
-        CharacterType characterType = characterTypeRepository.findById(characterDTO.getCharacterTypeId())
+        characterTypeRepository.findById(characterDTO.getCharacterTypeId())
                 .orElseThrow(() -> new RuntimeException("角色类型不存在"));
 
-        Character character = convertToEntity(characterDTO);
-        Character savedCharacter = characterRepository.save(character);
+        com.example.demo.model.Character character = new com.example.demo.model.Character();
+        character.setUserId(characterDTO.getUserId());
+        character.setCharacterTypeId(characterDTO.getCharacterTypeId());
+        character.setCharacterName(characterDTO.getCharacterName());
+        character.setAvatarUrl(characterDTO.getAvatarUrl());
+        character.setLevel(characterDTO.getLevel() != null ? characterDTO.getLevel() : 115);
+
+        com.example.demo.model.Character savedCharacter = characterRepository.save(character);
         return convertToDTO(savedCharacter);
     }
 
     @Override
     @Transactional
     public CharacterDTO updateCharacter(Long id, CharacterDTO characterDTO) {
-        Character existingCharacter = characterRepository.findById(id)
+        com.example.demo.model.Character existingCharacter = characterRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("角色不存在"));
 
         // 验证角色类型是否存在
-        CharacterType characterType = characterTypeRepository.findById(characterDTO.getCharacterTypeId())
-                .orElseThrow(() -> new RuntimeException("角色类型不存在"));
+        if (characterDTO.getCharacterTypeId() != null) {
+            characterTypeRepository.findById(characterDTO.getCharacterTypeId())
+                    .orElseThrow(() -> new RuntimeException("角色类型不存在"));
+        }
 
-        // 更新字段
-        existingCharacter.setCharacterName(characterDTO.getCharacterName());
-        existingCharacter.setJobNature(characterDTO.getJobNature());
-        existingCharacter.setJobAttribute(characterDTO.getJobAttribute());
-        existingCharacter.setStrength(characterDTO.getStrength());
-        existingCharacter.setIntelligence(characterDTO.getIntelligence());
-        existingCharacter.setSpirit(characterDTO.getSpirit());
-        existingCharacter.setVitality(characterDTO.getVitality());
-        existingCharacter.setPhysicalAttack(characterDTO.getPhysicalAttack());
-        existingCharacter.setMagicalAttack(characterDTO.getMagicalAttack());
-        existingCharacter.setIndependentAttack(characterDTO.getIndependentAttack());
-        existingCharacter.setLightElement(characterDTO.getLightElement());
-        existingCharacter.setFireElement(characterDTO.getFireElement());
-        existingCharacter.setIceElement(characterDTO.getIceElement());
-        existingCharacter.setDarkElement(characterDTO.getDarkElement());
-        existingCharacter.setAvatarUrl(characterDTO.getAvatarUrl());
+        // 只更新传入的字段
+        if (characterDTO.getCharacterName() != null) {
+            existingCharacter.setCharacterName(characterDTO.getCharacterName());
+        }
+        if (characterDTO.getCharacterTypeId() != null) {
+            existingCharacter.setCharacterTypeId(characterDTO.getCharacterTypeId());
+        }
+        if (characterDTO.getAvatarUrl() != null) {
+            existingCharacter.setAvatarUrl(characterDTO.getAvatarUrl());
+        }
+        if (characterDTO.getLevel() != null) {
+            existingCharacter.setLevel(characterDTO.getLevel());
+        }
+
+        // 以下字段可选更新
+        if (characterDTO.getJobNature() != null) existingCharacter.setJobNature(characterDTO.getJobNature());
+        if (characterDTO.getJobAttribute() != null) existingCharacter.setJobAttribute(characterDTO.getJobAttribute());
+        if (characterDTO.getStrength() != null) existingCharacter.setStrength(characterDTO.getStrength());
+        if (characterDTO.getIntelligence() != null) existingCharacter.setIntelligence(characterDTO.getIntelligence());
+        if (characterDTO.getSpirit() != null) existingCharacter.setSpirit(characterDTO.getSpirit());
+        if (characterDTO.getVitality() != null) existingCharacter.setVitality(characterDTO.getVitality());
+        if (characterDTO.getPhysicalAttack() != null) existingCharacter.setPhysicalAttack(characterDTO.getPhysicalAttack());
+        if (characterDTO.getMagicalAttack() != null) existingCharacter.setMagicalAttack(characterDTO.getMagicalAttack());
+        if (characterDTO.getIndependentAttack() != null) existingCharacter.setIndependentAttack(characterDTO.getIndependentAttack());
+        if (characterDTO.getLightElement() != null) existingCharacter.setLightElement(characterDTO.getLightElement());
+        if (characterDTO.getFireElement() != null) existingCharacter.setFireElement(characterDTO.getFireElement());
+        if (characterDTO.getIceElement() != null) existingCharacter.setIceElement(characterDTO.getIceElement());
+        if (characterDTO.getDarkElement() != null) existingCharacter.setDarkElement(characterDTO.getDarkElement());
 
         // 核心输出属性
         if (characterDTO.getTechniqueAttack() != null) existingCharacter.setTechniqueAttack(characterDTO.getTechniqueAttack());
@@ -140,19 +172,19 @@ public class CharacterServiceImpl implements CharacterService {
         if (characterDTO.getOathAttribute() != null) existingCharacter.setOathAttribute(characterDTO.getOathAttribute());
         if (characterDTO.getEnhancementData() != null) existingCharacter.setEnhancementData(characterDTO.getEnhancementData());
 
-        Character updatedCharacter = characterRepository.save(existingCharacter);
+        com.example.demo.model.Character updatedCharacter = characterRepository.save(existingCharacter);
         return convertToDTO(updatedCharacter);
     }
 
     @Override
     @Transactional
     public void deleteCharacter(Long id) {
-        Character character = characterRepository.findById(id)
+        com.example.demo.model.Character character = characterRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("角色不存在"));
         characterRepository.delete(character);
     }
 
-    private CharacterDTO convertToDTO(Character character) {
+    private CharacterDTO convertToDTO(com.example.demo.model.Character character) {
         CharacterDTO dto = new CharacterDTO();
         dto.setId(character.getId());
         dto.setUserId(character.getUserId());
@@ -173,8 +205,52 @@ public class CharacterServiceImpl implements CharacterService {
         dto.setDarkElement(character.getDarkElement());
         dto.setAvatarUrl(character.getAvatarUrl());
 
+        // 计算名望值：称号 + 宠物 + 附魔 + 增幅 + 迷雾
+        AtomicInteger totalFame = new AtomicInteger(0);
+
+        // 称号名望
+        List<CharacterTitle> equippedTitles = characterTitleRepository.findByCharacterId(character.getId());
+        for (CharacterTitle ct : equippedTitles) {
+            if (Boolean.TRUE.equals(ct.getIsEquipped())) {
+                titleRepository.findById(ct.getTitleId()).ifPresent(title -> {
+                    totalFame.addAndGet(title.getFame() != null ? title.getFame() : 0);
+                });
+            }
+        }
+
+        // 宠物名望
+        List<CharacterPet> equippedPets = characterPetRepository.findByCharacterId(character.getId());
+        for (CharacterPet cp : equippedPets) {
+            if (Boolean.TRUE.equals(cp.getIsEquipped())) {
+                petRepository.findById(cp.getPetId()).ifPresent(pet -> {
+                    totalFame.addAndGet(pet.getFame() != null ? pet.getFame() : 0);
+                });
+            }
+        }
+
+        // 附魔名望
+        List<CharacterEnchant> enchants = characterEnchantRepository.findAllByCharacterId(character.getId());
+        for (CharacterEnchant enchant : enchants) {
+            totalFame.addAndGet(enchant.getFame() != null ? enchant.getFame() : 0);
+        }
+
+        // 增幅名望
+        List<CharacterAmplify> amplifies = characterAmplifyRepository.findAllByCharacterId(character.getId());
+        for (CharacterAmplify amplify : amplifies) {
+            totalFame.addAndGet(amplify.getFame() != null ? amplify.getFame() : 0);
+        }
+
+        // 迷雾名望（根据角色所在跨区获取迷雾名望，暂用跨六作为默认值）
+        try {
+            String region = character.getServerName();
+            totalFame.addAndGet(fogSystemService.getFameByRegion(character.getUserId(), region));
+        } catch (Exception e) {
+            // 迷雾未激活，忽略
+        }
+
+        dto.setFameValue(totalFame.get());
+
         // DNF同步相关字段
-        dto.setFameValue(character.getFameValue());
         dto.setServerName(character.getServerName());
         dto.setLevel(character.getLevel());
         dto.setAdventureName(character.getAdventureName());
@@ -262,8 +338,8 @@ public class CharacterServiceImpl implements CharacterService {
         return dto;
     }
 
-    private Character convertToEntity(CharacterDTO dto) {
-        Character character = new Character();
+    private com.example.demo.model.Character convertToEntity(CharacterDTO dto) {
+        com.example.demo.model.Character character = new com.example.demo.model.Character();
         character.setId(dto.getId());
         character.setUserId(dto.getUserId());
         character.setCharacterTypeId(dto.getCharacterTypeId());

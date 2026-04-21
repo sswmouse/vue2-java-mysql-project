@@ -25,5 +25,17 @@ export default {
     // 获取所有年份
     getYears: '/api/titles/years',
     // 搜索
-    search: '/api/titles/search'
+    search: '/api/titles/search',
+    // 穿戴称号
+    equip: (titleId, characterId) => `/api/titles/${titleId}/equip/${characterId}`,
+    // 卸下称号
+    unequip: (titleId, characterId) => `/api/titles/${titleId}/unequip/${characterId}`,
+    // 获取角色已穿戴的称号
+    getEquipped: (characterId) => `/api/titles/equipped/${characterId}`,
+    // 创建称号
+    create: '/api/titles',
+    // 更新称号
+    update: (id) => `/api/titles/${id}`,
+    // 删除称号
+    delete: (id) => `/api/titles/${id}`
 }

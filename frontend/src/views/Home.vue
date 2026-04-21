@@ -49,7 +49,7 @@
                     ref="mainTitle"
                     class="hero-title"
                 >
-                    游戏管理系统
+                    打造模拟平台
                 </h1>
 
                 <!-- 副标题 -->

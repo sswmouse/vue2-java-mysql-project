@@ -25,7 +25,7 @@
                     <span class="logo-n">N</span>
                     <span class="logo-f">F</span>
                 </div>
-                <span class="logo-text">DNF管理</span>
+                <span class="logo-text">DNF模拟器</span>
             </div>
 
             <!-- 导航菜单 -->

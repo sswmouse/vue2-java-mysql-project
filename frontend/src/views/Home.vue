@@ -129,11 +129,11 @@
                 <div class="status-list">
                     <div class="status-item">
                         <span class="status-label">前端服务</span>
-                        <span class="status-value status-frontend">http://localhost:8080</span>
+                        <span class="status-value status-frontend">http://localhost:8099</span>
                     </div>
                     <div class="status-item">
                         <span class="status-label">后端API</span>
-                        <span class="status-value status-backend">http://localhost:8081</span>
+                        <span class="status-value status-backend">http://localhost:3000</span>
                     </div>
                     <div class="status-item">
                         <span class="status-label">数据库</span>

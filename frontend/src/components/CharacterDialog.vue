@@ -2,7 +2,7 @@
  * @Description: 角色添加/编辑弹窗组件
  * @Author: Claude Code
  * @Date: 2026-04-10
- * @LastEditTime: 2026-04-11 02:19:17
+ * @LastEditTime: 2026-04-20 17:30:46
  * @FilePath: /vue2-java-mysql-project/frontend/src/components/CharacterDialog.vue
  -->
 <template>
@@ -1003,8 +1003,7 @@ export default {
         &.is-active,
         &.el-cascader-node--selectable.in-active-path {
             color: var(--theme-accent) !important;
-            background: var(--theme-accent) !important;
-            opacity: 0.1;
+            background: var(--theme-bg-card) !important;
         }
     }
 

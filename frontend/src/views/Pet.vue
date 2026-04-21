@@ -6,7 +6,7 @@
 <template>
     <div class="pet-page-wrapper">
         <div class="page-header">
-            <h1>宠物管理</h1>
+            <h1 class="page-title">宠物管理</h1>
         </div>
 
         <!-- 角色选择器 -->

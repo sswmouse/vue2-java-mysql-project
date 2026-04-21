@@ -6,7 +6,7 @@
 <template>
     <div class="title-page-wrapper">
         <div class="page-header">
-            <h1>称号管理</h1>
+            <h1 class="page-title">称号管理</h1>
         </div>
 
         <!-- 角色选择器 -->

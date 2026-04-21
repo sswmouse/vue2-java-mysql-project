@@ -615,15 +615,15 @@ export default {
         }
 
         .card-content {
-            border-color: @dnf-primary-gold;
-            box-shadow: @dnf-shadow-gold;
+            border-color: var(--theme-accent);
+            box-shadow: 0 0 25px var(--theme-accent);
         }
     }
 
     &.is-active {
         .card-content {
-            border-color: @dnf-secondary-gold;
-            box-shadow: @dnf-shadow-gold;
+            border-color: var(--theme-accent);
+            box-shadow: 0 0 25px var(--theme-accent);
         }
     }
 
@@ -640,7 +640,7 @@ export default {
         }
 
         .card-content {
-            border-color: @dnf-success;
+            border-color: var(--theme-success);
             box-shadow: 0 0 20px rgba(0, 229, 160, 0.3);
         }
     }
@@ -650,7 +650,7 @@ export default {
         position: absolute;
         top: 8px;
         right: 8px;
-        background: linear-gradient(135deg, @dnf-success 0%, @dnf-info 100%);
+        background: linear-gradient(135deg, var(--theme-success) 0%, var(--theme-info) 100%);
         color: white;
         padding: 4px 8px;
         border-radius: @border-radius-sm;
@@ -672,7 +672,7 @@ export default {
         position: absolute;
         bottom: 12px;
         right: 12px;
-        background: linear-gradient(135deg, @dnf-secondary-purple 0%, @dnf-primary-purple 100%);
+        background: linear-gradient(135deg, var(--theme-secondary) 0%, var(--theme-primary) 100%);
         border: 1px solid fade(@dnf-border-light, 50%);
         z-index: 6;
         box-shadow: 0 2px 8px rgba(123, 47, 255, 0.4);
@@ -691,8 +691,8 @@ export default {
         position: relative;
         width: 100%;
         height: 100%;
-        background: @gradient-card;
-        border: 2px solid @dnf-border-dark;
+        background: var(--theme-bg-card);
+        border: 2px solid var(--theme-border);
         border-radius: @border-radius-lg;
         padding: @spacing-lg;
         display: flex;
@@ -707,7 +707,7 @@ export default {
             position: absolute;
             width: 16px;
             height: 16px;
-            border-color: @dnf-primary-gold;
+            border-color: var(--theme-accent);
             border-style: solid;
             opacity: 0.5;
             transition: opacity 0.3s ease;
@@ -754,28 +754,28 @@ export default {
                 justify-content: center;
                 background: linear-gradient(
                     145deg,
-                    @dnf-bg-hover 0%,
-                    @dnf-primary-dark 100%
+                    var(--theme-bg-hover) 0%,
+                    var(--theme-bg-dark) 100%
                 );
-                border: 2px solid @dnf-border-light;
+                border: 2px solid var(--theme-border);
                 border-radius: @border-radius-md;
                 transition: all @transition-smooth;
 
                 .icon-svg {
                     width: 48px;
                     height: 48px;
-                    color: @dnf-secondary-gold;
+                    color: var(--theme-accent);
                     transition: all @transition-smooth;
                 }
             }
 
             &:hover .set-icon {
-                border-color: @dnf-primary-gold;
-                box-shadow: @dnf-shadow-gold;
+                border-color: var(--theme-accent);
+                box-shadow: 0 0 25px var(--theme-accent);
 
                 .icon-svg {
                     transform: scale(1.1);
-                    filter: drop-shadow(0 0 8px @dnf-primary-gold);
+                    filter: drop-shadow(0 0 8px var(--theme-accent));
                 }
             }
         }
@@ -785,7 +785,7 @@ export default {
             font-family: @font-heading, sans-serif;
             font-size: 16px;
             font-weight: @font-weight-semibold;
-            color: @dnf-text-primary;
+            color: var(--theme-text-primary);
             text-align: center;
             margin: 0 0 @spacing-sm 0;
             letter-spacing: 0.05em;
@@ -809,7 +809,7 @@ export default {
 
                 .stat-label {
                     font-size: 10px;
-                    color: @dnf-text-muted;
+                    color: var(--theme-text-secondary);
                     margin-bottom: 2px;
                 }
 
@@ -817,12 +817,12 @@ export default {
                     font-family: @font-mono, monospace;
                     font-size: 14px;
                     font-weight: @font-weight-bold;
-                    color: @dnf-secondary-gold;
+                    color: var(--theme-accent);
                 }
 
                 .stage-value {
                     font-size: 12px;
-                    color: @dnf-info;
+                    color: var(--theme-info);
                 }
             }
         }
@@ -836,7 +836,7 @@ export default {
             .effect-badge {
                 width: 20px;
                 height: 20px;
-                background: linear-gradient(135deg, @dnf-success 0%, @dnf-info 100%);
+                background: linear-gradient(135deg, var(--theme-success) 0%, var(--theme-info) 100%);
                 border-radius: 50%;
                 display: flex;
                 align-items: center;
@@ -847,7 +847,7 @@ export default {
                 box-shadow: 0 2px 6px rgba(0, 229, 160, 0.3);
 
                 &.more {
-                    background: linear-gradient(135deg, @dnf-secondary-purple 0%, @dnf-primary-purple 100%);
+                    background: linear-gradient(135deg, var(--theme-secondary) 0%, var(--theme-primary) 100%);
                     box-shadow: 0 2px 6px rgba(123, 47, 255, 0.3);
                 }
             }
@@ -870,7 +870,7 @@ export default {
 
         i {
             font-size: 32px;
-            color: @dnf-secondary-gold;
+            color: var(--theme-accent);
         }
     }
 
@@ -965,7 +965,7 @@ export default {
 
             .set-icon {
                 border-color: @rarity-primal;
-                background: linear-gradient(145deg, @dnf-bg-hover 0%, @dnf-primary-dark 100%),
+                background: linear-gradient(145deg, var(--theme-bg-hover) 0%, var(--theme-bg-dark) 100%),
                             linear-gradient(135deg, rgba(96, 165, 250, 0.2) 0%, rgba(29, 78, 216, 0.2) 100%);
                 box-shadow: 0 0 15px rgba(96, 165, 250, 0.3);
             }

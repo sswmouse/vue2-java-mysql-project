@@ -157,10 +157,10 @@
 
 // 页面标题区域
 .page-header {
-    background: @gradient-dark-blue;
+    background: var(--theme-bg-card);
     padding: @spacing-2xl 0;
     margin-bottom: @spacing-xl;
-    border-bottom: 1px solid @dnf-border-dark;
+    border-bottom: 1px solid var(--theme-border);
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -172,7 +172,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: @gradient-surface;
+        background: var(--theme-bg-hover);
         pointer-events: none;
     }
 
@@ -184,14 +184,15 @@
         transform: translateX(-50%);
         width: 200px;
         height: 1px;
-        background: linear-gradient(90deg, transparent, @dnf-primary-gold, transparent);
+        background: linear-gradient(90deg, transparent, var(--theme-accent), transparent);
     }
 
     .page-title {
         font-size: @font-size-3xl;
         font-family: @font-display, 'Orbitron', sans-serif;
         letter-spacing: 0.1em;
-        .neon-gold-text();
+        color: var(--theme-accent);
+        text-shadow: 0 0 20px var(--theme-accent);
         margin-bottom: @spacing-md;
         animation: logo-glow 3s ease-in-out infinite;
         position: relative;
@@ -199,7 +200,7 @@
     }
 
     .page-description {
-        color: @dnf-text-secondary;
+        color: var(--theme-text-secondary);
         max-width: 600px;
         margin: 0 auto;
         font-size: @font-size-lg;

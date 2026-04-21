@@ -20,7 +20,7 @@
             <div class="card-corner top-left" />
             <div class="card-corner top-right" />
 
-    <!-- 部位图标 -->
+            <!-- 部位图标 -->
             <div class="part-icon">
                 <!-- 武器 - 剑 -->
                 <svg
@@ -31,7 +31,7 @@
                     stroke="currentColor"
                     stroke-width="2"
                 >
-                    <path d="M14.5 17.5L3 6V3h3l11.5 11.5M12 12L6.5 6.5M5 14l-2 2 5 5 2-2M18 3l3 3-9 9-3-3 9-9z"/>
+                    <path d="M14.5 17.5L3 6V3h3l11.5 11.5M12 12L6.5 6.5M5 14l-2 2 5 5 2-2M18 3l3 3-9 9-3-3 9-9z" />
                 </svg>
                 <!-- 头肩 - 头盔 -->
                 <svg
@@ -42,8 +42,8 @@
                     stroke="currentColor"
                     stroke-width="2"
                 >
-                    <path d="M12 2C6.48 2 2 6.48 2 12v2c0 1.1.9 2 2 2h1v-6H4v-1c0-4.42 3.58-8 8-8s8 3.58 8 8v1h-1v6h1c1.1 0 2-.9 2-2v-2c0-5.52-4.48-10-10-10z"/>
-                    <path d="M9 14v2c0 1.66 1.34 3 3 3s3-1.34 3-3v-2"/>
+                    <path d="M12 2C6.48 2 2 6.48 2 12v2c0 1.1.9 2 2 2h1v-6H4v-1c0-4.42 3.58-8 8-8s8 3.58 8 8v1h-1v6h1c1.1 0 2-.9 2-2v-2c0-5.52-4.48-10-10-10z" />
+                    <path d="M9 14v2c0 1.66 1.34 3 3 3s3-1.34 3-3v-2" />
                 </svg>
                 <!-- 上衣 - 衣服 -->
                 <svg
@@ -54,7 +54,7 @@
                     stroke="currentColor"
                     stroke-width="2"
                 >
-                    <path d="M6 2L2 6v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6l-4-4H6zM6 4h12l2 2H4l2-2zM4 8h16v10H4V8z"/>
+                    <path d="M6 2L2 6v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6l-4-4H6zM6 4h12l2 2H4l2-2zM4 8h16v10H4V8z" />
                 </svg>
                 <!-- 下装 - 裤子 -->
                 <svg
@@ -65,7 +65,7 @@
                     stroke="currentColor"
                     stroke-width="2"
                 >
-                    <path d="M5 4h14v4l-2 14h-4l-1-8-1 8H7L5 8V4z"/>
+                    <path d="M5 4h14v4l-2 14h-4l-1-8-1 8H7L5 8V4z" />
                 </svg>
                 <!-- 鞋 - 鞋子 -->
                 <svg
@@ -76,8 +76,8 @@
                     stroke="currentColor"
                     stroke-width="2"
                 >
-                    <path d="M4 18h16c1.1 0 2-.9 2-2v-2c0-2.21-1.79-4-4-4h-2l-2-3H6c-2.21 0-4 1.79-4 4v5c0 1.1.9 2 2 2z"/>
-                    <path d="M6 13h4l2 3h2c1.1 0 2 .9 2 2"/>
+                    <path d="M4 18h16c1.1 0 2-.9 2-2v-2c0-2.21-1.79-4-4-4h-2l-2-3H6c-2.21 0-4 1.79-4 4v5c0 1.1.9 2 2 2z" />
+                    <path d="M6 13h4l2 3h2c1.1 0 2 .9 2 2" />
                 </svg>
                 <!-- 腰带 - 腰带 -->
                 <svg
@@ -88,9 +88,19 @@
                     stroke="currentColor"
                     stroke-width="2"
                 >
-                    <rect x="2" y="8" width="20" height="8" rx="2"/>
-                    <circle cx="12" cy="12" r="2"/>
-                    <path d="M2 10h2M2 14h2M20 10h2M20 14h2"/>
+                    <rect
+                        x="2"
+                        y="8"
+                        width="20"
+                        height="8"
+                        rx="2"
+                    />
+                    <circle
+                        cx="12"
+                        cy="12"
+                        r="2"
+                    />
+                    <path d="M2 10h2M2 14h2M20 10h2M20 14h2" />
                 </svg>
                 <!-- 项链 - 项链 -->
                 <svg
@@ -101,8 +111,12 @@
                     stroke="currentColor"
                     stroke-width="2"
                 >
-                    <circle cx="12" cy="14" r="4"/>
-                    <path d="M12 2v4M6 6l2 2M18 6l-2 2M8 10c0-2.21 1.79-4 4-4s4 1.79 4 4"/>
+                    <circle
+                        cx="12"
+                        cy="14"
+                        r="4"
+                    />
+                    <path d="M12 2v4M6 6l2 2M18 6l-2 2M8 10c0-2.21 1.79-4 4-4s4 1.79 4 4" />
                 </svg>
                 <!-- 手镯 - 手镯 -->
                 <svg
@@ -113,9 +127,17 @@
                     stroke="currentColor"
                     stroke-width="2"
                 >
-                    <circle cx="12" cy="12" r="8"/>
-                    <circle cx="12" cy="12" r="5"/>
-                    <path d="M12 4v2M12 18v2M4 12h2M18 12h2"/>
+                    <circle
+                        cx="12"
+                        cy="12"
+                        r="8"
+                    />
+                    <circle
+                        cx="12"
+                        cy="12"
+                        r="5"
+                    />
+                    <path d="M12 4v2M12 18v2M4 12h2M18 12h2" />
                 </svg>
                 <!-- 戒指 - 戒指 -->
                 <svg
@@ -126,9 +148,16 @@
                     stroke="currentColor"
                     stroke-width="2"
                 >
-                    <circle cx="12" cy="12" r="6"/>
-                    <path d="M12 6v2M12 16v2M6 12h2M16 12h2"/>
-                    <path d="M12 8l1 1-1 1-1-1z" fill="currentColor"/>
+                    <circle
+                        cx="12"
+                        cy="12"
+                        r="6"
+                    />
+                    <path d="M12 6v2M12 16v2M6 12h2M16 12h2" />
+                    <path
+                        d="M12 8l1 1-1 1-1-1z"
+                        fill="currentColor"
+                    />
                 </svg>
                 <!-- 辅助装备 - 魔法棒 -->
                 <svg
@@ -139,10 +168,15 @@
                     stroke="currentColor"
                     stroke-width="2"
                 >
-                    <path d="M15 4l6 6-9 9-6-6 9-9z"/>
-                    <path d="M6 13l4 4"/>
-                    <path d="M2 22l3-3"/>
-                    <circle cx="15" cy="9" r="1" fill="currentColor"/>
+                    <path d="M15 4l6 6-9 9-6-6 9-9z" />
+                    <path d="M6 13l4 4" />
+                    <path d="M2 22l3-3" />
+                    <circle
+                        cx="15"
+                        cy="9"
+                        r="1"
+                        fill="currentColor"
+                    />
                 </svg>
                 <!-- 魔法石 - 宝石 -->
                 <svg
@@ -153,9 +187,9 @@
                     stroke="currentColor"
                     stroke-width="2"
                 >
-                    <path d="M12 2l8 6-8 14-8-14 8-6z"/>
-                    <path d="M4 8h16"/>
-                    <path d="M8 8l4 10 4-10"/>
+                    <path d="M12 2l8 6-8 14-8-14 8-6z" />
+                    <path d="M4 8h16" />
+                    <path d="M8 8l4 10 4-10" />
                 </svg>
                 <!-- 耳环 - 耳环 -->
                 <svg
@@ -166,10 +200,22 @@
                     stroke="currentColor"
                     stroke-width="2"
                 >
-                    <circle cx="12" cy="5" r="2"/>
-                    <path d="M12 7v3"/>
-                    <circle cx="12" cy="14" r="5"/>
-                    <circle cx="12" cy="14" r="2"/>
+                    <circle
+                        cx="12"
+                        cy="5"
+                        r="2"
+                    />
+                    <path d="M12 7v3" />
+                    <circle
+                        cx="12"
+                        cy="14"
+                        r="5"
+                    />
+                    <circle
+                        cx="12"
+                        cy="14"
+                        r="2"
+                    />
                 </svg>
                 <!-- 默认图标 -->
                 <svg
@@ -180,8 +226,14 @@
                     stroke="currentColor"
                     stroke-width="2"
                 >
-                    <rect x="3" y="3" width="18" height="18" rx="2"/>
-                    <path d="M9 9h6v6H9z"/>
+                    <rect
+                        x="3"
+                        y="3"
+                        width="18"
+                        height="18"
+                        rx="2"
+                    />
+                    <path d="M9 9h6v6H9z" />
                 </svg>
             </div>
 
@@ -294,8 +346,8 @@ export default {
         }
 
         .card-content {
-            border-color: @dnf-primary-gold;
-            box-shadow: @dnf-shadow-gold;
+            border-color: var(--theme-accent);
+            box-shadow: 0 0 25px var(--theme-accent);
         }
     }
 
@@ -314,8 +366,8 @@ export default {
         position: relative;
         width: 100%;
         height: 100%;
-        background: @gradient-card;
-        border: 2px solid @dnf-border-dark;
+        background: var(--theme-bg-card);
+        border: 2px solid var(--theme-border);
         border-radius: @border-radius-lg;
         padding: @spacing-md;
         display: flex;
@@ -328,7 +380,7 @@ export default {
             position: absolute;
             width: 14px;
             height: 14px;
-            border-color: @dnf-primary-gold;
+            border-color: var(--theme-accent);
             border-style: solid;
             opacity: 0.4;
 
@@ -360,8 +412,8 @@ export default {
         .part-icon {
             width: 48px;
             height: 48px;
-            background: linear-gradient(145deg, @dnf-bg-hover 0%, @dnf-primary-dark 100%);
-            border: 2px solid @dnf-border-light;
+            background: linear-gradient(145deg, var(--theme-bg-hover) 0%, var(--theme-bg-dark) 100%);
+            border: 2px solid var(--theme-border);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -371,7 +423,7 @@ export default {
             .part-svg {
                 width: 28px;
                 height: 28px;
-                color: @dnf-secondary-gold;
+                color: var(--theme-accent);
             }
         }
 
@@ -379,7 +431,7 @@ export default {
             font-family: @font-heading, sans-serif;
             font-size: 15px;
             font-weight: @font-weight-semibold;
-            color: @dnf-primary-gold;
+            color: var(--theme-accent);
             margin: 0 0 @spacing-xs 0;
         }
 
@@ -388,25 +440,25 @@ export default {
 
             .enchant-name {
                 font-size: 13px;
-                color: @dnf-text-primary;
+                color: var(--theme-text-primary);
                 margin-bottom: 4px;
             }
 
             .enchant-attr {
                 font-size: 12px;
-                color: @dnf-info;
+                color: var(--theme-info);
             }
 
             .enchant-fame {
                 font-size: 11px;
-                color: @dnf-secondary-gold;
+                color: var(--theme-accent);
                 margin-top: 4px;
             }
         }
 
         .enchant-empty {
             font-size: 13px;
-            color: @dnf-text-muted;
+            color: var(--theme-text-secondary);
         }
     }
 }

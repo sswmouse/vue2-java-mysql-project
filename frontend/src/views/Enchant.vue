@@ -2,7 +2,7 @@
  * @Description: 附魔管理页面 - 卡片形式展示12个部位
  * @Author: Claude Code
  * @Date: 2026-04-20
- * @LastEditTime: 2026-04-20
+ * @LastEditTime: 2026-04-21 17:11:05
  * @FilePath: /vue2-java-mysql-project/frontend/src/views/Enchant.vue
 -->
 <template>
@@ -14,9 +14,6 @@
                     <i class="el-icon-magic-stick" />
                     附魔管理
                 </h2>
-                <p class="page-subtitle">
-                    管理角色的装备附魔配置，点击卡片选择附魔宝珠
-                </p>
             </div>
             <div class="header-right">
                 <el-select
@@ -268,13 +265,17 @@ export default {
 .enchant-page {
     padding: @spacing-xl;
     min-height: 100%;
-    background: linear-gradient(180deg, @dnf-bg-dark 0%, @dnf-primary-dark 100%);
+    background: linear-gradient(180deg, var(--theme-bg-dark) 0%, var(--theme-primary) 100%);
 
     .page-header {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
         margin-bottom: @spacing-xl;
+        background: var(--theme-bg-card);
+        padding: @spacing-lg;
+        border-radius: @border-radius-lg;
+        border: 1px solid var(--theme-border);
 
         .header-left {
             flex: 1;
@@ -289,7 +290,7 @@ export default {
             font-family: @font-heading, sans-serif;
             font-size: 24px;
             font-weight: @font-weight-bold;
-            color: @dnf-primary-gold;
+            color: var(--theme-accent);
             margin: 0 0 @spacing-xs 0;
             display: flex;
             align-items: center;
@@ -300,18 +301,12 @@ export default {
             }
         }
 
-        .page-subtitle {
-            font-size: 14px;
-            color: @dnf-text-muted;
-            margin: 0;
-        }
-
         .character-select {
             min-width: 160px;
 
             .char-level {
                 float: right;
-                color: @dnf-text-muted;
+                color: var(--theme-text-secondary);
                 font-size: 12px;
             }
         }
@@ -341,18 +336,14 @@ export default {
 }
 
 /deep/ .el-select-dropdown {
-    background: @dnf-bg-card;
-    border-color: @dnf-border-light;
+    background: var(--theme-bg-card);
+    border-color: var(--theme-border);
 
     .el-select-dropdown__item {
-        color: @dnf-text-primary;
+        color: var(--theme-text-primary);
 
         &:hover {
-            background: @dnf-bg-hover;
-        }
-
-        &.selected {
-            color: @dnf-primary-gold;
+            background: var(--theme-bg-hover);
         }
     }
 }

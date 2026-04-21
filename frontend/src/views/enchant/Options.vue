@@ -513,15 +513,21 @@ export default {
 
 .enchant-options-page {
     padding: @spacing-xl;
+    min-height: 100%;
+    background: linear-gradient(180deg, var(--theme-bg-dark) 0%, var(--theme-primary) 100%);
 
     .page-header {
         margin-bottom: @spacing-xl;
+        background: var(--theme-bg-card);
+        padding: @spacing-lg;;
+        border-radius: @border-radius-lg;
+        border: 1px solid var(--theme-border);
 
         .page-title {
             font-family: @font-heading, sans-serif;
             font-size: 24px;
             font-weight: @font-weight-bold;
-            color: @dnf-primary-gold;
+            color: var(--theme-accent);
             margin: 0;
             display: flex;
             align-items: center;
@@ -552,11 +558,11 @@ export default {
 
     .options-table {
         .text-muted {
-            color: @dnf-text-muted;
+            color: var(--theme-text-secondary);
         }
 
         .text-danger {
-            color: @dnf-danger;
+            color: var(--theme-danger);
         }
     }
 

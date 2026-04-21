@@ -8,10 +8,7 @@
         <div class="setting-container">
             <!-- 页面标题 -->
             <div class="page-header">
-                <h1><i class="el-icon-setting" /> 系统设置</h1>
-                <p class="subtitle">
-                    个性化定制您的界面体验
-                </p>
+                <h1 class="page-title"><i class="el-icon-setting" /> 系统设置</h1>
             </div>
 
             <!-- 主题设置 -->
@@ -372,12 +369,6 @@ export default {
         i {
             font-size: 28px;
         }
-    }
-
-    .subtitle {
-        color: var(--theme-text-secondary);
-        margin: 0;
-        font-size: 14px;
     }
 }
 

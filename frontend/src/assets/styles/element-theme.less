@@ -31,7 +31,7 @@
     &.el-button--primary {
         background: linear-gradient(135deg, var(--theme-secondary) 0%, var(--theme-primary) 100%);
         border-color: var(--theme-primary);
-        color: var(--theme-text-primary);
+        color: #fff;
 
         &:hover {
             background: var(--theme-secondary);
@@ -48,7 +48,7 @@
     &.el-button--success {
         background: var(--theme-success);
         border-color: var(--theme-success);
-        color: var(--theme-bg-dark);
+        color: #fff;
 
         &:hover {
             filter: brightness(1.08);
@@ -60,7 +60,7 @@
     &.el-button--warning {
         background: var(--theme-warning);
         border-color: var(--theme-warning);
-        color: var(--theme-bg-dark);
+        color: #fff;
 
         &:hover {
             filter: brightness(1.08);
@@ -72,7 +72,7 @@
     &.el-button--danger {
         background: linear-gradient(135deg, var(--theme-danger) 0%, #ff6b6b 100%);
         border-color: var(--theme-danger);
-        color: var(--theme-text-primary);
+        color: #fff;
 
         &:hover {
             filter: brightness(1.15);
@@ -84,7 +84,7 @@
     &.el-button--info {
         background: var(--theme-info);
         border-color: var(--theme-info);
-        color: var(--theme-bg-dark);
+        color: #fff;
 
         &:hover {
             filter: brightness(1.08);
@@ -295,7 +295,7 @@
         background: var(--theme-bg-card) !important;
 
         > td.el-table__cell {
-            background: @dnf-bg-card !important;
+            background: var(--theme-bg-card) !important;
             border-bottom: 1px solid var(--theme-border) !important;
         }
 
@@ -387,7 +387,7 @@
 
             &:hover {
                 background: var(--theme-secondary);
-                color: var(--theme-text-primary);
+                color: #fff;
                 transform: translateX(4px);
 
                 &::before {
@@ -413,7 +413,7 @@
 
                 &:hover {
                     background: var(--theme-secondary);
-                    color: var(--theme-text-primary);
+                    color: #fff;
                 }
             }
 
@@ -583,32 +583,32 @@
         background: var(--theme-success);
         border: 1px solid var(--theme-success);
 
-        .el-message__content { color: var(--theme-success); }
-        .el-icon-success { color: var(--theme-success); }
+        .el-message__content { color: #fff; }
+        .el-icon-success { color: #fff; }
     }
 
     &--warning {
         background: var(--theme-warning);
         border: 1px solid var(--theme-warning);
 
-        .el-message__content { color: var(--theme-warning); }
-        .el-icon-warning { color: var(--theme-warning); }
+        .el-message__content { color: #fff; }
+        .el-icon-warning { color: #fff; }
     }
 
     &--error {
         background: var(--theme-danger);
         border: 1px solid var(--theme-danger);
 
-        .el-message__content { color: var(--theme-danger); }
-        .el-icon-error { color: var(--theme-danger); }
+        .el-message__content { color: #fff; }
+        .el-icon-error { color: #fff; }
     }
 
     &--info {
         background: var(--theme-info);
         border: 1px solid var(--theme-info);
 
-        .el-message__content { color: var(--theme-info); }
-        .el-icon-info { color: var(--theme-info); }
+        .el-message__content { color: #fff; }
+        .el-icon-info { color: #fff; }
     }
 }
 
@@ -724,12 +724,13 @@
 
             &:hover {
                 background: var(--theme-secondary);
-                color: var(--theme-text-primary);
+                color: #fff;
             }
 
-            &.selected {
-                color: var(--theme-accent);
-                background: var(--theme-accent);
+            &.selected,
+            &.is-selected {
+                color: #fff !important;
+                background: var(--theme-accent) !important;
                 font-weight: @font-weight-semibold;
             }
 
@@ -911,12 +912,12 @@
         td {
             &.available:hover .el-date-table-cell__text {
                 background: var(--theme-secondary);
-                color: var(--theme-text-primary);
+                color: #fff;
             }
 
             &.current .el-date-table-cell__text {
                 background: var(--theme-secondary);
-                color: var(--theme-text-primary);
+                color: #fff;
                 box-shadow: 0 0 15px var(--theme-secondary);
             }
 

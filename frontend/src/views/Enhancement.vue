@@ -6,7 +6,7 @@
 <template>
     <div class="enhancement-page">
         <div class="page-header">
-            <h1>增幅管理</h1>
+            <h1 class="page-title">增幅管理</h1>
         </div>
 
         <!-- 角色选择器 -->

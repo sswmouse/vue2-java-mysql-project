@@ -20,77 +20,120 @@ vue2-java-mysql-project/
 │   │   │   ├── Users.vue         # 用户管理
 │   │   │   ├── Role.vue          # 角色管理
 │   │   │   ├── Equipment.vue     # 装备管理
-│   │   │   ├── Fashion.vue       # 时装管理
-│   │   │   ├── Enhancement.vue   # 强化系统
-│   │   │   ├── Enchantment.vue   # 附魔系统
-│   │   │   ├── Badge.vue         # 徽章系统
-│   │   │   ├── Title.vue         # 称号系统
-│   │   │   ├── Pet.vue           # 宠物系统
-│   │   │   └── Mist.vue          # 迷雾大陆
+│   │   │   ├── Fashion.vue        # 时装管理
+│   │   │   ├── Enhancement.vue   # 增幅系统
+│   │   │   ├── Enchantment.vue    # 附魔系统
+│   │   │   ├── Badge.vue          # 徽章/卡片系统
+│   │   │   ├── Mist.vue           # 迷雾大陆
+│   │   │   ├── Amplify.vue        # 增幅配置管理
+│   │   │   ├── Enchant.vue        # 附魔配置管理
+│   │   │   ├── Title.vue          # 称号管理
+│   │   │   └── Pet.vue            # 宠物管理
 │   │   ├── layout/         # 布局组件
 │   │   │   └── MainLayout.vue    # 主布局(侧边栏+顶部栏)
 │   │   ├── router/        # 路由配置
 │   │   ├── store/         # Vuex状态管理
 │   │   ├── api/           # API接口
 │   │   │   ├── index.js         # API统一导出
+│   │   │   ├── auth.js          # 认证API
 │   │   │   ├── user.js          # 用户API
 │   │   │   ├── character.js     # 角色API
-│   │   │   ├── product.js       # 产品API
-│   │   │   └── order.js         # 订单API
+│   │   │   ├── card.js          # 卡片API
+│   │   │   ├── enchant.js       # 附魔API
+│   │   │   ├── enchantOption.js # 附魔配置API
+│   │   │   ├── amplify.js       # 增幅API
+│   │   │   ├── amplifyOption.js # 增幅配置API
+│   │   │   ├── title.js         # 称号API
+│   │   │   ├── titleOption.js   # 称号配置API
+│   │   │   ├── pet.js           # 宠物API
+│   │   │   ├── petOption.js     # 宠物配置API
+│   │   │   ├── equipment.js     # 装备API
+│   │   │   └── mist.js          # 迷雾API
 │   │   ├── utils/         # 工具函数
-│   │   │   ├── animations.js    # 动画工具
-│   │   │   └── http.js          # HTTP请求封装
-│   │   ├── assets/
-│   │   │   └── styles/          # 样式文件
-│   │   │       ├── variables.less  # LESS变量定义
-│   │   │       ├── mixins.less      # LESS混合函数
-│   │   │       ├── animations.less  # CSS动画定义
-│   │   │       ├── base.less        # 基础样式
-│   │   │       ├── index.less       # 样式入口
-│   │   │       └── element-theme.less  # Element UI主题
-│   │   ├── App.vue         # 根组件
-│   │   └── main.js        # 入口文件
-│   ├── tests/e2e/         # 端到端测试
+│   │   └── assets/
+│   │       └── styles/          # 样式文件
+│   │           ├── variables.less  # LESS变量定义
+│   │           ├── mixins.less      # LESS混合函数
+│   │           ├── animations.less  # CSS动画定义
+│   │           └── base.less        # 基础样式
 │   ├── public/            # 静态资源
 │   ├── dist/              # 构建输出
 │   ├── package.json       # 依赖配置
 │   ├── vue.config.js      # Vue配置
-│   ├── jest.config.js    # Jest配置
-│   └── jest-puppeteer.config.js  # Puppeteer配置
+│   └── tests/             # 测试目录
 ├── backend/               # Java Spring Boot后端
 │   ├── src/main/java/com/example/demo/
 │   │   ├── controller/    # 控制器层
-│   │   │   ├── UserController.java
-│   │   │   ├── CharacterController.java
-│   │   │   ├── CharacterTypeController.java
-│   │   │   ├── AuthController.java      # 认证控制器
-│   │   │   └── FileUploadController.java
+│   │   │   ├── AuthController.java          # 认证控制器
+│   │   │   ├── UserController.java          # 用户控制器
+│   │   │   ├── CharacterController.java     # 角色控制器
+│   │   │   ├── CharacterTypeController.java # 职业类型控制器
+│   │   │   ├── CharacterSyncController.java # 角色同步控制器
+│   │   │   ├── CardController.java          # 卡片控制器
+│   │   │   ├── CharacterEnchantController.java # 角色附魔控制器
+│   │   │   ├── EnchantOptionController.java # 附魔配置控制器
+│   │   │   ├── CharacterAmplifyController.java # 角色增幅控制器
+│   │   │   ├── AmplifyOptionController.java # 增幅配置控制器
+│   │   │   ├── TitleController.java         # 称号控制器
+│   │   │   ├── TitleOptionController.java   # 称号配置控制器
+│   │   │   ├── PetController.java           # 宠物控制器
+│   │   │   ├── PetOptionController.java     # 宠物配置控制器
+│   │   │   ├── CharacterEquipmentController.java # 角色装备控制器
+│   │   │   ├── EquipmentSetController.java  # 装备套装控制器
+│   │   │   ├── EquipmentItemController.java # 装备物品控制器
+│   │   │   ├── StageController.java         # 关卡控制器
+│   │   │   ├── StageConfigController.java   # 关卡配置控制器
+│   │   │   ├── FogSystemController.java     # 迷雾系统控制器
+│   │   │   ├── OathConfigController.java    # 誓约配置控制器
+│   │   │   ├── FileUploadController.java    # 文件上传控制器
+│   │   │   └── FrontendController.java      # 前端控制器
 │   │   ├── service/       # 服务层
+│   │   │   ├── AuthService.java
 │   │   │   ├── UserService.java
-│   │   │   ├── AuthService.java        # 认证服务
 │   │   │   ├── CharacterService.java
 │   │   │   ├── CharacterTypeService.java
+│   │   │   ├── DnfSyncService.java         # DNF同步服务
+│   │   │   ├── CardService.java             # 卡片服务
+│   │   │   ├── CharacterEquipmentService.java # 角色装备服务
+│   │   │   ├── EquipmentSetService.java    # 装备套装服务
+│   │   │   ├── EquipmentItemService.java    # 装备物品服务
+│   │   │   ├── StageConfigService.java      # 关卡配置服务
+│   │   │   ├── FogSystemService.java        # 迷雾系统服务
+│   │   │   ├── OathConfigService.java       # 誓约配置服务
+│   │   │   ├── TitleOptionService.java      # 称号配置服务
+│   │   │   ├── PetOptionService.java        # 宠物配置服务
+│   │   │   ├── AmplifyOptionService.java    # 增幅配置服务
 │   │   │   └── impl/      # 服务实现
 │   │   ├── repository/    # 数据访问层
-│   │   │   ├── UserRepository.java
-│   │   │   ├── CharacterRepository.java
-│   │   │   └── CharacterTypeRepository.java
 │   │   ├── model/         # 数据模型
-│   │   │   ├── User.java
-│   │   │   ├── Character.java
-│   │   │   └── CharacterType.java
+│   │   │   ├── User.java, Character.java, CharacterType.java
+│   │   │   ├── CardTemplate.java, CharacterCard.java
+│   │   │   ├── EnchantOption.java, CharacterEnchant.java
+│   │   │   ├── AmplifyOption.java, CharacterAmplify.java
+│   │   │   ├── Title.java, CharacterTitle.java
+│   │   │   ├── Pet.java, CharacterPet.java
+│   │   │   ├── TitleOption.java, PetOption.java
+│   │   │   ├── EquipmentSet.java, EquipmentItem.java
+│   │   │   ├── CharacterEquipment.java
+│   │   │   ├── StageConfig.java
+│   │   │   ├── FogSystem.java
+│   │   │   └── OathConfig.java
 │   │   ├── dto/           # 数据传输对象
-│   │   │   ├── UserDTO.java
-│   │   │   ├── CharacterDTO.java
-│   │   │   ├── CharacterTypeDTO.java
-│   │   │   ├── LoginDTO.java           # 登录请求DTO
-│   │   │   ├── RegisterDTO.java         # 注册请求DTO
-│   │   │   ├── AuthResponse.java       # 认证响应DTO
-│   │   │   └── RoleUpdateDTO.java      # 角色更新DTO
+│   │   │   ├── UserDTO.java, CharacterDTO.java, CharacterTypeDTO.java
+│   │   │   ├── LoginDTO.java, RegisterDTO.java, AuthResponse.java
+│   │   │   ├── CardTemplateDTO.java, CharacterCardDTO.java
+│   │   │   ├── EnchantDTO.java, CharacterEnchantDTO.java
+│   │   │   ├── AmplifyDTO.java, CharacterAmplifyDTO.java
+│   │   │   ├── TitleDTO.java, PetDTO.java
+│   │   │   ├── EquipmentSetDTO.java, EquipmentItemDTO.java
+│   │   │   └── PageResult.java
 │   │   ├── config/        # 配置类
 │   │   │   ├── WebConfig.java
 │   │   │   ├── SecurityConfig.java      # Spring Security配置
-│   │   │   └── JwtAuthFilter.java       # JWT认证过滤器
+│   │   │   ├── JwtAuthFilter.java       # JWT认证过滤器
+│   │   │   ├── CustomAuthenticationEntryPoint.java
+│   │   │   ├── DatabaseConfig.java
+│   │   │   └── SpaRouteFilter.java
 │   │   ├── utils/         # 工具类
 │   │   │   └── JwtUtil.java            # JWT工具类
 │   │   └── exception/     # 异常处理
@@ -149,21 +192,24 @@ vue2-java-mysql-project/
 - ✅ 角色管理（CRUD + 拖拽排序 + 3D翻转卡片）
 - ✅ 登录注册系统（JWT认证）
 - ✅ 权限管理系统（admin/user角色）
-- ✅ 装备管理系统
-- ✅ 时装管理系统
-- ✅ 强化系统
-- ✅ 附魔系统
-- ✅ 徽章系统
-- ✅ 称号系统
-- ✅ 宠物系统
-- ✅ 迷雾大陆探索系统
+- ✅ DNF角色同步功能
+- ✅ 卡片收集系统
+- ✅ 装备套装系统
+- ✅ 装备物品管理
+- ✅ 增幅系统（角色增幅 + 配置管理）
+- ✅ 附魔系统（角色附魔 + 配置管理）
+- ✅ 称号系统（CRUD + 穿戴/卸下）
+- ✅ 宠物系统（CRUD + 穿戴/卸下）
+- ✅ 迷雾融合系统
+- ✅ 誓约配置系统
+- ✅ 关卡配置系统
 
 ### 技术特性
 - ✅ Vue2 + Element UI前端界面
 - ✅ Vue Router路由管理
 - ✅ Vuex状态管理
 - ✅ Axios HTTP客户端
-- ✅ GSAP + ScrollTrigger 动画引擎
+- ✅ GSAP 动画引擎
 - ✅ vuedraggable 拖拽排序
 - ✅ LESS CSS预处理器
 - ✅ 霓虹暗色主题
@@ -178,7 +224,6 @@ vue2-java-mysql-project/
 - ✅ 数据验证
 - ✅ 文件上传功能
 - ✅ 响应式前端设计
-- ✅ 端到端测试（Puppeteer + Jest）
 
 ## 快速开始
 

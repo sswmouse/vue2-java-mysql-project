@@ -1,8 +1,27 @@
 # DNF 角色系统字段设计文档
 
-> 版本：v1.6
-> 日期：2026-04-15
-> 状态：待补充完善
+> 版本：v1.7
+> 日期：2026-04-21
+> 状态：大部分核心功能已实现
+
+---
+
+## 零、已实现系统清单
+
+| 系统 | 模块 | 后端模型 | 前端页面 | 状态 |
+|-----|------|---------|---------|-----|
+| **角色系统** | 基础信息、战斗属性 | Character.java | Role.vue | ✅ 已实现 |
+| **卡片系统** | 卡片收集 | CardTemplate, CharacterCard | Badge.vue | ✅ 已实现 |
+| **装备系统** | 套装、物品 | EquipmentSet, EquipmentItem, CharacterEquipment | Equipment.vue | ✅ 已实现 |
+| **增幅系统** | 角色增幅、增幅配置 | AmplifyOption, CharacterAmplify | Amplify.vue | ✅ 已实现 |
+| **附魔系统** | 角色附魔、附魔配置 | EnchantOption, CharacterEnchant | Enchant.vue | ✅ 已实现 |
+| **称号系统** | 称号管理 | Title, CharacterTitle | Title.vue | ✅ 已实现 |
+| **宠物系统** | 宠物管理 | Pet, CharacterPet | Pet.vue | ✅ 已实现 |
+| **迷雾系统** | 迷雾融合 | FogSystem | Mist.vue | ✅ 已实现 |
+| **誓约系统** | 誓约配置 | OathConfig | - | ✅ 已实现 |
+| **时装系统** | 时装属性 | - | Fashion.vue | ⚠️ 待完善 |
+| **换装系统** | BUFF换装 | - | - | ❌ 未实现 |
+| **徽章系统** | 徽章镶嵌、星徽 | - | - | ❌ 未实现（待改版） |
 
 ---
 
@@ -1113,6 +1132,11 @@ VP系统（个人习惯，记录项）
 - [ ] 收集箱系统 ⚠️ 记录项
 - [ ] 结婚系统 ⚠️ 记录项
 
+### 已实现的其他系统
+- [x] 卡片收集系统 ✅
+- [x] 迷雾融合系统 ✅
+- [x] 誓约配置系统 ✅
+
 ---
 
 ## 十一、字段清单汇总
@@ -1121,66 +1145,109 @@ VP系统（个人习惯，记录项）
 
 | 序号 | 字段名 | 类型 | 说明 | 状态 |
 |-----|-------|------|-----|-----|
-| 1 | id | Long | 主键 | 已有 |
-| 2 | userId | Long | 用户ID | 已有 |
-| 3 | characterTypeId | Long | 职业类型ID | 已有 |
-| 4 | characterName | String | 角色名称 | 已有 |
-| 5 | jobNature | String | 职业性质 | 已有 |
-| 6 | jobAttribute | String | 职业属性 | 已有 |
-| 7 | serverName | String | 区服名称 | 已有 |
-| 8 | adventureName | String | 冒险团名称 | 已有 |
-| 9 | level | Integer | 角色等级 | 已有 |
-| 10 | fameValue | Integer | 站街名望 | 已有 |
-| 11 | avatarUrl | String | 角色头像 | 已有 |
-| 12-13 | 核心输出 | Float/Integer | techniqueAttack, attackBonus | 待添加 |
-| 14-17 | 四维属性 | Integer | 力量/智力/体力/精神 | 已有 |
-| 18-20 | 三攻属性 | Integer | 物理/魔法/独立攻击 | 已有 |
-| 21 | simulateDamage | Integer | 模拟伤害（修炼场沙袋） | 待添加 |
-| 22 | statAttack | Integer | 站街三攻（奶系BUFF加成量） | 待添加 |
-| 23-27 | 属性强化 | Integer | 光/火/冰/暗/maxElement | 已有 |
-| 28-32 | 防御/HP/MP | Integer | 物理/魔法防御，HP/MP | 已有 |
-| 33-36 | 暴击/命中/回避 | Integer | critRate, hitRate, avoidance | 已有 |
-| 37-39 | 三速 | Integer | attack/casting/moveSpeed | 已有 |
-| 40-41 | 恢复量 | Integer | hpRecovery, mpRecovery | 已有 |
-| 42-45 | 属性抗性 | Integer | light/fire/ice/darkResistance | 待添加 |
-| 46-50 | 伤害词缀 | Float | finalDamage, whiteCritDamage, yellowCritDamage, critDamageBonus, skillLvBonus | 待添加 |
-| 51-52 | 奶系BUFF | Integer | buffStrength, buffIntelligence | 待添加 |
-| 53-56 | 装备/誓约/打造 | JSON/String | equipmentData, oathMode, oathAttribute, enhancementData | 待添加 |
-| 57 | lastSyncTime | LocalDateTime | 最后同步时间 | 已有 |
-| 58 | syncStatus | String | 同步状态 | 已有 |
-| 59 | syncErrorMsg | String | 同步错误信息 | 已有 |
-| 60 | createdAt | LocalDateTime | 创建时间 | 已有 |
-| 61 | updatedAt | LocalDateTime | 更新时间 | 已有 |
+| 1 | id | Long | 主键 | ✅ 已有 |
+| 2 | userId | Long | 用户ID | ✅ 已有 |
+| 3 | characterTypeId | Long | 职业类型ID | ✅ 已有 |
+| 4 | characterName | String | 角色名称 | ✅ 已有 |
+| 5 | jobNature | String | 职业性质 | ✅ 已有 |
+| 6 | jobAttribute | String | 职业属性 | ✅ 已有 |
+| 7 | serverName | String | 区服名称 | ✅ 已有 |
+| 8 | adventureName | String | 冒险团名称 | ✅ 已有 |
+| 9 | level | Integer | 角色等级 | ✅ 已有 |
+| 10 | fameValue | Integer | 站街名望 | ✅ 已有 |
+| 11 | avatarUrl | String | 角色头像 | ✅ 已有 |
+| 12-13 | 核心输出 | Float/Integer | techniqueAttack, attackBonus | ⚠️ 待完善 |
+| 14-17 | 四维属性 | Integer | 力量/智力/体力/精神 | ✅ 已有 |
+| 18-20 | 三攻属性 | Integer | 物理/魔法/独立攻击 | ✅ 已有 |
+| 21 | simulateDamage | Integer | 模拟伤害（修炼场沙袋） | ⚠️ 待完善 |
+| 22 | statAttack | Integer | 站街三攻（奶系BUFF加成量） | ⚠️ 待完善 |
+| 23-27 | 属性强化 | Integer | 光/火/冰/暗/maxElement | ✅ 已有 |
+| 28-32 | 防御/HP/MP | Integer | 物理/魔法防御，HP/MP | ✅ 已有 |
+| 33-36 | 暴击/命中/回避 | Integer | critRate, hitRate, avoidance | ✅ 已有 |
+| 37-39 | 三速 | Integer | attack/casting/moveSpeed | ✅ 已有 |
+| 40-41 | 恢复量 | Integer | hpRecovery, mpRecovery | ✅ 已有 |
+| 42-45 | 属性抗性 | Integer | light/fire/ice/darkResistance | ⚠️ 待完善 |
+| 46-50 | 伤害词缀 | Float | finalDamage, whiteCritDamage, yellowCritDamage, critDamageBonus, skillLvBonus | ⚠️ 待完善 |
+| 51-52 | 奶系BUFF | Integer | buffStrength, buffIntelligence | ⚠️ 待完善 |
+| 53-56 | 装备/誓约/打造 | JSON/String | equipmentData, oathMode, oathAttribute, enhancementData | ⚠️ 部分已有 |
+| 57 | lastSyncTime | LocalDateTime | 最后同步时间 | ✅ 已有 |
+| 58 | syncStatus | String | 同步状态 | ✅ 已有 |
+| 59 | syncErrorMsg | String | 同步错误信息 | ✅ 已有 |
+| 60 | createdAt | LocalDateTime | 创建时间 | ✅ 已有 |
+| 61 | updatedAt | LocalDateTime | 更新时间 | ✅ 已有 |
 
-> ⚠️ VP系统字段（vpSystemData）暂不添加，作为记录项
+### 11.2 独立系统实体类
+
+| 系统 | 实体类 | 说明 | 状态 |
+|-----|-------|-----|-----|
+| 卡片系统 | CardTemplate, CharacterCard | 卡片模板和角色卡片 | ✅ 已有 |
+| 装备系统 | EquipmentSet, EquipmentItem, CharacterEquipment | 装备套装和物品 | ✅ 已有 |
+| 增幅系统 | AmplifyOption, CharacterAmplify | 增幅配置和角色增幅 | ✅ 已有 |
+| 附魔系统 | EnchantOption, CharacterEnchant | 附魔配置和角色附魔 | ✅ 已有 |
+| 称号系统 | Title, CharacterTitle | 称号和角色称号 | ✅ 已有 |
+| 宠物系统 | Pet, CharacterPet | 宠物和角色宠物 | ✅ 已有 |
+| 迷雾系统 | FogSystem | 迷雾融合 | ✅ 已有 |
+| 誓约系统 | OathConfig | 誓约配置 | ✅ 已有 |
 
 ---
 
 ## 十二、数据库变更
 
-需要执行 SQL 变更：
+### 已完成的数据库变更
+
+以下表已通过 JPA/Hibernate 自动创建：
+
+| 表名 | 说明 | 状态 |
+|-----|-----|-----|
+| users | 用户表 | ✅ 已创建 |
+| character_types | 职业类型表 | ✅ 已创建 |
+| characters | 角色表 | ✅ 已创建 |
+| fog_systems | 迷雾系统表 | ✅ 已创建 |
+| oath_configs | 誓约配置表 | ✅ 已创建 |
+| equipment_sets | 装备套装表 | ✅ 已创建 |
+| equipment_items | 装备物品表 | ✅ 已创建 |
+| character_equipment | 角色装备关联表 | ✅ 已创建 |
+| card_templates | 卡片模板表 | ✅ 已创建 |
+| character_cards | 角色卡片表 | ✅ 已创建 |
+| amplify_options | 增幅配置表 | ✅ 已创建 |
+| character_amplifies | 角色增幅表 | ✅ 已创建 |
+| enchant_options | 附魔配置表 | ✅ 已创建 |
+| character_enchants | 角色附魔表 | ✅ 已创建 |
+| titles | 称号表 | ✅ 已创建 |
+| character_titles | 角色称号表 | ✅ 已创建 |
+| pets | 宠物表 | ✅ 已创建 |
+| character_pets | 角色宠物表 | ✅ 已创建 |
+
+### 待完善的字段变更
+
+以下字段需要在 Character 表中完善：
 
 ```sql
--- 添加装备数据字段
+-- 核心输出属性（待完善）
 ALTER TABLE characters
     ADD COLUMN technique_attack FLOAT COMMENT '技能攻击力（技攻）',
     ADD COLUMN attack_bonus INT COMMENT '攻击强化',
     ADD COLUMN buff_bonus INT COMMENT '增益量（奶系BUFF三攻加成）',
     ADD COLUMN simulate_damage INT COMMENT '模拟伤害（修炼场沙袋）',
-    ADD COLUMN stat_attack INT COMMENT '站街三攻（奶系BUFF加成量）',
-    ADD COLUMN equipment_data TEXT COMMENT '装备信息JSON',
-    ADD COLUMN oath_mode VARCHAR(20) COMMENT '誓约模式',
-    ADD COLUMN oath_attribute VARCHAR(100) COMMENT '誓约属性',
-    ADD COLUMN enhancement_data TEXT COMMENT '打造信息JSON',
+    ADD COLUMN stat_attack INT COMMENT '站街三攻（奶系BUFF加成量）';
+
+-- 属性抗性（待完善）
+ALTER TABLE characters
     ADD COLUMN light_resistance INT COMMENT '光属性抗性',
     ADD COLUMN fire_resistance INT COMMENT '火属性抗性',
     ADD COLUMN ice_resistance INT COMMENT '冰属性抗性',
-    ADD COLUMN dark_resistance INT COMMENT '暗属性抗性',
+    ADD COLUMN dark_resistance INT COMMENT '暗属性抗性';
+
+-- 伤害词缀（待完善）
+ALTER TABLE characters
     ADD COLUMN final_damage FLOAT COMMENT '最终伤害',
     ADD COLUMN white_crit_damage FLOAT COMMENT '白字附加伤害',
     ADD COLUMN yellow_crit_damage FLOAT COMMENT '黄字追加伤害',
     ADD COLUMN crit_damage_bonus FLOAT COMMENT '爆伤追加',
-    ADD COLUMN skill_lv_bonus INT COMMENT '技攻Lv加成',
+    ADD COLUMN skill_lv_bonus INT COMMENT '技攻Lv加成';
+
+-- 奶系BUFF（待完善）
+ALTER TABLE characters
     ADD COLUMN buff_strength INT COMMENT 'BUFF增加的力量/体力',
     ADD COLUMN buff_intelligence INT COMMENT 'BUFF增加的智力/精神';
 ```
@@ -1191,13 +1258,13 @@ ALTER TABLE characters
 
 ## 十三、实现优先级
 
-| 优先级 | 内容 | 说明 |
-|-------|-----|-----|
-| P0 | 核心属性 | 技攻/攻击强化/增益量/模拟伤害/站街三攻 |
-| P1 | 装备系统 | 12套装备 + 誓约模式（核心差异：技攻/攻强） |
-| P2 | 打造系统 | 增幅/附魔/称号/宠物/换装（换装增加技攻/增益量） |
-| P3 | 徽章系统 | 等改版后补充 |
-| P4 | 狄瑞吉系统 | 装备升级链 |
+| 优先级 | 内容 | 说明 | 状态 |
+|-------|-----|-----|-----|
+| P0 | 核心属性 | 技攻/攻击强化/增益量/模拟伤害/站街三攻 | ⚠️ 部分实现 |
+| P1 | 装备系统 | 12套装备 + 誓约模式（核心差异：技攻/攻强） | ✅ 已实现 |
+| P2 | 打造系统 | 增幅/附魔/称号/宠物/换装 | ✅ 已实现（换装除外） |
+| P3 | 徽章系统 | 等改版后补充 | ❌ 待改版 |
+| P4 | 狄瑞吉系统 | 装备升级链 | ❌ 未实现 |
 
 > ⚠️ 以下为记录项，不参与开发：
 > - VP系统（个人习惯）
@@ -1218,6 +1285,7 @@ ALTER TABLE characters
 | v1.4 | 2026-04-15 | 新增系统架构概览，区分角色系统（单角色生效）和账户系统（跨区生效）；迷雾/收集箱/冒险团系统归属账户层；更新数据依赖关系表增加作用域字段 |
 | v1.5 | 2026-04-15 | 重构角色系统结构：角色系统 = 打造系统 + 进度系统；打造系统增加时装模块；进度系统 = 装备 + 贴膜(狄瑞吉) + 誓约；工会/结婚系统归属角色系统；打造+进度 = 名望+模拟伤害(增益量) |
 | v1.6 | 2026-04-15 | 完善迷雾融合系统详情：增加等级/名望/技攻/增益量/四维字段；调整/+-按钮操作；移除黑色灾影（属于武器贴膜系统） |
+| v1.7 | 2026-04-21 | 更新已实现系统清单；称号/宠物系统标记为已实现；更新项目结构与实际代码一致 |
 
 ---
 

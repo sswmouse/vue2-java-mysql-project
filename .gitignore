@@ -38,3 +38,8 @@ mcp-server/
 
 # 测试截图
 test-screenshots/
+
+# Claude Code 配置（项目级别）
+.claude/memory/
+.claude/plans/
+.claude/settings.local.json

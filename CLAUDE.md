@@ -1,5 +1,12 @@
 # 项目规范
 
+## 端口配置（固定）
+- **前端端口**: 8099
+- **后端端口**: 3000
+- 配置文件位置：
+  - 前端: `frontend/vue.config.js` -> `devServer.port`
+  - 后端: `backend/src/main/resources/application.properties` -> `server.port`
+
 ## 代码规范
 1. 使用 ESLint 进行代码规范，修改后要检查项目的 ESLint 报错并进行修复
 2. 提供的代码要进行注释：方法注释、文件头注释、变量注释

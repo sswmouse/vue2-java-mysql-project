@@ -1,12 +1,14 @@
 {
   "mcpServers": {
-    "playwright": {
-      "command": "playwright-mcp",
-      "args": []
-    },
-    "puppeteer": {
-      "command": "puppeteer-mcp-server",
-      "args": []
+    "vue2-java-mysql": {
+      "command": "/Users/yerun/Desktop/vue2-java-mysql-project/mcp-server/venv/bin/python",
+      "args": ["/Users/yerun/Desktop/vue2-java-mysql-project/mcp-server/mcp_server.py"],
+      "cwd": "/Users/yerun/Desktop/vue2-java-mysql-project",
+      "env": {
+        "BACKEND_BASE_URL": "http://localhost:3000",
+        "AUTH_USERNAME": "mcp_test",
+        "AUTH_PASSWORD": "password123"
+      }
     }
   }
 }

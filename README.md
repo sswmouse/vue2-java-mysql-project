@@ -270,11 +270,11 @@ npm install
 npm run serve
 ```
 
-前端服务将在 http://localhost:8080 启动
+前端服务将在 http://localhost:8099 启动
 
 ### 4. 访问应用
 
-打开浏览器访问 http://localhost:8080
+打开浏览器访问 http://localhost:8099
 
 ## API接口
 
@@ -394,7 +394,7 @@ npm run serve
 ## 项目配置
 
 ### 前端配置
-- 端口: 8080（开发环境）
+- 端口: 8099（开发环境）
 - API代理: `/api` -> `http://localhost:3000`
 - 使用Element UI组件库
 - LESS预处理器
@@ -443,7 +443,7 @@ npm run serve
 - 检查后端是否运行在 http://localhost:3000
 - 检查 `vue.config.js` 中的代理配置
 - 检查浏览器控制台错误信息
-- 确认前端端口为 http://localhost:8080
+- 确认前端端口为 http://localhost:8099
 
 ### 2. 数据库连接失败
 - 检查MySQL服务是否运行
@@ -451,7 +451,7 @@ npm run serve
 - 检查数据库用户名和密码
 
 ### 3. 跨域问题
-- 后端已配置CORS，允许 `http://localhost:8080`
+- 后端已配置CORS，允许 `http://localhost:8099`
 - 如果需要其他域名访问，修改 `WebConfig.java`
 
 ### 4. 构建问题
@@ -516,7 +516,7 @@ npm run test:e2e -- --testPathPatterns=users.test.js
 ```javascript
 describe('页面描述', () => {
   beforeAll(async () => {
-    await page.goto('http://localhost:8080/your-route')
+    await page.goto('http://localhost:8099/your-route')
   })
   
   test('测试用例', async () => {
